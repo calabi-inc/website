@@ -12,12 +12,15 @@ export const SEO = ({
     const siteUrl = 'https://calabi.com';
     const defaultTitle = 'Calabi - Open Infrastructure for Embodied AI';
     const defaultDescription = 'Calabi builds open infrastructure for collaborative embodied AI—grounded world state from SLAM + VLM fusion, designed for real-time robotics.';
-    const defaultImage = '/assets/og-image.jpg'; // Placeholder, user might update later
+    const defaultImage = '/assets/dark/android-chrome-512x512.png'; // Black logo for light backgrounds
+
+    const imgPath = image || defaultImage;
+    const fullImageUrl = imgPath.startsWith('http') ? imgPath : `${siteUrl}${imgPath}`;
 
     const seo = {
         title: title ? `${title} | Calabi` : defaultTitle,
         description: description || defaultDescription,
-        image: image || defaultImage,
+        image: fullImageUrl,
         url: `${siteUrl}${pathname}`,
         type: article ? 'article' : 'website'
     };
@@ -35,13 +38,13 @@ export const SEO = ({
             <meta property="og:type" content={seo.type} />
             <meta property="og:title" content={seo.title} />
             <meta property="og:description" content={seo.description} />
-            {/* <meta property="og:image" content={seo.image} /> */}
+            <meta property="og:image" content={seo.image} />
 
             {/* Twitter */}
             <meta name="twitter:card" content="summary_large_image" />
             <meta name="twitter:title" content={seo.title} />
             <meta name="twitter:description" content={seo.description} />
-            {/* <meta name="twitter:image" content={seo.image} /> */}
+            <meta name="twitter:image" content={seo.image} />
         </Helmet>
     );
 };

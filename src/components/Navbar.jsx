@@ -199,8 +199,13 @@ const MenuLink = ({ icon, title, desc, href, onClick, disabled }) => {
 
     if (isAnchor) {
         return (
-            <a
-                href={href}
+            <Link
+                to={href.replace('/', '')} // Remove leading slash to make it relative to root (which includes basename) or just keep it?
+                // Actually, if we use <Link to="/#hash"> with basename, it works.
+                // But wait, <Link to="/#..."> is absolute path from router root. 
+                // Router root is /website/. So it becomes /website/#...
+                // Perfect.
+                to={href}
                 onClick={(e) => {
                     if (onClick) {
                         onClick(e);
@@ -213,7 +218,7 @@ const MenuLink = ({ icon, title, desc, href, onClick, disabled }) => {
                     <div className="text-sm font-medium text-zinc-200 group-hover/item:text-white transition-colors">{title}</div>
                     <div className="text-[10px] text-zinc-500 group-hover/item:text-zinc-400 transition-colors font-mono">{desc}</div>
                 </div>
-            </a>
+            </Link>
         );
     }
 

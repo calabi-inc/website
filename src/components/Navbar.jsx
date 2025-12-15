@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Github, ArrowRight, ChevronDown, Eye, Brain, Zap, Scan, LayoutDashboard, Box, Layers, Glasses } from 'lucide-react';
+import { Github, ArrowRight, ChevronDown, Eye, Brain, Zap, Scan, LayoutDashboard, Box, Layers, Glasses, Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import logo from '../assets/white_logo_with_company_name.svg';
 
@@ -9,6 +9,8 @@ import { useUI } from '../contexts/UIContext';
 export const Navbar = () => {
     const { openWip } = useUI();
     const [isTechOpen, setIsTechOpen] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isMobileTechOpen, setIsMobileTechOpen] = useState(false);
     const location = useLocation();
 
     // Helper to determine if we are on the home page for anchor links
@@ -16,6 +18,7 @@ export const Navbar = () => {
 
     const handleScroll = (e, targetId, hash) => {
         setIsTechOpen(false);
+        setIsMobileMenuOpen(false);
         if (isHome) {
             e.preventDefault();
             if (hash) {
@@ -30,8 +33,8 @@ export const Navbar = () => {
     };
 
     return (
-        <div className="fixed top-6 left-0 right-0 z-50 flex justify-center px-6 animate-fade-in">
-            <nav className="flex w-full max-w-5xl items-center justify-between rounded-full border border-white/5 bg-[#050505]/80 p-2 pl-6 shadow-2xl backdrop-blur-xl ring-1 ring-white/5">
+        <div className="fixed top-6 left-0 right-0 z-50 flex justify-center px-6 animate-fade-in pointer-events-none">
+            <nav className="flex w-full max-w-5xl items-center justify-between rounded-full border border-white/5 bg-[#050505]/80 p-2 pl-6 shadow-2xl backdrop-blur-xl ring-1 ring-white/5 pointer-events-auto relative z-50">
                 <Link to="/" className="flex items-center gap-2 group">
                     <img src={logo} alt="Calabi" className="h-5 w-auto opacity-90 group-hover:opacity-100 transition-opacity" />
                 </Link>
@@ -152,22 +155,103 @@ export const Navbar = () => {
                 </div>
 
                 <div className="flex items-center gap-3">
-                    <a href="https://github.com/calabi-inc/rtsm" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-white transition-colors px-2">
-                        <Github className="w-4 h-4" />
-                    </a>
-                    <Link
-                        to="/connect"
-                        className="group relative flex items-center gap-2 rounded-full bg-neutral-900 px-4 py-2 text-xs font-medium text-white transition-all hover:bg-neutral-800"
-                        style={{
-                            '--border-gradient': 'linear-gradient(to bottom, rgba(255,255,255,0.2), rgba(255,255,255,0.05))',
-                            '--border-radius-before': '9999px'
-                        }}
+                    <div className="hidden md:flex items-center gap-3">
+                        <a href="https://github.com/calabi-inc/rtsm" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-white transition-colors px-2">
+                            <Github className="w-4 h-4" />
+                        </a>
+                        <Link
+                            to="/connect"
+                            className="group relative flex items-center gap-2 rounded-full bg-neutral-900 px-4 py-2 text-xs font-medium text-white transition-all hover:bg-neutral-800"
+                            style={{
+                                '--border-gradient': 'linear-gradient(to bottom, rgba(255,255,255,0.2), rgba(255,255,255,0.05))',
+                                '--border-radius-before': '9999px'
+                            }}
+                        >
+                            <span>Join the Hub</span>
+                            <ArrowRight className="w-3 h-3 opacity-50 transition-transform group-hover:translate-x-0.5" />
+                        </Link>
+                    </div>
+
+                    {/* Mobile Menu Toggle */}
+                    <button
+                        className="md:hidden p-2 text-zinc-400 hover:text-white transition-colors"
+                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                     >
-                        <span>Join the Hub</span>
-                        <ArrowRight className="w-3 h-3 opacity-50 transition-transform group-hover:translate-x-0.5" />
-                    </Link>
+                        {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                    </button>
                 </div>
             </nav>
+
+            {/* Mobile Menu Dropdown */}
+            <AnimatePresence>
+                {isMobileMenuOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -20, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -20, scale: 0.95 }}
+                        transition={{ duration: 0.2 }}
+                        className="absolute top-[calc(100%+12px)] max-w-sm w-full mx-6 bg-[#0A0A0A]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl p-6 ring-1 ring-white/5 pointer-events-auto"
+                    >
+                        <div className="flex flex-col gap-4">
+                            <MobileNavLink to="/" onClick={() => setIsMobileMenuOpen(false)}>Home</MobileNavLink>
+
+                            {/* Tech Accordion Mobile */}
+                            <div className="border-b border-white/5 pb-4">
+                                <button
+                                    onClick={() => setIsMobileTechOpen(!isMobileTechOpen)}
+                                    className="flex w-full items-center justify-between py-2 text-sm font-medium text-zinc-400 hover:text-white"
+                                >
+                                    Technology
+                                    <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isMobileTechOpen ? 'rotate-180' : ''}`} />
+                                </button>
+                                <AnimatePresence>
+                                    {isMobileTechOpen && (
+                                        <motion.div
+                                            initial={{ height: 0, opacity: 0 }}
+                                            animate={{ height: 'auto', opacity: 1 }}
+                                            exit={{ height: 0, opacity: 0 }}
+                                            className="overflow-hidden space-y-2 pt-2"
+                                        >
+                                            <div className="pl-2 border-l border-white/10 space-y-2">
+                                                <Link to="/#system-architecture-overview" onClick={(e) => handleScroll(e, 'system-architecture-overview')} className="block text-xs text-zinc-500 hover:text-white py-1">System Architecture</Link>
+                                                <Link to="/#stack-detail-perception" onClick={(e) => handleScroll(e, 'infrastructure-stack', 'stack-detail-perception')} className="block text-xs text-zinc-500 hover:text-white py-1">Perception (RTSM)</Link>
+                                                <Link to="/#stack-detail-intelligence" onClick={(e) => handleScroll(e, 'infrastructure-stack', 'stack-detail-intelligence')} className="block text-xs text-zinc-500 hover:text-white py-1">Intelligence (World Models)</Link>
+                                                <Link to="/#stack-detail-action" onClick={(e) => handleScroll(e, 'infrastructure-stack', 'stack-detail-action')} className="block text-xs text-zinc-500 hover:text-white py-1">Action (Intent Tokens)</Link>
+                                                <Link to="/#stack-detail-tooling" onClick={(e) => handleScroll(e, 'infrastructure-stack', 'stack-detail-tooling')} className="block text-xs text-zinc-500 hover:text-white py-1">Tooling (Visualizer)</Link>
+                                            </div>
+                                            <div className="pl-2 border-l border-white/10 space-y-2 mt-2">
+                                                <div className="text-[10px] text-zinc-600 font-mono uppercase tracking-widest pt-1">Use Cases</div>
+                                                <Link to="/agentic-workflow" onClick={() => setIsMobileMenuOpen(false)} className="block text-xs text-zinc-500 hover:text-white py-1">Agentic Workflow</Link>
+                                                <Link to="/retail-warehouse" onClick={() => setIsMobileMenuOpen(false)} className="block text-xs text-zinc-500 hover:text-white py-1">Retail & Warehouse</Link>
+                                                <Link to="/real-to-sim" onClick={() => setIsMobileMenuOpen(false)} className="block text-xs text-zinc-500 hover:text-white py-1">Real-to-Sim</Link>
+                                                <Link to="/ar-xr-overlay" onClick={() => setIsMobileMenuOpen(false)} className="block text-xs text-zinc-500 hover:text-white py-1">AR/XR Overlay</Link>
+                                            </div>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                            </div>
+
+                            <MobileNavLink to="/docs" onClick={() => setIsMobileMenuOpen(false)}>Docs</MobileNavLink>
+                            <MobileNavLink to="/blog" onClick={() => setIsMobileMenuOpen(false)}>Blog</MobileNavLink>
+                            <MobileNavLink to="/about" onClick={() => setIsMobileMenuOpen(false)}>About</MobileNavLink>
+
+                            <div className="border-t border-white/10 pt-4 flex flex-col gap-3">
+                                <a href="https://github.com/calabi-inc/rtsm" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-zinc-400 hover:text-white text-sm transition-colors">
+                                    <Github className="w-4 h-4" /> <span>Check out the code</span>
+                                </a>
+                                <Link
+                                    to="/connect"
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                    className="flex items-center justify-center gap-2 rounded-lg bg-neutral-900 px-4 py-2.5 text-xs font-medium text-white transition-all hover:bg-neutral-800 border border-white/10"
+                                >
+                                    <span>Join the Hub</span>
+                                    <ArrowRight className="w-3 h-3 opacity-50" />
+                                </Link>
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 };
@@ -176,6 +260,16 @@ const NavLink = ({ to, children }) => (
     <Link
         to={to}
         className="hover:text-white transition-colors"
+    >
+        {children}
+    </Link>
+);
+
+const MobileNavLink = ({ to, children, onClick }) => (
+    <Link
+        to={to}
+        onClick={onClick}
+        className="block text-sm font-medium text-zinc-400 hover:text-white transition-colors py-2"
     >
         {children}
     </Link>

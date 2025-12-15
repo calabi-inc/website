@@ -3,6 +3,8 @@ import React, { useRef, useState, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
 import * as THREE from 'three';
+import { motion, AnimatePresence } from 'framer-motion';
+import { List, X } from 'lucide-react';
 
 // Simulated RTSM Objects placed within the "Floor Plan"
 // Now with 'shape' property for diverse visualization
@@ -307,6 +309,7 @@ function Scene({ selectedId, onSelect }) {
 
 export const InteractiveVisual = () => {
     const [selectedId, setSelectedId] = useState(null);
+    const [isPanelOpen, setIsPanelOpen] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
 
     const filteredObjects = useMemo(() => {
@@ -351,6 +354,15 @@ export const InteractiveVisual = () => {
                 </div>
             </div>
 
+            {/* Panel Toggle Button */}
+            <button
+                onClick={() => setIsPanelOpen(!isPanelOpen)}
+                className={`absolute top-4 right-4 z-20 p-2 rounded-xl border transition-all duration-200 ${isPanelOpen ? 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30' : 'bg-black/40 text-zinc-400 border-white/5 hover:bg-zinc-800 hover:text-white'}`}
+                title={isPanelOpen ? "Hide Object List" : "Show Object List"}
+            >
+                {isPanelOpen ? <X className="w-5 h-5" /> : <List className="w-5 h-5" />}
+            </button>
+
             {/* Search Bar */}
             <div className="absolute top-4 left-1/2 -translate-x-1/2 w-full max-w-sm px-4 z-50">
                 <div className="relative group/search">
@@ -370,33 +382,43 @@ export const InteractiveVisual = () => {
             </div>
 
             {/* Object List Panel */}
-            <div className="absolute top-16 right-4 w-64 pointer-events-auto flex flex-col gap-2 max-h-[500px] overflow-y-auto pr-1 custom-scrollbar z-10">
-                {filteredObjects.map((obj) => (
-                    <button
-                        key={obj.id}
-                        onClick={() => setSelectedId(selectedId === obj.id ? null : obj.id)}
-                        className={`text-left p-3 rounded-lg border backdrop-blur-md transition-all duration-200 ${selectedId === obj.id ? 'bg-indigo-500/20 border-indigo-500/50 shadow-lg shadow-indigo-500/10' : 'bg-zinc-900/80 border-white/10 hover:border-white/30 hover:bg-zinc-800'}`}
+            <AnimatePresence>
+                {isPanelOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, x: 50 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 50 }}
+                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                        className="absolute top-16 right-4 w-64 pointer-events-auto flex flex-col gap-2 max-h-[500px] overflow-y-auto pr-1 custom-scrollbar z-10"
                     >
-                        <div className="flex justify-between items-start mb-1">
-                            <span className="text-xs font-mono text-zinc-400">#{obj.id.slice(0, 4)}</span>
-                            <span className={`text-[10px] px-1.5 py-0.5 rounded uppercase tracking-wider font-semibold ${obj.status === 'confirmed' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-400'}`}>{obj.status}</span>
-                        </div>
-                        <div className="text-sm font-medium text-white">{obj.label}</div>
-                        {selectedId === obj.id && (
-                            <div className="mt-2 pt-2 border-t border-white/10 text-[10px] text-zinc-400 space-y-1">
-                                <div className="flex justify-between"><span>Confidence</span><span className="text-white">{(obj.score * 100).toFixed(1)}%</span></div>
-                                <div className="flex justify-between"><span>X,Y,Z</span><span className="font-mono">[{obj.position.map((n) => n.toFixed(1)).join(',')}]</span></div>
+                        {filteredObjects.map((obj) => (
+                            <button
+                                key={obj.id}
+                                onClick={() => setSelectedId(selectedId === obj.id ? null : obj.id)}
+                                className={`text-left p-3 rounded-lg border backdrop-blur-md transition-all duration-200 ${selectedId === obj.id ? 'bg-indigo-500/20 border-indigo-500/50 shadow-lg shadow-indigo-500/10' : 'bg-zinc-900/80 border-white/10 hover:border-white/30 hover:bg-zinc-800'}`}
+                            >
+                                <div className="flex justify-between items-start mb-1">
+                                    <span className="text-xs font-mono text-zinc-400">#{obj.id.slice(0, 4)}</span>
+                                    <span className={`text-[10px] px-1.5 py-0.5 rounded uppercase tracking-wider font-semibold ${obj.status === 'confirmed' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-400'}`}>{obj.status}</span>
+                                </div>
+                                <div className="text-sm font-medium text-white">{obj.label}</div>
+                                {selectedId === obj.id && (
+                                    <div className="mt-2 pt-2 border-t border-white/10 text-[10px] text-zinc-400 space-y-1">
+                                        <div className="flex justify-between"><span>Confidence</span><span className="text-white">{(obj.score * 100).toFixed(1)}%</span></div>
+                                        <div className="flex justify-between"><span>X,Y,Z</span><span className="font-mono">[{obj.position.map((n) => n.toFixed(1)).join(',')}]</span></div>
+                                    </div>
+                                )}
+                            </button>
+                        ))}
+
+                        {filteredObjects.length === 0 && (
+                            <div className="p-4 text-center text-zinc-500 text-xs italic bg-zinc-900/50 rounded-lg border border-white/5">
+                                No objects found matching "{searchTerm}"
                             </div>
                         )}
-                    </button>
-                ))}
-
-                {filteredObjects.length === 0 && (
-                    <div className="p-4 text-center text-zinc-500 text-xs italic bg-zinc-900/50 rounded-lg border border-white/5">
-                        No objects found matching "{searchTerm}"
-                    </div>
+                    </motion.div>
                 )}
-            </div>
+            </AnimatePresence>
 
             {/* Bottom Controls Hint */}
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-[10px] text-zinc-500 font-mono bg-black/40 px-3 py-1 rounded-full backdrop-blur-sm border border-white/5 pointer-events-none">

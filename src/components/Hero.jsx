@@ -21,7 +21,7 @@ export const Hero = () => {
             </div>
 
             {/* --- Main Content --- */}
-            <div className="container mx-auto px-6 z-10 flex flex-col items-center text-center relative pt-10">
+            <div className="container mx-auto px-6 z-10 flex flex-col items-center text-center relative pt-32 md:pt-10">
 
                 {/* The Grounding Line */}
                 <div className="mb-10 inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-zinc-900/80 border border-white/10 backdrop-blur-sm shadow-lg">

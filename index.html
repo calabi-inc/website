@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+
+  <!-- SEO & Meta Tags -->
+  <title>Calabi - Open Infrastructure for Embodied AI</title>
+  <meta name="description"
+    content="Calabi builds open infrastructure for collaborative embodied AI—grounded world state from SLAM + VLM fusion, designed for real-time robotics." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Structured Data for Sitelinks -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "name": "Calabi",
+          "url": "https://calabi.com/",
+          "description": "Calabi builds open infrastructure for collaborative embodied AI—grounded world state from SLAM + VLM fusion, designed for real-time robotics.",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://calabi.com/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "name": "Platform",
+          "url": "https://calabi.com/#stack-detail-perception"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "name": "Agentic Workflow",
+          "url": "https://calabi.com/agentic-workflow"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "name": "Documentation",
+          "url": "https://calabi.com/docs"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "name": "Blog",
+          "url": "https://calabi.com/blog"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "name": "About Us",
+          "url": "https://calabi.com/about"
+        }
+      ]
+    }
+  </script>
+
+  <!-- Favicons -->
+  <link id="favicon-light" rel="icon" href="/assets/dark/favicon.ico?v=4" sizes="any"
+    media="(prefers-color-scheme: light)" />
+  <link id="favicon-dark" rel="icon" href="/assets/light/favicon.ico?v=4" sizes="any"
+    media="(prefers-color-scheme: dark)" />
+
+  <script>
+    // Fallback/Polyfill to ensure dynamic switching works even if browser ignores media attr on link
+    const lightIcon = document.getElementById('favicon-light');
+    const darkIcon = document.getElementById('favicon-dark');
+
+    function updateFavicon(mediaQuery) {
+      if (mediaQuery.matches) {
+        // Dark mode
+        if (darkIcon) {
+          darkIcon.removeAttribute('media'); // Make it active
+          document.head.appendChild(darkIcon); // Move to end to ensure precedence
+        }
+      } else {
+        // Light mode
+        if (lightIcon) {
+          lightIcon.removeAttribute('media');
+          document.head.appendChild(lightIcon);
+        }
+      }
+    }
+
+    const matcher = window.matchMedia('(prefers-color-scheme: dark)');
+    // Run once on load to set correct initial state
+    updateFavicon(matcher);
+    // Listen for changes
+    matcher.addEventListener('change', updateFavicon);
+  </script>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&family=Geist+Mono:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
+</html>

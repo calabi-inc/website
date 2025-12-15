@@ -1,0 +1,125 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+  --bg-dark: #020202;
+  --bg-card: #0A0A0A;
+  --accent-glow: rgba(56, 189, 248, 0.15);
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: #a3a3a3;
+  font-family: 'Geist', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Manrope', sans-serif;
+  color: #ededed;
+}
+
+/* Subtle Grid Background */
+.grid-lines {
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 16.66% 100%;
+}
+
+/* Custom scrollbar to match the dark aesthetic */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Gradient Border Logic */
+[style*="--border-gradient"] {
+  position: relative;
+}
+
+[style*="--border-gradient"]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: var(--border-radius-before, inherit);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  background: var(--border-gradient);
+  pointer-events: none;
+}
+
+/* Smooth fade in util */
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 1.5s ease-out forwards;
+}
+
+/* Custom selection color */
+/* Custom selection color */
+::selection {
+  background-color: rgba(6, 182, 212, 0.2);
+  /* cyan-500/20 */
+  color: #a5f3fc;
+  /* cyan-200 */
+}
+
+@theme {
+  --animate-float: subtle-float 6s ease-in-out infinite;
+  --animate-fade-in: fadeIn 1.5s ease-out forwards;
+  --animate-gradient-xy: gradient-xy 3s ease infinite;
+
+  @keyframes subtle-float {
+
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes gradient-xy {
+
+    0%,
+    100% {
+      background-position: 0% 50%;
+    }
+
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+}

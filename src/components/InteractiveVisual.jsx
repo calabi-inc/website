@@ -340,7 +340,7 @@ export const InteractiveVisual = () => {
             </div>
 
             {/* HUD Overlay */}
-            <div className="absolute top-4 left-4 pointer-events-none z-10">
+            <div className="absolute top-20 sm:top-4 left-4 pointer-events-none z-10">
                 <div className="bg-black/60 backdrop-blur-md border border-white/10 p-3 rounded-xl space-y-1">
                     <div className="flex items-center gap-2">
                         <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
@@ -357,7 +357,7 @@ export const InteractiveVisual = () => {
             {/* Panel Toggle Button */}
             <button
                 onClick={() => setIsPanelOpen(!isPanelOpen)}
-                className={`absolute top-4 right-4 z-20 p-2 rounded-xl border transition-all duration-200 ${isPanelOpen ? 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30' : 'bg-black/40 text-zinc-400 border-white/5 hover:bg-zinc-800 hover:text-white'}`}
+                className={`absolute top-20 sm:top-4 right-4 z-[60] p-2 rounded-xl border transition-all duration-200 ${isPanelOpen ? 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30' : 'bg-black/40 text-zinc-400 border-white/5 hover:bg-zinc-800 hover:text-white'}`}
                 title={isPanelOpen ? "Hide Object List" : "Show Object List"}
             >
                 {isPanelOpen ? <X className="w-5 h-5" /> : <List className="w-5 h-5" />}
@@ -389,7 +389,7 @@ export const InteractiveVisual = () => {
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: 50 }}
                         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                        className="absolute top-16 right-4 w-64 pointer-events-auto flex flex-col gap-2 max-h-[500px] overflow-y-auto pr-1 custom-scrollbar z-10"
+                        className="absolute top-36 sm:top-16 right-4 w-64 pointer-events-auto flex flex-col gap-2 max-h-[500px] overflow-y-auto pr-1 custom-scrollbar z-10"
                     >
                         {filteredObjects.map((obj) => (
                             <button

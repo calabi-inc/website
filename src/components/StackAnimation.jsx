@@ -122,6 +122,12 @@ const StackLayer = ({ children, delay, color, icon, label, subLabel, id }) => {
         indigo: 'shadow-[0_0_30px_-5px_rgba(99,102,241,0.15)]',
     };
 
+    const iconBgs = {
+        emerald: 'bg-emerald-500/10',
+        purple: 'bg-purple-500/10',
+        indigo: 'bg-indigo-500/10',
+    };
+
     return (
         <motion.div
             id={id}
@@ -134,7 +140,7 @@ const StackLayer = ({ children, delay, color, icon, label, subLabel, id }) => {
             transition={{ delay, duration: 0.6, type: "spring", stiffness: 100 }}
             whileHover={{ scale: 1.02 }}
         >
-            <div className={`p-2 rounded-lg bg-${color}-500/10`}>
+            <div className={`p-2 rounded-lg ${iconBgs[color]}`}>
                 {icon}
             </div>
             <div className="flex flex-col">
@@ -148,9 +154,21 @@ const StackLayer = ({ children, delay, color, icon, label, subLabel, id }) => {
 
 const ConnectionLine = ({ color, delay, direction = 'down' }) => {
     // direction 'down': gradient to bottom, animate y [0, 32]
-    // direction 'up': gradient to top, animate y [0, -32] (or similar logic)
+    // direction 'up': gradient to top, animate y [0, -32]
 
     const isUp = direction === 'up';
+
+    const lineColors = {
+        emerald: 'bg-emerald-500/30',
+        purple: 'bg-purple-500/30',
+        indigo: 'bg-indigo-500/30',
+    };
+
+    const gradientColors = {
+        emerald: 'to-emerald-400',
+        purple: 'to-purple-400',
+        indigo: 'to-indigo-400',
+    };
 
     return (
         <motion.div
@@ -159,14 +177,10 @@ const ConnectionLine = ({ color, delay, direction = 'down' }) => {
             whileInView={{ height: 32 }}
             transition={{ delay: delay + 0.3, duration: 0.4 }}
         >
-            <div className={`absolute inset-0 bg-${color}-500/30`}></div>
+            <div className={`absolute inset-0 ${lineColors[color]}`}></div>
             <motion.div
-                className={`absolute ${isUp ? 'bottom-0' : 'top-0'} left-0 w-full h-1/2 bg-gradient-to-${isUp ? 't' : 'b'} from-transparent to-${color}-400`}
+                className={`absolute ${isUp ? 'bottom-0' : 'top-0'} left-0 w-full h-1/2 bg-gradient-to-${isUp ? 't' : 'b'} from-transparent ${gradientColors[color]}`}
                 animate={{ y: isUp ? [32, -32] : [-32, 32] }}
-                // Adjusted logic: if up, start low, move high.
-                // Actually easier: just define keyframes
-                // Down: y: [-32, 32] (enters top, leaves bottom)
-                // Up: y: [32, -32] (enters bottom, leaves top)
                 transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
             />
         </motion.div>

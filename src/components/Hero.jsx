@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, FileText } from 'lucide-react';
+import { ArrowRight, HelpCircle } from 'lucide-react';
 import { Button } from './Button';
 import { HeroAnimation } from './HeroAnimation';
 import { useUI } from '../contexts/UIContext';
@@ -57,10 +57,12 @@ export const Hero = () => {
                             <ArrowRight className="w-4 h-4" />
                         </Button>
                     </a>
-                    <Button onClick={openWip} className="w-full sm:w-auto px-8 py-3.5 text-base flex items-center justify-center gap-2 bg-black/60 border-white/10 hover:bg-zinc-900 text-zinc-300 hover:text-white">
-                        Read the Roadmap
-                        <FileText className="w-4 h-4" />
-                    </Button>
+                    <a href="#why-rtsm" className="w-full sm:w-auto">
+                        <Button className="w-full px-8 py-3.5 text-base flex items-center justify-center gap-2 bg-black/60 border-white/10 hover:bg-zinc-900 text-zinc-300 hover:text-white">
+                            Why RTSM?
+                            <HelpCircle className="w-4 h-4" />
+                        </Button>
+                    </a>
                 </div>
 
                 {/* Badges / Ticker */}

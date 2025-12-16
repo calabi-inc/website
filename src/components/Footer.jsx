@@ -53,7 +53,7 @@ export const Footer = () => {
                             </svg>
                         </button>
                         <a href="https://github.com/calabi-inc/rtsm" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors"><Github className="w-5 h-5" /></a>
-                        <a href="#" className="hover:text-white transition-colors"><Linkedin className="w-5 h-5" /></a>
+                        <a href="https://linkedin.com/company/calabi-inc" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors"><Linkedin className="w-5 h-5" /></a>
                         <Link to="/connect" className="hover:text-white transition-colors"><Mail className="w-5 h-5" /></Link>
                         <a href="https://www.youtube.com/@calabi-inc" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors"><Youtube className="w-5 h-5" /></a>
                     </div>

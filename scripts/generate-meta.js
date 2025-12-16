@@ -88,8 +88,8 @@ for (const [slug, post] of Object.entries(posts)) {
     const title = post.title + " | Calabi";
     const description = getExcerpt(post.content);
     // Use https domain for full url
-    const image = post.image ? `https://calabi.com${post.image}` : "https://calabi.com/og/og-home.jpg";
-    const url = `https://calabi.com/blog/${slug}`;
+    const image = post.image ? `https://www.calabi.com${post.image}` : "https://www.calabi.com/og/og-home.jpg";
+    const url = `https://www.calabi.com/blog/${slug}`;
 
     let html = template;
 

@@ -194,7 +194,7 @@ const SensorStream = () => {
                 <motion.div
                     key={i}
                     className="absolute bottom-0 w-1 h-1 rounded-full bg-zinc-600"
-                    style={{ left: `${10 + Math.random() * 80}%` }}
+                    style={{ left: `${5 + Math.random() * 80}%` }}
                     animate={{
                         y: [-20, -100],
                         opacity: [0, 1, 0],

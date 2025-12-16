@@ -1,6 +1,6 @@
 import { ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import hippocampusBanner from '../assets/hippocampus_banner.png';
+
 import { SEO } from '../components/SEO';
 
 export const Blog = () => {
@@ -47,7 +47,7 @@ export const Blog = () => {
                         excerpt="In the race to Embodied AGI, a dangerous orthodoxy has taken hold: “The best representation is no representation.” We disagree. Explicit memory is the key to robustness."
                         date="Dec 14, 2025"
                         tags={['RTSM', 'AGI', 'World Models']}
-                        image={hippocampusBanner}
+                        image="/assets/hippocampus_banner.png"
                         featured
                     />
                     <BlogCard

@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
 
   <!-- SEO & Meta Tags -->
-  <title>Calabi - Open Infrastructure for Embodied AI</title>
+  <title>Calabi Inc</title>
   <meta name="description"
     content="Calabi builds open infrastructure for collaborative embodied AI—grounded world state from SLAM + VLM fusion, designed for real-time robotics." />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,7 +14,8 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://calabi.com/" />
   <meta property="og:title" content="Calabi — Grounding Intelligence in the Real World" />
-  <meta property="og:description" content="RTSM is an open-source spatial memory engine that turns sensor streams into a persistent, queryable world state for embodied AI." />
+  <meta property="og:description"
+    content="RTSM is an open-source spatial memory engine that turns sensor streams into a persistent, queryable world state for embodied AI." />
   <meta property="og:image" content="https://calabi.com/og/og-home.jpg" />
 
   <!-- Twitter -->
@@ -30,8 +31,18 @@
       "@context": "https://schema.org",
       "@graph": [
         {
+          "@type": "Organization",
+          "name": "Calabi Inc",
+          "url": "https://calabi.com/",
+          "logo": "https://calabi.com/assets/dark/android-chrome-512x512.png",
+          "sameAs": [
+            "https://twitter.com/CalabiAI",
+            "https://www.linkedin.com/company/calabi"
+          ]
+        },
+        {
           "@type": "WebSite",
-          "name": "Calabi",
+          "name": "Calabi Inc",
           "url": "https://calabi.com/",
           "description": "Calabi builds open infrastructure for collaborative embodied AI—grounded world state from SLAM + VLM fusion, designed for real-time robotics.",
           "potentialAction": {
@@ -42,8 +53,8 @@
         },
         {
           "@type": "SiteNavigationElement",
-          "name": "Platform",
-          "url": "https://calabi.com/#stack-detail-perception"
+          "name": "RTSM",
+          "url": "https://calabi.com/real-to-sim"
         },
         {
           "@type": "SiteNavigationElement",
@@ -64,12 +75,23 @@
           "@type": "SiteNavigationElement",
           "name": "About Us",
           "url": "https://calabi.com/about"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "name": "Connect",
+          "url": "https://calabi.com/connect"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "name": "Privacy Policy",
+          "url": "https://calabi.com/privacy"
         }
       ]
     }
   </script>
 
   <!-- Favicons -->
+  <link rel="icon" href="/favicon.ico" sizes="any" />
   <link id="favicon-light" rel="icon" href="/assets/dark/favicon.ico?v=4" sizes="any"
     media="(prefers-color-scheme: light)" />
   <link id="favicon-dark" rel="icon" href="/assets/light/favicon.ico?v=4" sizes="any"

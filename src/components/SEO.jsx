@@ -10,7 +10,7 @@ export const SEO = ({
 }) => {
     const { pathname } = useLocation();
     const siteUrl = 'https://www.calabi.com';
-    const defaultTitle = 'Calabi Inc';
+    const defaultTitle = 'Calabi';
     const defaultDescription = 'Calabi builds open infrastructure for collaborative embodied AI—grounded world state from SLAM + VLM fusion, designed for real-time robotics.';
     const defaultImage = '/assets/dark/android-chrome-512x512.png'; // Black logo for light backgrounds
 

@@ -85,7 +85,7 @@ let count = 0;
 for (const [slug, post] of Object.entries(posts)) {
     console.log(`Processing: ${slug}`);
 
-    const title = post.title + " | Calabi";
+    const title = post.title + " | Calabi Inc";
     const description = getExcerpt(post.content);
     // Use https domain for full url
     const image = post.image ? `https://www.calabi.com${post.image}` : "https://www.calabi.com/og/og-home.jpg";
@@ -125,3 +125,66 @@ for (const [slug, post] of Object.entries(posts)) {
 }
 
 console.log(`Generated meta tags for ${count} posts.`);
+
+// Generate robots.txt
+console.log('Generating robots.txt...');
+const robotsContent = `User-agent: *
+Allow: /
+Sitemap: https://www.calabi.com/sitemap.xml
+`;
+try {
+    fs.writeFileSync(path.join(distDir, 'robots.txt'), robotsContent);
+    console.log('Generated robots.txt');
+} catch (e) {
+    console.error('Error writing robots.txt:', e);
+}
+
+// Generate sitemap.xml
+console.log('Generating sitemap.xml...');
+const staticRoutes = [
+    '/',
+    '/docs',
+    '/blog',
+    '/agentic-workflow',
+    '/retail-warehouse',
+    '/real-to-sim',
+    '/ar-xr-overlay',
+    '/about',
+    '/terms',
+    '/connect',
+    '/privacy'
+];
+
+let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+`;
+
+// Add static routes
+staticRoutes.forEach(route => {
+    // Escape special chars if any (not needed for these simple routes but good practice)
+    sitemap += `  <url>
+    <loc>https://www.calabi.com${route}</loc>
+    <changefreq>weekly</changefreq>
+    <priority>${route === '/' ? '1.0' : '0.8'}</priority>
+  </url>
+`;
+});
+
+// Add blog posts
+for (const [slug] of Object.entries(posts)) {
+    sitemap += `  <url>
+    <loc>https://www.calabi.com/blog/${slug}</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+`;
+}
+
+sitemap += `</urlset>`;
+
+try {
+    fs.writeFileSync(path.join(distDir, 'sitemap.xml'), sitemap);
+    console.log('Generated sitemap.xml');
+} catch (e) {
+    console.error('Error writing sitemap.xml:', e);
+}

@@ -34,6 +34,7 @@ export const SEO = ({
             <link rel="canonical" href={seo.url} />
 
             {/* Facebook / Open Graph */}
+            <meta property="og:site_name" content="Calabi Inc" />
             <meta property="og:url" content={seo.url} />
             <meta property="og:type" content={seo.type} />
             <meta property="og:title" content={seo.title} />

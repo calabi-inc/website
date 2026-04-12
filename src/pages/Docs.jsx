@@ -55,13 +55,13 @@ export const Docs = () => {
                             <DocCard
                                 icon={<Terminal className="w-6 h-6 text-emerald-400" />}
                                 title="Quickstart Guide"
-                                desc="Run rtsm-core on a sample ROS 2 bag file in under 5 minutes. Get up and running immediately."
+                                desc="Run rtsm with a demo replay in under 5 minutes. Get up and running immediately."
                                 href="https://calabi-inc.github.io/rtsm/getting-started/quick-start/"
                             />
                             <DocCard
                                 icon={<Code className="w-6 h-6 text-blue-400" />}
                                 title="API Reference"
-                                desc="Complete specification for gRPC and ZeroMQ interfaces. Deep dive into the protocols."
+                                desc="Complete specification for REST API, MCP tools, and WebSocket interfaces. Deep dive into the protocols."
                                 href="https://calabi-inc.github.io/rtsm/api/rest-api/"
                             />
                             <DocCard
@@ -73,7 +73,7 @@ export const Docs = () => {
                             <DocCard
                                 icon={<FileText className="w-6 h-6 text-pink-400" />}
                                 title="Example Projects"
-                                desc="Reference implementations for Python and C++. See real-world usage patterns."
+                                desc="Reference implementations for Python. See real-world usage patterns."
                                 onClick={openWip}
                             />
                         </div>

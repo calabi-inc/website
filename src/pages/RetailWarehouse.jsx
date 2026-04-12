@@ -128,6 +128,10 @@ export const RetailWarehouse = () => {
                             Single-frame detection loses track. <br className="hidden md:block" />
                             RTSM maintains object identity and history across time and viewpoints, ensuring zero "lost item" gaps.
                         </p>
+                        <div className="mt-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-800/60 border border-zinc-700/50 text-zinc-400 text-xs animate-fade-in opacity-0 [animation-delay:0.3s]">
+                            <span className="w-1.5 h-1.5 rounded-full bg-zinc-500"></span>
+                            Concept exploration — API shown is illustrative
+                        </div>
                     </div>
                 </header>
 

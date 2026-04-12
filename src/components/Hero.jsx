@@ -1,12 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowRight, HelpCircle } from 'lucide-react';
+import { ArrowRight, Terminal, Github } from 'lucide-react';
 import { Button } from './Button';
 import { HeroAnimation } from './HeroAnimation';
-import { useUI } from '../contexts/UIContext';
 
 export const Hero = () => {
-    const { openWip } = useUI();
 
     return (
         <section className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden bg-black">
@@ -30,37 +27,50 @@ export const Hero = () => {
                         <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
                     </span>
                     <span className="text-sm text-zinc-300 tracking-wide">
-                        First release: <span className="text-white font-medium">RTSM</span> — an open-source spatial memory engine.
+                        <span className="text-white font-medium">RTSM v0.1</span>
+                        <span className="text-zinc-600 mx-1.5">|</span>pip install rtsm
+                        <span className="text-zinc-600 mx-1.5">|</span>Apache 2.0
+                        <span className="text-zinc-600 mx-1.5 hidden sm:inline">|</span><span className="hidden sm:inline">5 Backends</span>
+                        <span className="text-zinc-600 mx-1.5 hidden md:inline">|</span><span className="hidden md:inline">MCP + REST API</span>
                     </span>
                 </div>
 
                 {/* Headline */}
                 <h1 className="text-5xl md:text-7xl lg:text-8xl font-medium tracking-tighter text-white mb-6 leading-[1.05] drop-shadow-2xl">
-                    Grounding Intelligence <br />
+                    Spatial Memory for <br />
                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-zinc-200 via-white to-emerald-200">
-                        in the Real World.
+                        Robots and Agents.
                     </span>
                 </h1>
 
                 {/* Sub-headline */}
-                <p className="text-lg md:text-xl text-zinc-300 max-w-3xl mb-10 leading-relaxed font-light drop-shadow-md">
-                    We’re building open infrastructure for collaborative embodied AI. From shared perception to portable skills, Calabi provides the protocols that turn raw sensor streams into verifiable world state.
+                <p className="text-lg md:text-xl text-zinc-300 max-w-3xl mb-8 leading-relaxed font-light drop-shadow-md">
+                    RTSM turns RGB-D camera streams into a persistent, queryable 3D world state. Track objects across time. Search by natural language. Query from any agent via REST or MCP.
                 </p>
 
-
+                {/* Pip Install Block */}
+                <div className="mb-10 w-full max-w-lg">
+                    <div className="bg-zinc-900/80 border border-white/10 rounded-xl p-4 font-mono text-sm text-left backdrop-blur-sm">
+                        <div className="flex items-center gap-2 text-zinc-500 mb-2 text-xs">
+                            <Terminal className="w-3.5 h-3.5" />
+                            <span>Terminal</span>
+                        </div>
+                        <code className="text-emerald-400">pip install rtsm[gpu] && rtsm demo</code>
+                    </div>
+                </div>
 
                 {/* Primary CTAs */}
                 <div className="flex flex-col sm:flex-row items-center gap-4 mb-20 w-full sm:w-auto">
-                    <a href="https://github.com/calabi-inc/rtsm" target="_blank" rel="noopener noreferrer">
+                    <a href="https://calabi-inc.github.io/rtsm/getting-started/quick-start/" target="_blank" rel="noopener noreferrer">
                         <Button primary className="w-full sm:w-auto px-8 py-3.5 text-base flex items-center justify-center gap-2 shadow-lg hover:shadow-cyan-500/20">
-                            Explore RTSM (v0.1)
+                            Get Started
                             <ArrowRight className="w-4 h-4" />
                         </Button>
                     </a>
-                    <a href="#why-rtsm" className="w-full sm:w-auto">
+                    <a href="https://github.com/calabi-inc/rtsm" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
                         <Button className="w-full px-8 py-3.5 text-base flex items-center justify-center gap-2 bg-black/60 border-white/10 hover:bg-zinc-900 text-zinc-300 hover:text-white">
-                            Why RTSM?
-                            <HelpCircle className="w-4 h-4" />
+                            View on GitHub
+                            <Github className="w-4 h-4" />
                         </Button>
                     </a>
                 </div>
@@ -70,11 +80,13 @@ export const Hero = () => {
                     <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-xs md:text-sm text-zinc-500 font-mono tracking-widest uppercase">
                         <span className="text-emerald-400 font-medium cursor-default">RTSM v0.1</span>
                         <span className="text-zinc-800">•</span>
-                        <span className="hover:text-zinc-300 transition-colors cursor-default">Queryable World State</span>
+                        <span className="hover:text-zinc-300 transition-colors cursor-default">pip install rtsm</span>
                         <span className="text-zinc-800">•</span>
-                        <span className="hover:text-zinc-300 transition-colors cursor-default">SLAM + VLM Fusion</span>
+                        <span className="hover:text-zinc-300 transition-colors cursor-default">Apache 2.0</span>
                         <span className="text-zinc-800">•</span>
-                        <span className="hover:text-zinc-300 transition-colors cursor-default">Open Source</span>
+                        <span className="hover:text-zinc-300 transition-colors cursor-default">5 Backends</span>
+                        <span className="text-zinc-800">•</span>
+                        <span className="hover:text-zinc-300 transition-colors cursor-default">MCP + REST API</span>
                     </div>
                 </div>
 

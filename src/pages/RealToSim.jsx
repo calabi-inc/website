@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Scan, Box, Layers, Share2, PlayCircle, FileJson } from 'lucide-react';
+import { Scan, Box, Layers, Share2, PlayCircle, FileJson, AlertTriangle } from 'lucide-react';
 import { SEO } from '../components/SEO';
 import carReal from '../assets/car_factory_real.png';
 import carSim from '../assets/car_factory_sim.png';
@@ -154,6 +154,10 @@ export const RealToSim = () => {
                             Building simulation environments manually is slow. <br className="hidden md:block" />
                             RTSM scans spaces to build semantic state graphs, exporting maps and assets for instant simulation.
                         </p>
+                        <div className="mt-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-800/60 border border-zinc-700/50 text-zinc-400 text-xs animate-fade-in opacity-0 [animation-delay:0.3s]">
+                            <span className="w-1.5 h-1.5 rounded-full bg-zinc-500"></span>
+                            Concept exploration — API shown is illustrative
+                        </div>
                     </div>
                 </header>
 

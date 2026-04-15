@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Github, ArrowRight, ChevronDown, Eye, Brain, Zap, Scan, LayoutDashboard, Box, Layers, Glasses, Menu, X } from 'lucide-react';
+import { Github, ArrowRight, ChevronDown, Eye, Brain, Zap, Scan, LayoutDashboard, Box, Layers, Glasses, Menu, X, BarChart3, Smartphone } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import logo from '../assets/white_logo_with_company_name.svg';
 
@@ -66,9 +66,40 @@ export const Navbar = () => {
                                 >
                                     <div className="bg-[#0A0A0A]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl p-6 grid grid-cols-2 gap-8 ring-1 ring-white/5">
 
-                                        {/* Column 1: The Stack */}
+                                        {/* Column 1: Product */}
                                         <div className="space-y-4">
-                                            <h3 className="text-[10px] font-semibold text-zinc-500 uppercase tracking-widest pl-2">The Stack</h3>
+                                            <h3 className="text-[10px] font-semibold text-zinc-500 uppercase tracking-widest pl-2">Product</h3>
+                                            <div className="flex flex-col gap-2">
+                                                <MenuLink
+                                                    icon={<Eye className="w-4 h-4 text-indigo-400" />}
+                                                    title="RTSM — Perception"
+                                                    desc="Shipped"
+                                                    href="/#stack-detail-perception"
+                                                    onClick={(e) => handleScroll(e, 'infrastructure-stack', 'stack-detail-perception')}
+                                                />
+                                                <MenuLink
+                                                    icon={<BarChart3 className="w-4 h-4 text-emerald-400" />}
+                                                    title="Benchmarks"
+                                                    desc="Real Numbers"
+                                                    href="/#benchmarks"
+                                                    onClick={(e) => handleScroll(e, 'benchmarks')}
+                                                />
+                                                <MenuLink
+                                                    icon={<Smartphone className="w-4 h-4 text-cyan-400" />}
+                                                    title="Calabi Lens"
+                                                    desc="iPhone Sensor Input"
+                                                    href="/#calabi-lens"
+                                                    onClick={(e) => handleScroll(e, 'calabi-lens')}
+                                                />
+                                                <MenuLink
+                                                    icon={<Scan className="w-4 h-4 text-cyan-400" />}
+                                                    title="Visualizer"
+                                                    desc="Live Prototype"
+                                                    href="/#stack-detail-tooling"
+                                                    onClick={(e) => handleScroll(e, 'infrastructure-stack', 'stack-detail-tooling')}
+                                                />
+                                            </div>
+                                            <h3 className="text-[10px] font-semibold text-zinc-500 uppercase tracking-widest pl-2 pt-2">Vision</h3>
                                             <div className="flex flex-col gap-2">
                                                 <MenuLink
                                                     icon={<Layers className="w-4 h-4 text-white" />}
@@ -78,32 +109,18 @@ export const Navbar = () => {
                                                     onClick={(e) => handleScroll(e, 'system-architecture-overview')}
                                                 />
                                                 <MenuLink
-                                                    icon={<Eye className="w-4 h-4 text-indigo-400" />}
-                                                    title="RTSM — Perception"
-                                                    desc="Available Now"
-                                                    href="/#stack-detail-perception"
-                                                    onClick={(e) => handleScroll(e, 'infrastructure-stack', 'stack-detail-perception')}
-                                                />
-                                                <MenuLink
                                                     icon={<Brain className="w-4 h-4 text-purple-400" />}
-                                                    title="World Models — Intelligence"
-                                                    desc="Research"
+                                                    title="World Models"
+                                                    desc="Planned"
                                                     href="/#stack-detail-intelligence"
                                                     onClick={(e) => handleScroll(e, 'infrastructure-stack', 'stack-detail-intelligence')}
                                                 />
                                                 <MenuLink
                                                     icon={<Zap className="w-4 h-4 text-emerald-400" />}
-                                                    title="Intent Tokens — Action"
-                                                    desc="Research"
+                                                    title="Intent Tokens"
+                                                    desc="Planned"
                                                     href="/#stack-detail-action"
                                                     onClick={(e) => handleScroll(e, 'infrastructure-stack', 'stack-detail-action')}
-                                                />
-                                                <MenuLink
-                                                    icon={<Scan className="w-4 h-4 text-cyan-400" />}
-                                                    title="Visualizer — Tooling"
-                                                    desc="Live Prototype"
-                                                    href="/#stack-detail-tooling"
-                                                    onClick={(e) => handleScroll(e, 'infrastructure-stack', 'stack-detail-tooling')}
                                                 />
                                             </div>
                                         </div>
@@ -213,11 +230,15 @@ export const Navbar = () => {
                                             className="overflow-hidden space-y-2 pt-2"
                                         >
                                             <div className="pl-2 border-l border-white/10 space-y-2">
-                                                <Link to="/#system-architecture-overview" onClick={(e) => handleScroll(e, 'system-architecture-overview')} className="block text-xs text-zinc-500 hover:text-white py-1">System Architecture</Link>
-                                                <Link to="/#stack-detail-perception" onClick={(e) => handleScroll(e, 'infrastructure-stack', 'stack-detail-perception')} className="block text-xs text-zinc-500 hover:text-white py-1">Perception (RTSM)</Link>
-                                                <Link to="/#stack-detail-intelligence" onClick={(e) => handleScroll(e, 'infrastructure-stack', 'stack-detail-intelligence')} className="block text-xs text-zinc-500 hover:text-white py-1">Intelligence (World Models)</Link>
-                                                <Link to="/#stack-detail-action" onClick={(e) => handleScroll(e, 'infrastructure-stack', 'stack-detail-action')} className="block text-xs text-zinc-500 hover:text-white py-1">Action (Intent Tokens)</Link>
-                                                <Link to="/#stack-detail-tooling" onClick={(e) => handleScroll(e, 'infrastructure-stack', 'stack-detail-tooling')} className="block text-xs text-zinc-500 hover:text-white py-1">Tooling (Visualizer)</Link>
+                                                <div className="text-[10px] text-zinc-600 font-mono uppercase tracking-widest pt-1">Product</div>
+                                                <Link to="/#stack-detail-perception" onClick={(e) => handleScroll(e, 'infrastructure-stack', 'stack-detail-perception')} className="block text-xs text-zinc-500 hover:text-white py-1">RTSM (Perception)</Link>
+                                                <Link to="/#benchmarks" onClick={(e) => handleScroll(e, 'benchmarks')} className="block text-xs text-zinc-500 hover:text-white py-1">Benchmarks</Link>
+                                                <Link to="/#calabi-lens" onClick={(e) => handleScroll(e, 'calabi-lens')} className="block text-xs text-zinc-500 hover:text-white py-1">Calabi Lens</Link>
+                                                <Link to="/#stack-detail-tooling" onClick={(e) => handleScroll(e, 'infrastructure-stack', 'stack-detail-tooling')} className="block text-xs text-zinc-500 hover:text-white py-1">Visualizer</Link>
+                                                <div className="text-[10px] text-zinc-600 font-mono uppercase tracking-widest pt-2">Vision</div>
+                                                <Link to="/#system-architecture-overview" onClick={(e) => handleScroll(e, 'system-architecture-overview')} className="block text-xs text-zinc-500 hover:text-white py-1">System Overview</Link>
+                                                <Link to="/#stack-detail-intelligence" onClick={(e) => handleScroll(e, 'infrastructure-stack', 'stack-detail-intelligence')} className="block text-xs text-zinc-500 hover:text-white py-1">World Models</Link>
+                                                <Link to="/#stack-detail-action" onClick={(e) => handleScroll(e, 'infrastructure-stack', 'stack-detail-action')} className="block text-xs text-zinc-500 hover:text-white py-1">Intent Tokens</Link>
                                             </div>
                                             <div className="pl-2 border-l border-white/10 space-y-2 mt-2">
                                                 <div className="text-[10px] text-zinc-600 font-mono uppercase tracking-widest pt-1">Use Cases</div>

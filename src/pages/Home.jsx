@@ -1,11 +1,10 @@
 import { Hero } from '../components/Hero';
 import { InfrastructureStack } from '../components/InfrastructureStack';
 import { StackAnimation } from '../components/StackAnimation';
-
-
-
+import { DemoVideo } from '../components/DemoVideo';
+import { Benchmarks } from '../components/Benchmarks';
+import { CalabiLens } from '../components/CalabiLens';
 import { CTA } from '../components/CTA';
-
 import { SEO } from '../components/SEO';
 
 export const Home = () => {
@@ -14,6 +13,9 @@ export const Home = () => {
             <SEO />
 
             <Hero />
+            <DemoVideo />
+            <Benchmarks />
+            <CalabiLens />
             <StackAnimation />
             <InfrastructureStack />
             <CTA />

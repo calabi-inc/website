@@ -61,6 +61,8 @@ export const InfrastructureStack = () => {
                             subtitle="RTSM Core"
                             icon={<Eye className="w-5 h-5" />}
                             color="indigo"
+                            badge="Shipped"
+                            badgeColor="emerald"
                         />
                         <StackButton
                             id="intelligence"
@@ -70,6 +72,8 @@ export const InfrastructureStack = () => {
                             subtitle="World Models"
                             icon={<Brain className="w-5 h-5" />}
                             color="purple"
+                            badge="Planned"
+                            badgeColor="zinc"
                         />
                         <StackButton
                             id="action"
@@ -79,6 +83,8 @@ export const InfrastructureStack = () => {
                             subtitle="Intent Tokens"
                             icon={<Zap className="w-5 h-5" />}
                             color="emerald"
+                            badge="Planned"
+                            badgeColor="zinc"
                         />
                         <StackButton
                             id="tooling"
@@ -88,11 +94,13 @@ export const InfrastructureStack = () => {
                             subtitle="The Visualizer"
                             icon={<Scan className="w-5 h-5" />}
                             color="cyan"
+                            badge="Partial"
+                            badgeColor="amber"
                         />
 
                         <div className="mt-8 p-6 rounded-2xl bg-zinc-900/40 border border-white/5 text-sm text-zinc-500">
                             <p className="mb-2 font-medium text-zinc-400">Architectural Note:</p>
-                            Components are loosely coupled via ZeroMQ/gRPC/ROS2, allowing partial adoption (e.g., use RTSM with your own Planner).
+                            Components are loosely coupled via MCP, REST, WebSocket (ROS2 planned), allowing partial adoption (e.g., use RTSM with your own Planner).
                         </div>
                     </div>
 
@@ -109,7 +117,13 @@ export const InfrastructureStack = () => {
     );
 };
 
-const StackButton = ({ id, active, onClick, title, subtitle, icon, color }) => {
+const badgeStyles = {
+    emerald: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
+    zinc: 'bg-zinc-700/30 text-zinc-400 border-zinc-600/30',
+    amber: 'bg-amber-500/20 text-amber-400 border-amber-500/30',
+};
+
+const StackButton = ({ id, active, onClick, title, subtitle, icon, color, badge, badgeColor }) => {
     const isActive = active === id;
 
     // Color mappings for active state
@@ -133,8 +147,15 @@ const StackButton = ({ id, active, onClick, title, subtitle, icon, color }) => {
             <div className={`p-2 rounded-lg ${isActive ? 'bg-white/10' : 'bg-black/40 group-hover:bg-black/60'} transition-colors`}>
                 {icon}
             </div>
-            <div>
-                <div className={`font-medium ${isActive ? 'text-white' : 'text-zinc-300 group-hover:text-white'}`}>{title}</div>
+            <div className="flex-1">
+                <div className="flex items-center gap-2">
+                    <span className={`font-medium ${isActive ? 'text-white' : 'text-zinc-300 group-hover:text-white'}`}>{title}</span>
+                    {badge && (
+                        <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded-full border ${badgeStyles[badgeColor] || badgeStyles.zinc}`}>
+                            {badge}
+                        </span>
+                    )}
+                </div>
                 <div className="text-xs opacity-70">{subtitle}</div>
             </div>
             {isActive && (
@@ -198,15 +219,15 @@ const PerceptionContent = () => (
                         Key Ingredients
                     </h4>
                     <div className="flex flex-wrap gap-2">
-                        {["RTAB-Map / ORB-SLAM3", "CLIP Embeddings (ViT-B/32)", "FastSAM Segmentation"].map(tag => (
+                        {["ARKit / RTAB-Map (SLAM)", "SigLIP Embeddings", "SAM2 + Grounding DINO (default)", "FastSAM / YOLOE (opt-in)"].map(tag => (
                             <span key={tag} className="px-3 py-1.5 rounded-lg bg-zinc-900 border border-white/10 text-xs text-zinc-300">
                                 {tag}
                             </span>
                         ))}
                     </div>
                     <div className="bg-indigo-900/20 border border-indigo-500/20 rounded-xl p-4 text-xs text-indigo-300 mt-4">
-                        <strong className="block mb-1 text-indigo-200">Near-term Upgrades:</strong>
-                        YOLO-World for open-vocabulary detection & Mobile ingest (ARKit).
+                        <strong className="block mb-1 text-indigo-200">Current Status:</strong>
+                        Current backends: SAM2 + Grounding DINO, YOLOE, FastSAM. Coming: PyPI package, Colab notebook, TensorRT.
                     </div>
                 </div>
             </div>
@@ -277,13 +298,17 @@ const PerceptionContent = () => (
                 </div>
                 <div className="p-6 font-mono text-sm space-y-6">
                     <div>
-                        <div className="text-zinc-500 mb-2"># Find object by semantic query</div>
-                        <div className="text-indigo-300">get_object<span className="text-zinc-400">(</span>semantic="red mug"<span className="text-zinc-400">)</span> <span className="text-purple-400">→</span> <span className="text-zinc-300">{`{id, pose, confidence, last_seen, history}`}</span></div>
+                        <div className="text-zinc-500 mb-2"># REST API</div>
+                        <div className="text-indigo-300">GET <span className="text-zinc-300">/search/semantic?query=red+mug&top_k=5</span></div>
+                    </div>
+                    <div>
+                        <div className="text-zinc-500 mb-2"># MCP (for AI agents)</div>
+                        <div className="text-indigo-300">rtsm.semantic_query<span className="text-zinc-400">(</span>query="red mug", top_k=5<span className="text-zinc-400">)</span></div>
                     </div>
                     <div>
                         <div className="text-zinc-500 mb-2"># Core State Object (v0.1)</div>
                         <div className="text-zinc-400 text-xs leading-relaxed opacity-80">
-                            object_id, pose(SE3), bbox3d, class_label?, clip_embedding, last_seen_ts, obs_count, provenance(keyframe_id)
+                            id, xyz_world, emb_mean, view_bins, label_scores, stability, hits, confirmed, image_crops
                         </div>
                     </div>
                 </div>
@@ -303,11 +328,11 @@ const PerceptionContent = () => (
                         </div>
                         <div className="p-4 rounded-xl bg-zinc-900/30 border border-white/5">
                             <div className="text-xs text-zinc-500 uppercase tracking-wider mb-1">Latency Target</div>
-                            <div className="text-zinc-300 text-sm">&lt;30ms end‑to‑end (RGB‑D → queryable state) on RTX‑class GPUs.</div>
+                            <div className="text-zinc-300 text-sm">210ms mean (dual) / 510ms mean (grounded_sam2) on RTX 5090.</div>
                         </div>
                         <div className="p-4 rounded-xl bg-zinc-900/30 border border-white/5">
                             <div className="text-xs text-zinc-500 uppercase tracking-wider mb-1">Scalability</div>
-                            <div className="text-zinc-300 text-sm">Decoupled ZeroMQ ingest for distributed sensing.</div>
+                            <div className="text-zinc-300 text-sm">Decoupled WebSocket ingest for distributed sensing.</div>
                         </div>
                     </div>
                 </div>
@@ -320,15 +345,15 @@ const PerceptionContent = () => (
                     <ul className="space-y-3">
                         <li className="flex justify-between items-center text-sm p-3 rounded-lg bg-zinc-900/20 border border-white/5">
                             <span className="text-zinc-400 flex items-center gap-2"><GpuIcon className="w-4 h-4" /> Hardware</span>
-                            <span className="text-white text-right">RTX 30-series+ (6GB+)<br /><span className="text-zinc-500 text-xs">RealSense D435i Rec.</span></span>
+                            <span className="text-white text-right">RTX 3080+ (8GB+ VRAM)<br /><span className="text-zinc-500 text-xs">iPhone w/ Calabi Lens or RealSense D435i</span></span>
                         </li>
                         <li className="flex justify-between items-center text-sm p-3 rounded-lg bg-zinc-900/20 border border-white/5">
                             <span className="text-zinc-400 flex items-center gap-2"><Code className="w-4 h-4" /> Software</span>
-                            <span className="text-white">Python 3.10+, PyTorch<br /><span className="text-zinc-500 text-xs">ROS 2 (Optional)</span></span>
+                            <span className="text-white">Python 3.12+, PyTorch</span>
                         </li>
                         <li className="flex justify-between items-center text-sm p-3 rounded-lg bg-zinc-900/20 border border-white/5">
                             <span className="text-zinc-400 flex items-center gap-2"><Network className="w-4 h-4" /> Interfaces</span>
-                            <span className="text-white">ZeroMQ, REST, WebSocket</span>
+                            <span className="text-white">MCP, REST, WebSocket</span>
                         </li>
                     </ul>
                 </div>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, MapPin, Navigation, Box, RefreshCw, Database } from 'lucide-react';
+import { Search, MapPin, Navigation, Box, RefreshCw, Database, AlertTriangle } from 'lucide-react';
 import { SEO } from '../components/SEO';
 
 export const AgenticWorkflow = () => {
@@ -122,6 +122,10 @@ export const AgenticWorkflow = () => {
                             Bridging semantic intent to physical execution. <br className="hidden md:block" />
                             RTSM acts as the shared source of truth between your agents and the physical world.
                         </p>
+                        <div className="mt-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-800/60 border border-zinc-700/50 text-zinc-400 text-xs animate-fade-in opacity-0 [animation-delay:0.3s]">
+                            <span className="w-1.5 h-1.5 rounded-full bg-zinc-500"></span>
+                            Concept exploration — API shown is illustrative
+                        </div>
                     </div>
                 </header>
 

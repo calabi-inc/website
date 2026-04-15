@@ -27,11 +27,7 @@ export const Hero = () => {
                         <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
                     </span>
                     <span className="text-sm text-zinc-300 tracking-wide">
-                        <span className="text-white font-medium">RTSM v0.1</span>
-                        <span className="text-zinc-600 mx-1.5">|</span>pip install rtsm
-                        <span className="text-zinc-600 mx-1.5">|</span>Apache 2.0
-                        <span className="text-zinc-600 mx-1.5 hidden sm:inline">|</span><span className="hidden sm:inline">5 Backends</span>
-                        <span className="text-zinc-600 mx-1.5 hidden md:inline">|</span><span className="hidden md:inline">MCP + REST API</span>
+                        <span className="text-white font-medium">RTSM</span> is live on PyPI — <span className="text-emerald-400 font-medium">try it now</span>
                     </span>
                 </div>
 

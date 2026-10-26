@@ -12,7 +12,7 @@ export const Privacy = () => {
             />
             <div className="pt-32 px-6 max-w-4xl mx-auto pb-20">
                 <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Privacy Policy</h1>
-                <p className="text-zinc-500 mb-12">Last updated: December 8, 2025</p>
+                <p className="text-zinc-500 mb-12">Last updated: October 26, 2026</p>
 
                 <div className="prose prose-invert prose-zinc max-w-none space-y-12">
                     <section>
@@ -31,7 +31,7 @@ export const Privacy = () => {
                             <li>Visitors to calabi.com, and</li>
                             <li>People who contact us, join our waitlist, or express interest in our products and pilot programs.</li>
                         </ul>
-                        <p className="mt-4">If you participate in a pilot, beta program, or use our products in production, additional terms or data processing agreements may apply and will be provided separately.</p>
+                        <p className="mt-4">If you participate in a pilot, an evaluation engagement, or use our products in production, additional terms or data processing agreements apply and are provided separately. Recordings, run outputs and reports from an engagement are handled under that agreement; they are never collected through the Site.</p>
                     </section>
 
                     <section>
@@ -61,37 +61,22 @@ export const Privacy = () => {
                         </ul>
 
                         <h4 className="text-xl font-bold text-white mb-2 mt-8">2.2 Information collected automatically</h4>
-                        <p>When you visit the Site, we may automatically collect certain information about your device and usage, such as:</p>
-                        <ul className="list-disc pl-6 space-y-2 mt-4 text-zinc-400">
-                            <li>IP address</li>
-                            <li>Browser type and version</li>
-                            <li>Operating system and device type</li>
-                            <li>Pages visited, time spent on pages, and clickstream data</li>
-                            <li>Referring/exit pages and timestamps</li>
-                            <li>Basic performance metrics (e.g., load times, errors)</li>
-                        </ul>
-                        <p className="mt-4">We typically collect this information using cookies, analytics tools, and similar technologies (see Section 3).</p>
+                        <p>The Site is a static website served by GitHub Pages. When you visit it, our hosting provider, GitHub, logs your IP address together with standard request data (the page requested, the time, your browser type and the referring page) for security and abuse prevention. GitHub keeps those logs under its own privacy statement; we do not receive them as a visitor record.</p>
+                        <p className="mt-4">We do not run analytics on the Site, do not set cookies, and do not use pixels or similar tracking technologies (see Section 3). Fonts, images and scripts are served from our own domain, so a visit sends no request to a third-party content network.</p>
 
                         <h4 className="text-xl font-bold text-white mb-2 mt-8">2.3 Information from third parties</h4>
                         <p>We may receive information about you from third parties, such as:</p>
                         <ul className="list-disc pl-6 space-y-2 mt-4 text-zinc-400">
-                            <li>Analytics and performance tools</li>
-                            <li>Referral or marketing partners</li>
                             <li>Publicly available sources (e.g., LinkedIn, company websites) if you reach out in a professional capacity</li>
+                            <li>A person at your company who introduces you to us</li>
                         </ul>
-                        <p className="mt-4">We use this information to understand who is interested in Calabi and to improve our communication and product fit.</p>
+                        <p className="mt-4">We do not buy data about you, and we do not receive visitor data from analytics or advertising partners, because we use none.</p>
                     </section>
 
                     <section>
                         <h3 className="text-2xl font-bold text-white mb-4">3. Cookies and similar technologies</h3>
-                        <p>We may use cookies and similar technologies (such as pixels or local storage) to:</p>
-                        <ul className="list-disc pl-6 space-y-2 mt-4 text-zinc-400">
-                            <li>Understand how visitors use the Site</li>
-                            <li>Improve performance and usability</li>
-                            <li>Remember certain preferences</li>
-                            <li>Measure the effectiveness of our content or campaigns</li>
-                        </ul>
-                        <p className="mt-4">You can control cookies through your browser settings and, where applicable, through dedicated cookie banners or opt-out mechanisms. If you disable some or all cookies, parts of the Site may not function correctly.</p>
+                        <p>The Site sets no cookies and uses no analytics, pixels, local-storage tracking or similar technologies. There is no cookie banner because there is nothing to consent to.</p>
+                        <p className="mt-4">If we ever add a tool that stores information on your device or tracks your visit, this policy will describe it before it is switched on, and where the law requires consent we will ask for it first.</p>
                     </section>
 
                     <section>
@@ -121,12 +106,11 @@ export const Privacy = () => {
                         <p className="mt-4">We may share your information with:</p>
 
                         <h4 className="text-xl font-bold text-white mb-2 mt-8">5.1 Service providers</h4>
-                        <p>Trusted third-party vendors who help us operate our business and the Site, such as:</p>
+                        <p>The third parties that process information on our behalf are:</p>
                         <ul className="list-disc pl-6 space-y-2 mt-4 text-zinc-400">
-                            <li>Hosting and infrastructure providers</li>
-                            <li>Analytics and monitoring services</li>
-                            <li>Email and communication tools</li>
-                            <li>Customer relationship or support platforms</li>
+                            <li><strong className="text-white">GitHub, Inc.</strong> – hosts the Site (GitHub Pages) and logs visitor IP addresses for security, as described in Section 2.2</li>
+                            <li><strong className="text-white">Formspree, Inc.</strong> – receives what you submit through the contact form and forwards it to us by email</li>
+                            <li><strong className="text-white">Our email and document tools</strong> – used to correspond with you and to keep records of pilots and engagements</li>
                         </ul>
                         <p className="mt-4">These providers are authorized to process your information only as necessary to perform services on our behalf and are subject to appropriate confidentiality and security obligations.</p>
 
@@ -157,7 +141,7 @@ export const Privacy = () => {
                         <h3 className="text-2xl font-bold text-white mb-4">7. Data security</h3>
                         <p>We use reasonable technical and organizational measures to protect your information from unauthorized access, loss, misuse, or alteration.</p>
                         <p className="mt-4">However, no method of transmission over the internet or method of electronic storage is completely secure. We cannot guarantee absolute security, and you use the Site at your own risk.</p>
-                        <p className="mt-4">If you believe your interaction with us is no longer secure, please contact us immediately (see Section 11).</p>
+                        <p className="mt-4">If you believe your interaction with us is no longer secure, please contact us immediately (see Section 13).</p>
                     </section>
 
                     <section>
@@ -178,11 +162,10 @@ export const Privacy = () => {
                             <li><strong className="text-white">Portability</strong> – The right to receive your personal information in a structured, commonly used, machine-readable format and to request that we transmit it to another controller where technically feasible.</li>
                         </ul>
                         <p className="mt-4">If you are located in the European Economic Area (EEA), the United Kingdom, or similar jurisdictions, you may have additional rights under GDPR or equivalent laws. If you are a California resident, you may have rights under the California Consumer Privacy Act (CCPA) or similar laws.</p>
-                        <p className="mt-4">To exercise any of these rights, please contact us using the details in Section 11. We may ask you to verify your identity before responding to your request. Some requests may be subject to legal limitations or exemptions.</p>
+                        <p className="mt-4">To exercise any of these rights, please contact us using the details in Section 13. We may ask you to verify your identity before responding to your request. Some requests may be subject to legal limitations or exemptions.</p>
                         <p className="mt-4">You can also:</p>
                         <ul className="list-disc pl-6 space-y-2 mt-4 text-zinc-400">
                             <li>Opt out of marketing emails by using the unsubscribe link in those emails or contacting us directly.</li>
-                            <li>Manage cookies through your browser settings and any cookie banner provided on the Site.</li>
                         </ul>
                     </section>
 
@@ -208,7 +191,7 @@ export const Privacy = () => {
                         <h3 className="text-2xl font-bold text-white mb-4">13. Contact us</h3>
                         <p>If you have any questions or concerns about this Privacy Policy or our data practices, or if you wish to exercise your rights, you can contact us at:</p>
                         <div className="mt-4 p-6 bg-zinc-900/50 border border-white/10 rounded-xl">
-                            <p className="font-bold text-white">Calabi</p>
+                            <p className="font-bold text-white">Calabi Inc.</p>
                             <p className="text-zinc-400 mt-1">Email: <a href="mailto:admin@calabi.com" className="text-indigo-400 hover:text-white">admin@calabi.com</a></p>
                             <p className="text-zinc-400 mt-1">Website: <a href="https://calabi.com" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:text-white">https://calabi.com</a></p>
                         </div>

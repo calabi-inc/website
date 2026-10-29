@@ -7,8 +7,12 @@ export const DEFAULT_IMAGE = '/og/og-home.jpg';
 
 export const ROUTES = {
     '/': {
-        title: 'Calabi — Spatial Memory for Robots and AI Agents',
-        description: 'RTSM: open-source spatial memory for robots and AI agents. Turn RGB-D streams into persistent, queryable 3D world state. pip install rtsm.',
+        title: 'Calabi — Perception that remembers, for physical AI',
+        description: 'Calabi builds the perception pipeline and semantic map that give robots and agents a persistent, queryable picture of a space, and the evaluation that tells a team what their perception actually did on site.',
+    },
+    '/technology': {
+        title: 'Technology: the RTSM engine | Calabi',
+        description: 'RTSM turns RGB-D camera streams into a persistent, queryable 3D world state: the architecture, the benchmarks, the capture app, and the layers planned above the perception layer.',
     },
     '/rtsm-eval': {
         title: 'rtsm-eval — Perception evaluation on your recordings | Calabi',
@@ -20,7 +24,7 @@ export const ROUTES = {
         description: "Build with deterministic confidence. Integrate Real-Time Semantic Mapping (RTSM) into your robotics stack using Calabi's open infrastructure.",
     },
     '/blog': {
-        title: 'Blog | Calabi',
+        title: 'Research and writing | Calabi',
         description: "Deep dives into RTSM, World Models, and the future of robotics. Read about the engineering and research behind Calabi's open infrastructure.",
     },
     '/agentic-workflow': {
@@ -40,8 +44,8 @@ export const ROUTES = {
         description: 'The World’s Metadata. AR needs semantics anchored to geometry. RTSM serves queryable semantic tags tied to world coordinates.',
     },
     '/about': {
-        title: 'About Us | Calabi',
-        description: 'We make uncertainty explicit, bounded, and testable. Calabi builds the open standard layer for shared perception, portable skills, and collaborative autonomy.',
+        title: 'About Calabi | Calabi',
+        description: 'Calabi builds the memory layer for physical AI: an open-source semantic mapping engine, a perception evaluation on your own recordings, and a capture app. A small company; every claim printed with its rule.',
     },
     '/terms': {
         title: 'Terms of Service | Calabi',

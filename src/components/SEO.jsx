@@ -10,8 +10,8 @@ export const SEO = ({
 }) => {
     const { pathname } = useLocation();
     const siteUrl = 'https://www.calabi.com';
-    const defaultTitle = 'Calabi — Spatial Memory for Robots and AI Agents';
-    const defaultDescription = 'RTSM: open-source spatial memory for robots and AI agents. Turn RGB-D streams into persistent, queryable 3D world state. pip install rtsm.';
+    const defaultTitle = 'Calabi — Perception that remembers, for physical AI';
+    const defaultDescription = 'Calabi builds the perception pipeline and semantic map that give robots and agents a persistent, queryable picture of a space, and the evaluation that tells a team what their perception actually did on site.';
     const defaultImage = '/assets/dark/android-chrome-512x512.png'; // Black logo for light backgrounds
 
     const imgPath = image || defaultImage;

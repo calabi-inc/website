@@ -68,7 +68,7 @@ export const Docs = () => {
                                 icon={<GraduationCap className="w-6 h-6 text-purple-400" />}
                                 title="Core Concepts"
                                 desc="Understanding Working Memory, Proximity Index, and Embeddings. Learn the theory behind RTSM."
-                                to="/#why-rtsm"
+                                to="/technology#why-rtsm"
                             />
                             <DocCard
                                 icon={<FileText className="w-6 h-6 text-pink-400" />}

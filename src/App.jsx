@@ -24,6 +24,7 @@ const RealToSim = page(() => import('./pages/RealToSim'), 'RealToSim');
 const ArXrOverlay = page(() => import('./pages/ArXrOverlay'), 'ArXrOverlay');
 const Connect = page(() => import('./pages/Connect'), 'Connect');
 const RtsmEval = page(() => import('./pages/RtsmEval'), 'RtsmEval');
+const Technology = page(() => import('./pages/Technology'), 'Technology');
 
 function App() {
     return (
@@ -32,7 +33,9 @@ function App() {
                 <Navbar />
                 <Suspense fallback={<div className="min-h-screen bg-[#050505]" aria-hidden="true" />}>
                     <Routes>
+                        {/* The front page is the company page; the engine page it replaced is /technology. To swap back, exchange the two elements. */}
                         <Route path="/" element={<Home />} />
+                        <Route path="/technology" element={<Technology />} />
 
                         <Route path="/rtsm-eval" element={<RtsmEval />} />
                         <Route path="/product" element={<Navigate to="/rtsm-eval" replace />} />

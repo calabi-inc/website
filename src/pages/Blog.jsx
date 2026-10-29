@@ -13,7 +13,7 @@ export const Blog = () => {
             <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[radial-gradient(circle_at_bottom_right,_rgba(16,185,129,0.05),_transparent_70%)] pointer-events-none"></div>
 
             <SEO
-                title="Blog"
+                title="Research and writing"
                 description="Deep dives into RTSM, World Models, and the future of robotics. Read about the engineering and research behind Calabi's open infrastructure."
             />
 
@@ -23,7 +23,7 @@ export const Blog = () => {
                 <header className="mb-24 relative">
                     <div className="absolute -top-24 left-0">
                         <div className="text-2xl font-mono text-white uppercase tracking-[0.2em] animate-fade-in opacity-0">
-                            Blog
+                            Research
                         </div>
                     </div>
 

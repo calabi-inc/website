@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ArrowRight, FileText, GitCompare, Map, GitBranch, Share2, Terminal, ShieldAlert, HelpCircle } from 'lucide-react';
+import { ArrowRight, FileText, GitCompare, Map, GitBranch, Share2, ShieldAlert, HelpCircle } from 'lucide-react';
 import { SEO } from '../components/SEO';
 import { EvalReportPanel } from '../components/eval/EvalReportPanel';
 import { evalSample } from '../data/evalSample';
+import { RTSM_VERSION } from '../data/release';
 
 const CONTACT = '/connect?interest=evaluation';
 
@@ -92,7 +93,7 @@ export const RtsmEval = () => {
                     </div>
                     <div className="mt-12 flex flex-wrap items-center gap-x-6 gap-y-2 text-[11px] md:text-xs text-zinc-500 font-mono tracking-widest uppercase border-t border-zinc-800/60 pt-6">
                         <span>{evalSample.source.product}</span><span className="text-zinc-800">•</span>
-                        <span>reads rtsm 0.3.1 ledgers</span><span className="text-zinc-800">•</span>
+                        <span>reads rtsm {RTSM_VERSION} ledgers</span><span className="text-zinc-800">•</span>
                         <span>ROS 1 bag</span><span className="text-zinc-800">•</span>
                         <span>rosbag2</span><span className="text-zinc-800">•</span>
                         <span>MCAP</span><span className="text-zinc-800">•</span>
@@ -226,10 +227,6 @@ export const RtsmEval = () => {
                 <div className="max-w-3xl mx-auto text-center">
                     <h2 className="text-4xl md:text-5xl font-heading font-medium tracking-tighter text-white mb-6">Send us a recording.</h2>
                     <ContactButton className="px-8 py-3.5 text-base" />
-                    <p className="mt-8 text-xs text-zinc-500 font-mono inline-flex items-center gap-2">
-                        <Terminal className="w-3.5 h-3.5" /> Open-source engine:
-                        <a href="https://calabi-inc.github.io/rtsm/getting-started/quick-start/" target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:text-emerald-300">pip install rtsm</a>
-                    </p>
                 </div>
             </section>
         </div>

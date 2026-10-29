@@ -46,7 +46,7 @@ export const EvalReportPanel = () => {
                     ))}
                 </div>
                 <div className="text-[11px] font-mono text-zinc-500 pb-2">
-                    {d.source.engine} · {d.source.product} · {d.source.platform}
+                    {d.source.engine} · {d.source.platform}
                 </div>
             </div>
 

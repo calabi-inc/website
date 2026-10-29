@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Github, ArrowRight, ChevronDown, Eye, Brain, Zap, Scan, LayoutDashboard, Box, Layers, Glasses, Menu, X, BarChart3, Smartphone, FileCheck, PlayCircle, Mail } from 'lucide-react';
+import { Github, ArrowRight, ChevronDown, Eye, BarChart3, Smartphone, PlayCircle, Box, LayoutDashboard, Layers, Glasses, Building2, Mail, Users, Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import logo from '../assets/white_logo_with_company_name.svg';
 
@@ -8,24 +8,52 @@ import { useUI } from '../contexts/UIContext';
 
 const CONTACT_SALES = '/connect?interest=evaluation';
 
+// Three dropdowns (Products, Solutions, Company) plus Research and Docs. The engine's architecture and roadmap sit under
+// Products as one link to /technology; the "/#..." anchors that remain point at sections of the front page.
+const MENUS = {
+    products: {
+        label: 'Products',
+        items: [
+            { icon: Eye, color: 'text-indigo-400', title: 'RTSM engine', desc: 'Semantic mapping, open source', href: '/technology' },
+            { icon: BarChart3, color: 'text-emerald-400', title: 'rtsm-eval', desc: 'Evaluation on your recordings', href: '/rtsm-eval' },
+            { icon: PlayCircle, color: 'text-cyan-400', title: 'Sample report', desc: 'On a public recording', href: '/rtsm-eval#sample' },
+            { icon: Smartphone, color: 'text-cyan-400', title: 'Calabi Lens', desc: 'iPhone capture', href: '/#calabi-lens', scroll: ['calabi-lens'] },
+        ],
+    },
+    solutions: {
+        label: 'Solutions',
+        items: [
+            { icon: Box, color: 'text-blue-400', title: 'Retail & Warehouse', desc: 'Persistent inventory', href: '/retail-warehouse' },
+            { icon: LayoutDashboard, color: 'text-orange-400', title: 'Agentic Workflow', desc: 'Agents on a shared world state', href: '/agentic-workflow' },
+            { icon: Layers, color: 'text-pink-400', title: 'Real-to-Sim', desc: 'Scans a simulator can load', href: '/real-to-sim' },
+            { icon: Glasses, color: 'text-yellow-400', title: 'AR/XR Overlay', desc: 'Semantics anchored to geometry', href: '/ar-xr-overlay' },
+        ],
+    },
+    company: {
+        label: 'Company',
+        items: [
+            { icon: Building2, color: 'text-zinc-300', title: 'About', desc: 'What we build and how we work', href: '/about' },
+            { icon: Mail, color: 'text-amber-400', title: 'Contact sales', desc: 'One-to-one engagements', href: CONTACT_SALES },
+            { icon: Users, color: 'text-purple-400', title: 'Join the Hub', desc: 'Contributors and research partners', href: '/connect' },
+        ],
+    },
+};
+
 export const Navbar = () => {
     const { openWip } = useUI();
-    const [isProductOpen, setIsProductOpen] = useState(false);
-    const [isTechOpen, setIsTechOpen] = useState(false);
+    const [open, setOpen] = useState(null);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [isMobileProductOpen, setIsMobileProductOpen] = useState(false);
-    const [isMobileTechOpen, setIsMobileTechOpen] = useState(false);
+    const [mobileOpen, setMobileOpen] = useState(null);
     const location = useLocation();
 
-    // Helper to determine if we are on the home page for anchor links
     const isHome = location.pathname === '/';
 
     const closeMenus = () => {
-        setIsProductOpen(false);
-        setIsTechOpen(false);
+        setOpen(null);
         setIsMobileMenuOpen(false);
     };
 
+    // Anchors on the front page scroll in place when the visitor is already there; elsewhere the "/#hash" link navigates.
     const handleScroll = (e, targetId, hash) => {
         closeMenus();
         if (isHome) {
@@ -38,8 +66,9 @@ export const Navbar = () => {
                 element.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         }
-        // If not home, we let the default anchor behavior handle the navigation to /#hash
     };
+
+    const onClickFor = (item) => (item.scroll ? (e) => handleScroll(e, item.scroll[0], item.scroll[1]) : closeMenus);
 
     const dropdown = {
         initial: { opacity: 0, y: 10, scale: 0.95 },
@@ -56,204 +85,38 @@ export const Navbar = () => {
                 </Link>
 
                 <div className="hidden md:flex items-center gap-6 text-xs font-medium text-neutral-400">
-                    <NavLink to="/">Home</NavLink>
-
-                    {/* Product Mega Menu: rtsm-eval (the product) and RTSM (the open-source engine) */}
-                    <div
-                        className="relative"
-                        onMouseEnter={() => { setIsTechOpen(false); setIsProductOpen(true); }}
-                        onMouseLeave={() => setIsProductOpen(false)}
-                    >
-                        <button
-                            className={`flex items-center gap-1 hover:text-white transition-colors py-2 ${isProductOpen ? 'text-white' : ''}`}
+                    {Object.entries(MENUS).map(([key, menu]) => (
+                        <div
+                            key={key}
+                            className="relative"
+                            onMouseEnter={() => setOpen(key)}
+                            onMouseLeave={() => setOpen((o) => (o === key ? null : o))}
                         >
-                            Product
-                            <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${isProductOpen ? 'rotate-180' : ''}`} />
-                        </button>
-
-                        <AnimatePresence>
-                            {isProductOpen && (
-                                <motion.div {...dropdown} className="absolute top-full left-1/2 -translate-x-1/2 pt-4 w-[560px]">
-                                    <div className="bg-[#0A0A0A]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl p-6 grid grid-cols-2 gap-8 ring-1 ring-white/5">
-
-                                        {/* Column 1: rtsm-eval */}
-                                        <div className="space-y-4">
-                                            <h3 className="text-[10px] font-semibold text-zinc-500 uppercase tracking-widest pl-2">rtsm-eval · Perception evaluation</h3>
-                                            <div className="flex flex-col gap-2">
-                                                <MenuLink
-                                                    icon={<BarChart3 className="w-4 h-4 text-emerald-400" />}
-                                                    title="What it is"
-                                                    desc="Evaluation on your recordings"
-                                                    href="/rtsm-eval"
-                                                    onClick={closeMenus}
-                                                />
-                                                <MenuLink
-                                                    icon={<FileCheck className="w-4 h-4 text-indigo-400" />}
-                                                    title="Report types"
-                                                    desc="Single, A/B, same venue, gate"
-                                                    href="/rtsm-eval#report-types"
-                                                    onClick={closeMenus}
-                                                />
-                                                <MenuLink
-                                                    icon={<PlayCircle className="w-4 h-4 text-cyan-400" />}
-                                                    title="Sample report"
-                                                    desc="On a public recording"
-                                                    href="/rtsm-eval#sample"
-                                                    onClick={closeMenus}
-                                                />
-                                                <MenuLink
-                                                    icon={<Mail className="w-4 h-4 text-amber-400" />}
-                                                    title="Contact sales"
-                                                    desc="One-to-one engagements"
-                                                    href={CONTACT_SALES}
-                                                    onClick={closeMenus}
-                                                />
-                                            </div>
+                            <button className={`flex items-center gap-1 hover:text-white transition-colors py-2 ${open === key ? 'text-white' : ''}`}>
+                                {menu.label}
+                                <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${open === key ? 'rotate-180' : ''}`} />
+                            </button>
+                            <AnimatePresence>
+                                {open === key && (
+                                    <motion.div {...dropdown} className="absolute top-full left-1/2 -translate-x-1/2 pt-4 w-[300px]">
+                                        <div className="bg-[#0A0A0A]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl p-4 ring-1 ring-white/5 flex flex-col gap-1">
+                                            {menu.items.map((item) => (
+                                                <MenuLink key={item.title} icon={<item.icon className={`w-4 h-4 ${item.color}`} />} title={item.title} desc={item.desc} href={item.href} onClick={onClickFor(item)} />
+                                            ))}
                                         </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
+                    ))}
 
-                                        {/* Column 2: RTSM, the open-source engine */}
-                                        <div className="space-y-4 border-l border-white/5 pl-8">
-                                            <h3 className="text-[10px] font-semibold text-zinc-500 uppercase tracking-widest pl-2">RTSM · Open-source engine</h3>
-                                            <div className="flex flex-col gap-2">
-                                                <MenuLink
-                                                    icon={<Eye className="w-4 h-4 text-indigo-400" />}
-                                                    title="RTSM — Perception"
-                                                    desc="Shipped"
-                                                    href="/#stack-detail-perception"
-                                                    onClick={(e) => handleScroll(e, 'infrastructure-stack', 'stack-detail-perception')}
-                                                />
-                                                <MenuLink
-                                                    icon={<BarChart3 className="w-4 h-4 text-emerald-400" />}
-                                                    title="Benchmarks"
-                                                    desc="Real Numbers"
-                                                    href="/#benchmarks"
-                                                    onClick={(e) => handleScroll(e, 'benchmarks')}
-                                                />
-                                                <MenuLink
-                                                    icon={<Smartphone className="w-4 h-4 text-cyan-400" />}
-                                                    title="Calabi Lens"
-                                                    desc="iPhone Sensor Input"
-                                                    href="/#calabi-lens"
-                                                    onClick={(e) => handleScroll(e, 'calabi-lens')}
-                                                />
-                                                <MenuLink
-                                                    icon={<Scan className="w-4 h-4 text-cyan-400" />}
-                                                    title="Visualizer"
-                                                    desc="Live Prototype"
-                                                    href="/#stack-detail-tooling"
-                                                    onClick={(e) => handleScroll(e, 'infrastructure-stack', 'stack-detail-tooling')}
-                                                />
-                                            </div>
-                                            <Link to="/connect" onClick={closeMenus} className="inline-flex items-center gap-1 pl-2 pt-2 text-[10px] text-zinc-500 hover:text-white font-mono transition-colors">
-                                                Join the Hub <ArrowRight className="w-3 h-3" />
-                                            </Link>
-                                        </div>
-
-                                    </div>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
-                    </div>
-
-                    {/* Technology Mega Menu */}
-                    <div
-                        className="relative"
-                        onMouseEnter={() => { setIsProductOpen(false); setIsTechOpen(true); }}
-                        onMouseLeave={() => setIsTechOpen(false)}
-                    >
-                        <button
-                            className={`flex items-center gap-1 hover:text-white transition-colors py-2 ${isTechOpen ? 'text-white' : ''}`}
-                        >
-                            Technology
-                            <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${isTechOpen ? 'rotate-180' : ''}`} />
-                        </button>
-
-                        <AnimatePresence>
-                            {isTechOpen && (
-                                <motion.div {...dropdown} className="absolute top-full left-1/2 -translate-x-1/2 pt-4 w-[520px]">
-                                    <div className="bg-[#0A0A0A]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl p-6 grid grid-cols-2 gap-8 ring-1 ring-white/5">
-
-                                        {/* Column 1: Vision */}
-                                        <div className="space-y-4">
-                                            <h3 className="text-[10px] font-semibold text-zinc-500 uppercase tracking-widest pl-2">Vision</h3>
-                                            <div className="flex flex-col gap-2">
-                                                <MenuLink
-                                                    icon={<Layers className="w-4 h-4 text-white" />}
-                                                    title="System Overview"
-                                                    desc="Architecture"
-                                                    href="/#system-architecture-overview"
-                                                    onClick={(e) => handleScroll(e, 'system-architecture-overview')}
-                                                />
-                                                <MenuLink
-                                                    icon={<Brain className="w-4 h-4 text-purple-400" />}
-                                                    title="World Models"
-                                                    desc="Planned"
-                                                    href="/#stack-detail-intelligence"
-                                                    onClick={(e) => handleScroll(e, 'infrastructure-stack', 'stack-detail-intelligence')}
-                                                />
-                                                <MenuLink
-                                                    icon={<Zap className="w-4 h-4 text-emerald-400" />}
-                                                    title="Intent Tokens"
-                                                    desc="Planned"
-                                                    href="/#stack-detail-action"
-                                                    onClick={(e) => handleScroll(e, 'infrastructure-stack', 'stack-detail-action')}
-                                                />
-                                            </div>
-                                        </div>
-
-                                        {/* Column 2: Use Cases */}
-                                        <div className="space-y-4 border-l border-white/5 pl-8">
-                                            <h3 className="text-[10px] font-semibold text-zinc-500 uppercase tracking-widest pl-2">RTSM Use Cases</h3>
-                                            <div className="flex flex-col gap-2">
-                                                <MenuLink
-                                                    icon={<LayoutDashboard className="w-4 h-4 text-orange-400" />}
-                                                    title="Agentic Workflow"
-                                                    desc="LLMs in the Real World"
-                                                    href="/agentic-workflow"
-                                                    onClick={closeMenus}
-                                                />
-                                                <MenuLink
-                                                    icon={<Box className="w-4 h-4 text-blue-400" />}
-                                                    title="Retail & Warehouse"
-                                                    desc="Persistent Inventory"
-                                                    href="/retail-warehouse"
-                                                    onClick={closeMenus}
-                                                />
-                                                <MenuLink
-                                                    icon={<Layers className="w-4 h-4 text-pink-400" />}
-                                                    title="Real-to-Sim Pipelines"
-                                                    desc="Automatic Digital Twins"
-                                                    href="/real-to-sim"
-                                                    onClick={closeMenus}
-                                                />
-                                                <MenuLink
-                                                    icon={<Glasses className="w-4 h-4 text-yellow-400" />}
-                                                    title="AR/XR Overlay"
-                                                    desc="The World’s Metadata"
-                                                    href="/ar-xr-overlay"
-                                                    onClick={closeMenus}
-                                                />
-                                                <div className="pl-2 pt-2 text-[10px] text-zinc-600 italic font-mono">
-                                                    More coming soon...
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
-                    </div>
-
-
+                    <NavLink to="/blog">Research</NavLink>
                     <NavLink to="/docs">Docs</NavLink>
-                    <NavLink to="/blog">Blog</NavLink>
-                    <NavLink to="/about">About</NavLink>
                 </div>
 
                 <div className="flex items-center gap-3">
                     <div className="hidden md:flex items-center gap-3">
-                        <a href="https://github.com/calabi-inc/rtsm" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-white transition-colors px-2">
+                        <a href="https://github.com/calabi-inc/rtsm" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="text-neutral-400 hover:text-white transition-colors px-2">
                             <Github className="w-4 h-4" />
                         </a>
                         <Link
@@ -269,7 +132,6 @@ export const Navbar = () => {
                         </Link>
                     </div>
 
-                    {/* Mobile Menu Toggle */}
                     <button
                         className="md:hidden p-2 text-zinc-400 hover:text-white transition-colors"
                         aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
@@ -280,7 +142,7 @@ export const Navbar = () => {
                 </div>
             </nav>
 
-            {/* Mobile Menu Dropdown */}
+            {/* Mobile menu */}
             <AnimatePresence>
                 {isMobileMenuOpen && (
                     <motion.div
@@ -291,93 +153,46 @@ export const Navbar = () => {
                         className="absolute top-[calc(100%+12px)] max-w-sm w-full mx-6 bg-[#0A0A0A]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl p-6 ring-1 ring-white/5 pointer-events-auto"
                     >
                         <div className="flex flex-col gap-4">
-                            <MobileNavLink to="/" onClick={() => setIsMobileMenuOpen(false)}>Home</MobileNavLink>
+                            <MobileNavLink to="/" onClick={closeMenus}>Home</MobileNavLink>
 
-                            {/* Product Accordion Mobile */}
-                            <div className="border-b border-white/5 pb-4">
-                                <button
-                                    onClick={() => setIsMobileProductOpen(!isMobileProductOpen)}
-                                    className="flex w-full items-center justify-between py-2 text-sm font-medium text-zinc-400 hover:text-white"
-                                >
-                                    Product
-                                    <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isMobileProductOpen ? 'rotate-180' : ''}`} />
-                                </button>
-                                <AnimatePresence>
-                                    {isMobileProductOpen && (
-                                        <motion.div
-                                            initial={{ height: 0, opacity: 0 }}
-                                            animate={{ height: 'auto', opacity: 1 }}
-                                            exit={{ height: 0, opacity: 0 }}
-                                            className="overflow-hidden space-y-2 pt-2"
-                                        >
-                                            <div className="pl-2 border-l border-white/10 space-y-2">
-                                                <div className="text-[10px] text-zinc-600 font-mono uppercase tracking-widest pt-1">rtsm-eval</div>
-                                                <Link to="/rtsm-eval" onClick={closeMenus} className="block text-xs text-zinc-500 hover:text-white py-1">What it is</Link>
-                                                <Link to="/rtsm-eval#report-types" onClick={closeMenus} className="block text-xs text-zinc-500 hover:text-white py-1">Report types</Link>
-                                                <Link to="/rtsm-eval#sample" onClick={closeMenus} className="block text-xs text-zinc-500 hover:text-white py-1">Sample report</Link>
-                                                <Link to={CONTACT_SALES} onClick={closeMenus} className="block text-xs text-zinc-500 hover:text-white py-1">Contact sales</Link>
-                                            </div>
-                                            <div className="pl-2 border-l border-white/10 space-y-2 mt-2">
-                                                <div className="text-[10px] text-zinc-600 font-mono uppercase tracking-widest pt-1">RTSM</div>
-                                                <Link to="/#stack-detail-perception" onClick={(e) => handleScroll(e, 'infrastructure-stack', 'stack-detail-perception')} className="block text-xs text-zinc-500 hover:text-white py-1">RTSM (Perception)</Link>
-                                                <Link to="/#benchmarks" onClick={(e) => handleScroll(e, 'benchmarks')} className="block text-xs text-zinc-500 hover:text-white py-1">Benchmarks</Link>
-                                                <Link to="/#calabi-lens" onClick={(e) => handleScroll(e, 'calabi-lens')} className="block text-xs text-zinc-500 hover:text-white py-1">Calabi Lens</Link>
-                                                <Link to="/#stack-detail-tooling" onClick={(e) => handleScroll(e, 'infrastructure-stack', 'stack-detail-tooling')} className="block text-xs text-zinc-500 hover:text-white py-1">Visualizer</Link>
-                                            </div>
-                                        </motion.div>
-                                    )}
-                                </AnimatePresence>
-                            </div>
+                            {Object.entries(MENUS).map(([key, menu]) => (
+                                <div key={key} className="border-b border-white/5 pb-4">
+                                    <button
+                                        onClick={() => setMobileOpen((o) => (o === key ? null : key))}
+                                        className="flex w-full items-center justify-between py-2 text-sm font-medium text-zinc-400 hover:text-white"
+                                    >
+                                        {menu.label}
+                                        <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${mobileOpen === key ? 'rotate-180' : ''}`} />
+                                    </button>
+                                    <AnimatePresence>
+                                        {mobileOpen === key && (
+                                            <motion.div
+                                                initial={{ height: 0, opacity: 0 }}
+                                                animate={{ height: 'auto', opacity: 1 }}
+                                                exit={{ height: 0, opacity: 0 }}
+                                                className="overflow-hidden pt-2"
+                                            >
+                                                <div className="pl-2 border-l border-white/10 space-y-2">
+                                                    {menu.items.map((item) => (
+                                                        <Link key={item.title} to={item.href} onClick={onClickFor(item)} className="block text-xs text-zinc-500 hover:text-white py-1">{item.title}</Link>
+                                                    ))}
+                                                </div>
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
+                                </div>
+                            ))}
 
-                            {/* Tech Accordion Mobile */}
-                            <div className="border-b border-white/5 pb-4">
-                                <button
-                                    onClick={() => setIsMobileTechOpen(!isMobileTechOpen)}
-                                    className="flex w-full items-center justify-between py-2 text-sm font-medium text-zinc-400 hover:text-white"
-                                >
-                                    Technology
-                                    <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isMobileTechOpen ? 'rotate-180' : ''}`} />
-                                </button>
-                                <AnimatePresence>
-                                    {isMobileTechOpen && (
-                                        <motion.div
-                                            initial={{ height: 0, opacity: 0 }}
-                                            animate={{ height: 'auto', opacity: 1 }}
-                                            exit={{ height: 0, opacity: 0 }}
-                                            className="overflow-hidden space-y-2 pt-2"
-                                        >
-                                            <div className="pl-2 border-l border-white/10 space-y-2">
-                                                <div className="text-[10px] text-zinc-600 font-mono uppercase tracking-widest pt-1">Vision</div>
-                                                <Link to="/#system-architecture-overview" onClick={(e) => handleScroll(e, 'system-architecture-overview')} className="block text-xs text-zinc-500 hover:text-white py-1">System Overview</Link>
-                                                <Link to="/#stack-detail-intelligence" onClick={(e) => handleScroll(e, 'infrastructure-stack', 'stack-detail-intelligence')} className="block text-xs text-zinc-500 hover:text-white py-1">World Models</Link>
-                                                <Link to="/#stack-detail-action" onClick={(e) => handleScroll(e, 'infrastructure-stack', 'stack-detail-action')} className="block text-xs text-zinc-500 hover:text-white py-1">Intent Tokens</Link>
-                                            </div>
-                                            <div className="pl-2 border-l border-white/10 space-y-2 mt-2">
-                                                <div className="text-[10px] text-zinc-600 font-mono uppercase tracking-widest pt-1">Use Cases</div>
-                                                <Link to="/agentic-workflow" onClick={() => setIsMobileMenuOpen(false)} className="block text-xs text-zinc-500 hover:text-white py-1">Agentic Workflow</Link>
-                                                <Link to="/retail-warehouse" onClick={() => setIsMobileMenuOpen(false)} className="block text-xs text-zinc-500 hover:text-white py-1">Retail & Warehouse</Link>
-                                                <Link to="/real-to-sim" onClick={() => setIsMobileMenuOpen(false)} className="block text-xs text-zinc-500 hover:text-white py-1">Real-to-Sim</Link>
-                                                <Link to="/ar-xr-overlay" onClick={() => setIsMobileMenuOpen(false)} className="block text-xs text-zinc-500 hover:text-white py-1">AR/XR Overlay</Link>
-                                            </div>
-                                        </motion.div>
-                                    )}
-                                </AnimatePresence>
-                            </div>
-
-                            <MobileNavLink to="/docs" onClick={() => setIsMobileMenuOpen(false)}>Docs</MobileNavLink>
-                            <MobileNavLink to="/blog" onClick={() => setIsMobileMenuOpen(false)}>Blog</MobileNavLink>
-                            <MobileNavLink to="/about" onClick={() => setIsMobileMenuOpen(false)}>About</MobileNavLink>
+                            <MobileNavLink to="/blog" onClick={closeMenus}>Research</MobileNavLink>
+                            <MobileNavLink to="/docs" onClick={closeMenus}>Docs</MobileNavLink>
 
                             <div className="border-t border-white/10 pt-4 flex flex-col gap-3">
                                 <a href="https://github.com/calabi-inc/rtsm" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-zinc-400 hover:text-white text-sm transition-colors">
                                     <Github className="w-4 h-4" /> <span>Check out the code</span>
                                 </a>
-                                <Link to="/connect" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-2 text-zinc-400 hover:text-white text-sm transition-colors">
-                                    <span>Join the Hub</span>
-                                </Link>
                                 <Link
                                     to={CONTACT_SALES}
-                                    onClick={() => setIsMobileMenuOpen(false)}
+                                    onClick={closeMenus}
                                     className="flex items-center justify-center gap-2 rounded-lg bg-neutral-900 px-4 py-2.5 text-xs font-medium text-white transition-all hover:bg-neutral-800 border border-white/10"
                                 >
                                     <span>Contact sales</span>
@@ -393,71 +208,27 @@ export const Navbar = () => {
 };
 
 const NavLink = ({ to, children }) => (
-    <Link
-        to={to}
-        className="hover:text-white transition-colors"
-    >
+    <Link to={to} className="hover:text-white transition-colors">
         {children}
     </Link>
 );
 
 const MobileNavLink = ({ to, children, onClick }) => (
-    <Link
-        to={to}
-        onClick={onClick}
-        className="block text-sm font-medium text-zinc-400 hover:text-white transition-colors py-2"
-    >
+    <Link to={to} onClick={onClick} className="block text-sm font-medium text-zinc-400 hover:text-white transition-colors py-2">
         {children}
     </Link>
 );
 
-const MenuLink = ({ icon, title, desc, href, onClick, disabled }) => {
-    if (disabled) {
-        return (
-            <div className="flex items-start gap-3 p-2 rounded-lg opacity-50 cursor-not-allowed">
-                <div className="mt-0.5">{icon}</div>
-                <div>
-                    <div className="text-sm font-medium text-zinc-400">{title}</div>
-                    <div className="text-[10px] text-zinc-600 font-mono">{desc}</div>
-                </div>
-            </div>
-        );
-    }
-
-    // Check if it's an anchor link for smooth scrolling
-    const isAnchor = href.startsWith('/#');
-
-    if (isAnchor) {
-        return (
-            <Link
-                to={href}
-                onClick={(e) => {
-                    if (onClick) {
-                        onClick(e);
-                    }
-                }}
-                className="flex items-start gap-3 p-2 rounded-lg hover:bg-white/5 transition-colors group/item"
-            >
-                <div className="mt-0.5 group-hover/item:scale-110 transition-transform duration-300">{icon}</div>
-                <div>
-                    <div className="text-sm font-medium text-zinc-200 group-hover/item:text-white transition-colors">{title}</div>
-                    <div className="text-[10px] text-zinc-500 group-hover/item:text-zinc-400 transition-colors font-mono">{desc}</div>
-                </div>
-            </Link>
-        );
-    }
-
-    return (
-        <Link
-            to={href}
-            onClick={onClick}
-            className="flex items-start gap-3 p-2 rounded-lg hover:bg-white/5 transition-colors group/item"
-        >
-            <div className="mt-0.5 group-hover/item:scale-110 transition-transform duration-300">{icon}</div>
-            <div>
-                <div className="text-sm font-medium text-zinc-200 group-hover/item:text-white transition-colors">{title}</div>
-                <div className="text-[10px] text-zinc-500 group-hover/item:text-zinc-400 transition-colors font-mono">{desc}</div>
-            </div>
-        </Link>
-    );
-};
+const MenuLink = ({ icon, title, desc, href, onClick }) => (
+    <Link
+        to={href}
+        onClick={onClick}
+        className="flex items-start gap-3 p-2 rounded-lg hover:bg-white/5 transition-colors group/item"
+    >
+        <div className="mt-0.5 group-hover/item:scale-110 transition-transform duration-300">{icon}</div>
+        <div>
+            <div className="text-sm font-medium text-zinc-200 group-hover/item:text-white transition-colors">{title}</div>
+            <div className="text-[10px] text-zinc-500 group-hover/item:text-zinc-400 transition-colors font-mono">{desc}</div>
+        </div>
+    </Link>
+);

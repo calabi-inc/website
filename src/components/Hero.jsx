@@ -2,6 +2,7 @@ import React from 'react';
 import { ArrowRight, Terminal, Github } from 'lucide-react';
 import { Button } from './Button';
 import { HeroAnimation } from './HeroAnimation';
+import { RTSM_VERSION } from '../data/release';
 
 export const Hero = () => {
 
@@ -74,7 +75,7 @@ export const Hero = () => {
                 {/* Badges / Ticker */}
                 <div className="w-full max-w-5xl border-t border-zinc-800/50 pt-8 opacity-90">
                     <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-xs md:text-sm text-zinc-500 font-mono tracking-widest uppercase">
-                        <span className="text-emerald-400 font-medium cursor-default">RTSM v0.1</span>
+                        <span className="text-emerald-400 font-medium cursor-default">RTSM v{RTSM_VERSION}</span>
                         <span className="text-zinc-800">•</span>
                         <span className="hover:text-zinc-300 transition-colors cursor-default">pip install rtsm</span>
                         <span className="text-zinc-800">•</span>

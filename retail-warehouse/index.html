@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+
+  <!-- SEO & Meta Tags -->
+  <title>Retail &amp; Warehouse | Calabi</title>
+  <meta name="description" content="The Persistent Inventory. Single-frame detection loses track. RTSM maintains object identity and history across time and viewpoints, ensuring zero lost item gaps." />
+  <meta name="keywords" content="spatial memory, RTSM, robotics, 3D world state, semantic mapping, MCP, open source, computer vision, SLAM, object tracking, perception evaluation, rtsm-eval" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:site_name" content="Calabi Inc" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.calabi.com/retail-warehouse" />
+  <meta property="og:title" content="Retail &amp; Warehouse | Calabi" />
+  <meta property="og:description" content="The Persistent Inventory. Single-frame detection loses track. RTSM maintains object identity and history across time and viewpoints, ensuring zero lost item gaps." />
+  <meta property="og:image" content="https://www.calabi.com/og/og-home.jpg" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://www.calabi.com/retail-warehouse" />
+  <meta name="twitter:title" content="Retail &amp; Warehouse | Calabi" />
+  <meta name="twitter:description" content="The Persistent Inventory. Single-frame detection loses track. RTSM maintains object identity and history across time and viewpoints, ensuring zero lost item gaps." />
+  <meta name="twitter:image" content="https://www.calabi.com/og/og-home.jpg" />
+
+  <!-- Structured Data for Sitelinks -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "name": "Calabi Inc",
+          "url": "https://www.calabi.com/",
+          "logo": "https://www.calabi.com/assets/dark/android-chrome-512x512.png",
+          "sameAs": [
+            "https://twitter.com/CalabiAI",
+            "https://www.linkedin.com/company/calabi"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "name": "Calabi Inc",
+          "alternateName": "Calabi",
+          "url": "https://www.calabi.com/",
+          "description": "RTSM: open-source spatial memory for robots and AI agents. Turn RGB-D streams into persistent, queryable 3D world state. pip install rtsm.",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://www.calabi.com/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "name": "RTSM",
+          "url": "https://www.calabi.com/#stack-detail-perception"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "name": "rtsm-eval",
+          "url": "https://www.calabi.com/rtsm-eval"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "name": "Agentic Workflow",
+          "url": "https://www.calabi.com/agentic-workflow"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "name": "Documentation",
+          "url": "https://www.calabi.com/docs"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "name": "Blog",
+          "url": "https://www.calabi.com/blog"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "name": "About Us",
+          "url": "https://www.calabi.com/about"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "name": "Connect",
+          "url": "https://www.calabi.com/connect"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "name": "Privacy Policy",
+          "url": "https://www.calabi.com/privacy"
+        }
+      ]
+    }
+  </script>
+
+  <!-- Favicons -->
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link id="favicon-light" rel="icon" href="/assets/dark/favicon.ico?v=4" sizes="any"
+    media="(prefers-color-scheme: light)" />
+  <link id="favicon-dark" rel="icon" href="/assets/light/favicon.ico?v=4" sizes="any"
+    media="(prefers-color-scheme: dark)" />
+
+  <script>
+    // Fallback/Polyfill to ensure dynamic switching works even if browser ignores media attr on link
+    const lightIcon = document.getElementById('favicon-light');
+    const darkIcon = document.getElementById('favicon-dark');
+
+    function updateFavicon(mediaQuery) {
+      if (mediaQuery.matches) {
+        // Dark mode
+        if (darkIcon) {
+          darkIcon.removeAttribute('media'); // Make it active
+          document.head.appendChild(darkIcon); // Move to end to ensure precedence
+        }
+      } else {
+        // Light mode
+        if (lightIcon) {
+          lightIcon.removeAttribute('media');
+          document.head.appendChild(lightIcon);
+        }
+      }
+    }
+
+    const matcher = window.matchMedia('(prefers-color-scheme: dark)');
+    // Run once on load to set correct initial state
+    updateFavicon(matcher);
+    // Listen for changes
+    matcher.addEventListener('change', updateFavicon);
+  </script>
+  <!-- Fonts are self-hosted: see src/index.css and public/fonts/ (no third-party request) -->
+  <script type="module" crossorigin src="/assets/index-73y9RtZI.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-DgyUNQFT.css">
+</head>
+
+<body>
+  <div id="root"></div>
+</body>
+
+</html>

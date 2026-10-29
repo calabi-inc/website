@@ -23,3 +23,6 @@ yarn-error.log*
 *.sw?
 .DS_Store
 Thumbs.db
+
+# the desktop app's launch configuration for this checkout, not part of the site
+.claude/

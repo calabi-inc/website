@@ -100,17 +100,17 @@ for (const [slug, post] of Object.entries(posts)) {
     // Replace Meta Description
     // We use a regex that is flexible about attributes order, but assuming standard format is easier.
     // Index.html has <meta name="description" content="..." />
-    html = html.replace(/<meta name="description" content=".*?"/, `<meta name="description" content="${escapeHtml(description)}"`);
+    html = html.replace(/<meta name="description"\s+content=".*?"/, `<meta name="description" content="${escapeHtml(description)}"`);
 
     // Replace OG Tags
     html = html.replace(/<meta property="og:title" content=".*?"/, `<meta property="og:title" content="${escapeHtml(title)}"`);
-    html = html.replace(/<meta property="og:description" content=".*?"/, `<meta property="og:description" content="${escapeHtml(description)}"`);
+    html = html.replace(/<meta property="og:description"\s+content=".*?"/, `<meta property="og:description" content="${escapeHtml(description)}"`);
     html = html.replace(/<meta property="og:url" content=".*?"/, `<meta property="og:url" content="${url}"`);
     html = html.replace(/<meta property="og:image" content=".*?"/, `<meta property="og:image" content="${image}"`);
 
     // Replace Twitter Tags
     html = html.replace(/<meta name="twitter:title" content=".*?"/, `<meta name="twitter:title" content="${escapeHtml(title)}"`);
-    html = html.replace(/<meta name="twitter:description" content=".*?"/, `<meta name="twitter:description" content="${escapeHtml(description)}"`);
+    html = html.replace(/<meta name="twitter:description"\s+content=".*?"/, `<meta name="twitter:description" content="${escapeHtml(description)}"`);
     html = html.replace(/<meta name="twitter:url" content=".*?"/, `<meta name="twitter:url" content="${url}"`);
     html = html.replace(/<meta name="twitter:image" content=".*?"/, `<meta name="twitter:image" content="${image}"`);
 
@@ -133,13 +133,13 @@ function applyMeta(html, { title, description, image, url }) {
     const t = escapeHtml(title), d = escapeHtml(description);
     return html
         .replace(/<title>.*?<\/title>/, `<title>${t}</title>`)
-        .replace(/<meta name="description" content=".*?"/, `<meta name="description" content="${d}"`)
+        .replace(/<meta name="description"\s+content=".*?"/, `<meta name="description" content="${d}"`)
         .replace(/<meta property="og:title" content=".*?"/, `<meta property="og:title" content="${t}"`)
-        .replace(/<meta property="og:description" content=".*?"/, `<meta property="og:description" content="${d}"`)
+        .replace(/<meta property="og:description"\s+content=".*?"/, `<meta property="og:description" content="${d}"`)
         .replace(/<meta property="og:url" content=".*?"/, `<meta property="og:url" content="${url}"`)
         .replace(/<meta property="og:image" content=".*?"/, `<meta property="og:image" content="${image}"`)
         .replace(/<meta name="twitter:title" content=".*?"/, `<meta name="twitter:title" content="${t}"`)
-        .replace(/<meta name="twitter:description" content=".*?"/, `<meta name="twitter:description" content="${d}"`)
+        .replace(/<meta name="twitter:description"\s+content=".*?"/, `<meta name="twitter:description" content="${d}"`)
         .replace(/<meta name="twitter:url" content=".*?"/, `<meta name="twitter:url" content="${url}"`)
         .replace(/<meta name="twitter:image" content=".*?"/, `<meta name="twitter:image" content="${image}"`);
 }

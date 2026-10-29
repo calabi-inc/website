@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { ROUTES, SITE_URL, DEFAULT_IMAGE } from './routes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -126,6 +127,39 @@ for (const [slug, post] of Object.entries(posts)) {
 
 console.log(`Generated meta tags for ${count} posts.`);
 
+// Every route gets its own dist/<route>/index.html with its meta, so a direct load on GitHub Pages returns the page
+// (Pages serves files, not routes), and dist/404.html is the fallback that lets the router handle anything else.
+function applyMeta(html, { title, description, image, url }) {
+    const t = escapeHtml(title), d = escapeHtml(description);
+    return html
+        .replace(/<title>.*?<\/title>/, `<title>${t}</title>`)
+        .replace(/<meta name="description" content=".*?"/, `<meta name="description" content="${d}"`)
+        .replace(/<meta property="og:title" content=".*?"/, `<meta property="og:title" content="${t}"`)
+        .replace(/<meta property="og:description" content=".*?"/, `<meta property="og:description" content="${d}"`)
+        .replace(/<meta property="og:url" content=".*?"/, `<meta property="og:url" content="${url}"`)
+        .replace(/<meta property="og:image" content=".*?"/, `<meta property="og:image" content="${image}"`)
+        .replace(/<meta name="twitter:title" content=".*?"/, `<meta name="twitter:title" content="${t}"`)
+        .replace(/<meta name="twitter:description" content=".*?"/, `<meta name="twitter:description" content="${d}"`)
+        .replace(/<meta name="twitter:url" content=".*?"/, `<meta name="twitter:url" content="${url}"`)
+        .replace(/<meta name="twitter:image" content=".*?"/, `<meta name="twitter:image" content="${image}"`);
+}
+
+console.log('Generating index.html for every route...');
+let routeCount = 0;
+for (const [route, meta] of Object.entries(ROUTES)) {
+    if (route === '/') continue;
+    const html = applyMeta(template, {
+        title: meta.title, description: meta.description,
+        image: `${SITE_URL}${meta.image || DEFAULT_IMAGE}`, url: `${SITE_URL}${route}`,
+    });
+    const dir = path.join(distDir, route.replace(/^\//, ''));
+    fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(path.join(dir, 'index.html'), html);
+    routeCount++;
+}
+fs.writeFileSync(path.join(distDir, '404.html'), template);
+console.log(`Generated index.html for ${routeCount} routes and the 404.html fallback.`);
+
 // Generate robots.txt
 console.log('Generating robots.txt...');
 const robotsContent = `User-agent: *
@@ -141,19 +175,7 @@ try {
 
 // Generate sitemap.xml
 console.log('Generating sitemap.xml...');
-const staticRoutes = [
-    '/',
-    '/docs',
-    '/blog',
-    '/agentic-workflow',
-    '/retail-warehouse',
-    '/real-to-sim',
-    '/ar-xr-overlay',
-    '/about',
-    '/terms',
-    '/connect',
-    '/privacy'
-];
+const staticRoutes = Object.keys(ROUTES);
 
 let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

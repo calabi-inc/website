@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "postbuild": "node scripts/generate-meta.js",
+    "postbuild": "node scripts/generate-meta.js && node scripts/check-routes.js",
+    "check:routes": "node scripts/check-routes.js",
     "preview": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"

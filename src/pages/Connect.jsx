@@ -1,10 +1,16 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Button } from '../components/Button';
 import { Check, Loader2, ArrowRight } from 'lucide-react';
 import { SEO } from '../components/SEO';
 
+const SALES_INTEREST = 'Perception evaluation (rtsm-eval)';
+
 export const Connect = () => {
+    const [params] = useSearchParams();
+    // /connect?interest=evaluation is the contact-sales entry for rtsm-eval: same form, same inbox, different copy.
+    const sales = params.get('interest') === 'evaluation';
     const [submitted, setSubmitted] = useState(false);
     const [loading, setLoading] = useState(false);
 
@@ -13,9 +19,16 @@ export const Connect = () => {
         name: '',
         email: '',
         organization: '',
-        interest: 'Research collaboration',
+        interest: sales ? SALES_INTEREST : 'Research collaboration',
         message: ''
     });
+
+    // The page stays mounted when only the query changes, so the preselection follows the link, not the first render.
+    useEffect(() => {
+        if (sales) {
+            setFormData((f) => ({ ...f, interest: SALES_INTEREST }));
+        }
+    }, [sales]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -62,7 +75,9 @@ export const Connect = () => {
                         </div>
                         <h2 className="text-3xl font-bold text-white mb-4">Message Sent!</h2>
                         <p className="text-zinc-400 mb-8">
-                            Thanks for reaching out. We're excited to collaborate with you on the next generation of robotics protocols.
+                            {sales
+                                ? 'Thanks. We will reply with the concierge checklist and a slot within two working days.'
+                                : "Thanks for reaching out. We're excited to collaborate with you on the next generation of robotics protocols."}
                         </p>
                         <Button onClick={() => window.location.href = '/'}>Return Home</Button>
                     </div>
@@ -73,10 +88,17 @@ export const Connect = () => {
 
     return (
         <div className="bg-[#050505] min-h-screen text-zinc-300 font-sans antialiased overflow-x-hidden selection:bg-indigo-500/20 selection:text-white">
-            <SEO
-                title="Connect"
-                description="Collaborate on the Standard. Help us design the protocols for the next century of robotics."
-            />
+            {sales ? (
+                <SEO
+                    title="Contact sales"
+                    description="Send a recording your robot made and get a perception evaluation report on it. Engagements are one-to-one; no price list."
+                />
+            ) : (
+                <SEO
+                    title="Connect"
+                    description="Collaborate on the Standard. Help us design the protocols for the next century of robotics."
+                />
+            )}
             <section className="pt-32 pb-20 px-6 relative">
                 {/* Background Decorations - mimicking About page style */}
                 <div className="absolute top-0 left-0 w-full h-[500px] bg-[radial-gradient(ellipse_at_top,_var(--accent-glow,rgba(56,189,248,0.15)),_transparent_70%)] pointer-events-none"></div>
@@ -88,31 +110,62 @@ export const Connect = () => {
                         <div className="relative">
                             <div className="absolute -top-24 left-0">
                                 <div className="text-2xl font-mono text-white uppercase tracking-[0.2em] animate-fade-in opacity-0">
-                                    Connect
+                                    {sales ? 'Contact sales' : 'Connect'}
                                 </div>
                             </div>
-                            <h1 className="text-5xl md:text-6xl font-heading font-medium text-white tracking-tighter mb-6 leading-[1.1]">
-                                Collaborate on <br />
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-zinc-400 via-white to-zinc-400">the Standard.</span>
-                            </h1>
+                            {sales ? (
+                                <h1 className="text-5xl md:text-6xl font-heading font-medium text-white tracking-tighter mb-6 leading-[1.1]">
+                                    Evaluate your perception stack <br />
+                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-zinc-400 via-white to-zinc-400">on your own recordings.</span>
+                                </h1>
+                            ) : (
+                                <h1 className="text-5xl md:text-6xl font-heading font-medium text-white tracking-tighter mb-6 leading-[1.1]">
+                                    Collaborate on <br />
+                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-zinc-400 via-white to-zinc-400">the Standard.</span>
+                                </h1>
+                            )}
                             <div className="h-1 w-20 bg-gradient-to-r from-emerald-500/50 to-transparent rounded-full mt-4"></div>
                         </div>
 
-                        <div className="space-y-8">
-                            <div className="bg-zinc-900/30 border border-white/5 p-8 rounded-3xl relative overflow-hidden group hover:border-emerald-500/20 transition-all duration-500">
-                                <h3 className="text-xl text-white font-medium mb-2">For contributors</h3>
-                                <p className="text-zinc-400 leading-relaxed">
-                                    Help us design the protocols for the next century of robotics.
-                                </p>
-                            </div>
+                        {sales ? (
+                            <div className="space-y-8">
+                                <div className="bg-zinc-900/30 border border-white/5 p-8 rounded-3xl relative overflow-hidden group hover:border-emerald-500/20 transition-all duration-500">
+                                    <h3 className="text-xl text-white font-medium mb-3">What to send</h3>
+                                    <ul className="text-zinc-400 leading-relaxed space-y-2 list-disc pl-5">
+                                        <li>A 1 to 5 minute RGB-D recording with pose: a ROS 1 bag, rosbag2 or MCAP, or a Calabi Lens recording.</li>
+                                        <li>Which detector and configuration you run.</li>
+                                        <li>Which machine it runs on.</li>
+                                    </ul>
+                                </div>
 
-                            <div className="bg-zinc-900/30 border border-white/5 p-8 rounded-3xl relative overflow-hidden group hover:border-cyan-500/20 transition-all duration-500">
-                                <h3 className="text-xl text-white font-medium mb-2">For research partners</h3>
-                                <p className="text-zinc-400 leading-relaxed">
-                                    Exploring world models? If you need a spatial memory backbone, let’s compare notes.
-                                </p>
+                                <div className="bg-zinc-900/30 border border-white/5 p-8 rounded-3xl relative overflow-hidden group hover:border-cyan-500/20 transition-all duration-500">
+                                    <h3 className="text-xl text-white font-medium mb-3">What you get</h3>
+                                    <ul className="text-zinc-400 leading-relaxed space-y-2 list-disc pl-5">
+                                        <li>The health report on your recording within the week.</li>
+                                        <li>The gate store to regress against, and the exports your team's tools read.</li>
+                                        <li>An on-premises run where nothing leaves your machine, when that is required.</li>
+                                    </ul>
+                                </div>
+
+                                <p className="text-sm text-zinc-500">Engagements are scoped one-to-one; there is no price list.</p>
                             </div>
-                        </div>
+                        ) : (
+                            <div className="space-y-8">
+                                <div className="bg-zinc-900/30 border border-white/5 p-8 rounded-3xl relative overflow-hidden group hover:border-emerald-500/20 transition-all duration-500">
+                                    <h3 className="text-xl text-white font-medium mb-2">For contributors</h3>
+                                    <p className="text-zinc-400 leading-relaxed">
+                                        Help us design the protocols for the next century of robotics.
+                                    </p>
+                                </div>
+
+                                <div className="bg-zinc-900/30 border border-white/5 p-8 rounded-3xl relative overflow-hidden group hover:border-cyan-500/20 transition-all duration-500">
+                                    <h3 className="text-xl text-white font-medium mb-2">For research partners</h3>
+                                    <p className="text-zinc-400 leading-relaxed">
+                                        Exploring world models? If you need a spatial memory backbone, let’s compare notes.
+                                    </p>
+                                </div>
+                            </div>
+                        )}
                     </div>
 
                     {/* Right Column: Form */}
@@ -170,6 +223,7 @@ export const Connect = () => {
                                         onChange={handleChange}
                                         className="w-full bg-zinc-900/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/50 transition-all appearance-none cursor-pointer"
                                     >
+                                        <option value={SALES_INTEREST}>{SALES_INTEREST}</option>
                                         <option value="Research collaboration">Research collaboration</option>
                                         <option value="Design partnership">Design partnership</option>
                                         <option value="Open‑source contribution">Open‑source contribution</option>
@@ -192,7 +246,7 @@ export const Connect = () => {
                                     onChange={handleChange}
                                     rows={5}
                                     className="w-full bg-zinc-900/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/50 transition-all placeholder:text-zinc-600 resize-none"
-                                    placeholder="Tell us how you'd like to collaborate..."
+                                    placeholder={sales ? 'What does your robot look at, and what has been going wrong?' : "Tell us how you'd like to collaborate..."}
                                 />
                             </div>
 

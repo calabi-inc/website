@@ -24,6 +24,12 @@ export const CTA = () => {
                         </div>
                         <code className="text-emerald-400 text-base">pip install rtsm[gpu,viz] && rtsm demo</code>
                     </div>
+                    <p className="mt-4 text-center text-sm text-zinc-500">
+                        Running a perception stack on real recordings?{' '}
+                        <Link to="/rtsm-eval" className="inline-flex items-center gap-1 text-emerald-400 hover:text-emerald-300 transition-colors">
+                            See rtsm-eval <ArrowRight className="w-3.5 h-3.5" />
+                        </Link>
+                    </p>
                 </div>
 
                 {/* Action Links */}

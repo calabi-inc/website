@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* The static sample report under public/ is data, not a template: without this, Tailwind scans its
+   1.4 MB of inlined JSON for class names on every build (and crashed on an escaped path once). */
+@source not "../public";
+
 /* Self-hosted fonts (SIL Open Font License; licences in public/fonts/). Served from this
    origin, so a visit sends nothing to a font CDN. Variable weights, latin range. */
 @font-face {

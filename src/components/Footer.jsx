@@ -1,12 +1,13 @@
 import { Link } from 'react-router-dom';
 import { Github, Linkedin, Mail, Youtube } from 'lucide-react';
 import logo from '../assets/white_logo_with_company_name.svg';
+import { InceptionBadge } from './InceptionBadge';
 
 export const Footer = () => {
 
     return (
         <footer className="border-t border-white/5 bg-black py-16 px-6 text-sm">
-            <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-12">
+            <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-5 gap-12">
                 <div className="col-span-2 md:col-span-1">
                     <Link to="/" className="flex items-center gap-2 mb-6">
                         <img src={logo} alt="Calabi" className="h-6 w-auto opacity-90 hover:opacity-100 transition-opacity" />
@@ -15,6 +16,16 @@ export const Footer = () => {
                         Spatial Memory for Robots and AI Agents. <br />
                         Open-source infrastructure for embodied AI.
                     </p>
+                </div>
+
+                <div>
+                    <h4 className="text-white font-medium mb-4">Product</h4>
+                    <ul className="space-y-3 text-zinc-500">
+                        <li><Link to="/rtsm-eval" className="hover:text-white transition-colors">rtsm-eval</Link></li>
+                        <li><Link to="/rtsm-eval#report-types" className="hover:text-white transition-colors">Report types</Link></li>
+                        <li><Link to="/rtsm-eval#sample" className="hover:text-white transition-colors">Sample report</Link></li>
+                        <li><Link to="/connect?interest=evaluation" className="hover:text-white transition-colors">Contact sales</Link></li>
+                    </ul>
                 </div>
 
                 <div>
@@ -31,26 +42,26 @@ export const Footer = () => {
                     <h4 className="text-white font-medium mb-4">Company</h4>
                     <ul className="space-y-3 text-zinc-500">
                         <li><Link to="/about" className="hover:text-white transition-colors">About Us</Link></li>
-
                         <li><Link to="/blog" className="hover:text-white transition-colors">Blog</Link></li>
-
+                        <li><Link to="/connect" className="hover:text-white transition-colors">Join the Hub</Link></li>
                     </ul>
                 </div>
 
                 <div>
                     <h4 className="text-white font-medium mb-4">Connect</h4>
                     <div className="flex gap-4 text-zinc-500">
-                        <a href="https://github.com/calabi-inc/rtsm" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors"><Github className="w-5 h-5" /></a>
-                        <a href="https://linkedin.com/company/calabi-inc" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors"><Linkedin className="w-5 h-5" /></a>
-                        <Link to="/connect" className="hover:text-white transition-colors"><Mail className="w-5 h-5" /></Link>
-                        <a href="https://www.youtube.com/@calabi-inc" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors"><Youtube className="w-5 h-5" /></a>
+                        <a href="https://github.com/calabi-inc/rtsm" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="hover:text-white transition-colors"><Github className="w-5 h-5" /></a>
+                        <a href="https://linkedin.com/company/calabi-inc" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="hover:text-white transition-colors"><Linkedin className="w-5 h-5" /></a>
+                        <Link to="/connect" aria-label="Contact" className="hover:text-white transition-colors"><Mail className="w-5 h-5" /></Link>
+                        <a href="https://www.youtube.com/@calabi-inc" target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="hover:text-white transition-colors"><Youtube className="w-5 h-5" /></a>
                     </div>
                 </div>
             </div>
 
-            <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-xs text-zinc-600">
+            <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-zinc-600">
                 <p>&copy; {new Date().getFullYear()} Calabi Inc. All rights reserved.</p>
-                <div className="flex gap-6 mt-4 md:mt-0">
+                <InceptionBadge />
+                <div className="flex gap-6">
                     <Link to="/privacy" className="hover:text-zinc-400">Privacy Policy</Link>
                     <Link to="/terms" className="hover:text-zinc-400">Terms of Service</Link>
                 </div>

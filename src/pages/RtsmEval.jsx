@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ArrowRight, FileText, GitCompare, Map, GitBranch, Share2, Terminal, ShieldAlert, HelpCircle } from 'lucide-react';
+import { ArrowRight, FileText, GitCompare, Map, GitBranch, Share2, ShieldAlert, HelpCircle } from 'lucide-react';
 import { SEO } from '../components/SEO';
 import { EvalReportPanel } from '../components/eval/EvalReportPanel';
 import { evalSample } from '../data/evalSample';
@@ -227,10 +227,6 @@ export const RtsmEval = () => {
                 <div className="max-w-3xl mx-auto text-center">
                     <h2 className="text-4xl md:text-5xl font-heading font-medium tracking-tighter text-white mb-6">Send us a recording.</h2>
                     <ContactButton className="px-8 py-3.5 text-base" />
-                    <p className="mt-8 text-xs text-zinc-500 font-mono inline-flex items-center gap-2">
-                        <Terminal className="w-3.5 h-3.5" /> Open-source engine:
-                        <a href="https://calabi-inc.github.io/rtsm/getting-started/quick-start/" target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:text-emerald-300">pip install rtsm</a>
-                    </p>
                 </div>
             </section>
         </div>

@@ -1,19 +1,4 @@
-import{c as a,f as d,j as e,e as l}from"./index-73y9RtZI.js";import{S as c}from"./SEO-C_8mE7tG.js";/**
- * @license lucide-react v0.344.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */const p=a("ArrowLeft",[["path",{d:"m12 19-7-7 7-7",key:"1l729n"}],["path",{d:"M19 12H5",key:"x3x0zl"}]]);/**
- * @license lucide-react v0.344.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */const h=a("Calendar",[["path",{d:"M8 2v4",key:"1cmpym"}],["path",{d:"M16 2v4",key:"4m81vk"}],["rect",{width:"18",height:"18",x:"3",y:"4",rx:"2",key:"1hopcy"}],["path",{d:"M3 10h18",key:"8toen8"}]]);/**
- * @license lucide-react v0.344.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */const m=a("Clock",[["circle",{cx:"12",cy:"12",r:"10",key:"1mglay"}],["polyline",{points:"12 6 12 12 16 14",key:"68esgv"}]]),b={"what-is-rtsm":{title:"What is Real-Time Spatio-Semantic Memory (RTSM)?",date:"Dec 8, 2025",author:"Calabi Research",readTime:"5 min read",tags:["RTSM Core","Spatial AI","Engineering"],content:`
+const e={"what-is-rtsm":{title:"What is Real-Time Spatio-Semantic Memory (RTSM)?",date:"Dec 8, 2025",author:"Calabi Research",readTime:"5 min read",tags:["RTSM Core","Spatial AI","Engineering"],content:`
                 <p class="lead text-xl text-white mb-8 leading-relaxed font-light">
                     <strong class="block text-purple-400 mb-4 font-medium">A queryable world state layer for embodied AI.</strong>
                     SLAM answers “where am I?” and object detection answers “what is that?” But embodied AI needs something else:
@@ -1546,8 +1531,4 @@ if (hits >= 2 and
                 <p class="mb-6 text-zinc-400 leading-relaxed font-light text-lg">
                     The future of AI isn't just about bigger models. It's about better grounding.
                 </p>
-            `}},u=()=>{const{slug:r}=d(),t=b[r],o=s=>{const i=document.createElement("div");return i.innerHTML=s,i.textContent.substring(0,160)+"..."};if(!t)return e.jsxs("div",{className:"min-h-screen pt-32 px-6 flex items-center justify-center text-white bg-black",children:["Post not found. ",e.jsx(l,{to:"/blog",className:"text-purple-400 ml-2",children:"Back to Blog"})]});const n=t.image;return e.jsxs("div",{className:"min-h-screen bg-[#050505] selection:bg-purple-500/20 selection:text-white font-sans",children:[e.jsx(c,{title:t.title,description:o(t.content),image:n,article:!0}),e.jsx("div",{className:"fixed top-0 left-0 w-full h-[500px] bg-[radial-gradient(ellipse_at_top,_var(--accent-glow,rgba(168,85,247,0.15)),_transparent_70%)] pointer-events-none"}),e.jsx("div",{className:"fixed bottom-0 right-0 w-[500px] h-[500px] bg-[radial-gradient(circle_at_bottom_right,_rgba(16,185,129,0.05),_transparent_70%)] pointer-events-none"}),e.jsx("article",{className:"pt-32 pb-32 px-6 relative z-10",children:e.jsxs("div",{className:"max-w-3xl mx-auto",children:[e.jsx("div",{className:"mb-12 animate-fade-in opacity-0",children:e.jsxs(l,{to:"/blog",className:"group inline-flex items-center gap-2 text-zinc-500 hover:text-white transition-colors text-sm font-medium",children:[e.jsx(p,{className:"w-4 h-4 transition-transform group-hover:-translate-x-1"})," Back to Blog"]})}),e.jsxs("div",{className:"mb-12 animate-fade-in opacity-0 [animation-delay:0.1s]",children:[e.jsx("div",{className:"flex gap-2 mb-8",children:t.tags.map(s=>e.jsx("span",{className:"text-xs font-medium px-2 py-1 rounded-md bg-white/5 text-purple-200 border border-white/5",children:s},s))}),e.jsx("h1",{className:"text-4xl md:text-5xl lg:text-6xl font-heading font-medium text-white mb-8 leading-[1.1] tracking-tight",children:t.title}),e.jsxs("div",{className:"flex flex-wrap items-center gap-6 text-sm text-zinc-500 border-b border-white/5 pb-8",children:[e.jsxs("div",{className:"flex items-center gap-2",children:[e.jsx("div",{className:"w-6 h-6 rounded-full bg-gradient-to-br from-purple-500 to-indigo-500 flex items-center justify-center text-[10px] text-white font-bold",children:"C"}),e.jsx("span",{className:"text-zinc-300",children:t.author})]}),e.jsx("div",{className:"w-1 h-1 rounded-full bg-zinc-800"}),e.jsxs("div",{className:"flex items-center gap-2",children:[e.jsx(h,{className:"w-4 h-4"}),t.date]}),e.jsx("div",{className:"w-1 h-1 rounded-full bg-zinc-800"}),e.jsxs("div",{className:"flex items-center gap-2",children:[e.jsx(m,{className:"w-4 h-4"}),t.readTime]})]})]}),t.image&&e.jsx("div",{className:"mb-16 rounded-3xl overflow-hidden border border-white/10 shadow-2xl shadow-purple-500/5 animate-fade-in opacity-0 [animation-delay:0.2s]",children:e.jsx("img",{src:t.image,alt:t.title,className:"w-full h-auto object-cover"})}),e.jsx("div",{className:`animate-fade-in opacity-0 [animation-delay:0.3s] prose prose-invert prose-lg max-w-none 
-                        prose-headings:font-heading prose-headings:font-medium prose-p:text-zinc-400 prose-p:leading-relaxed prose-p:font-light
-                        prose-a:text-purple-400 hover:prose-a:text-purple-300 prose-a:no-underline hover:prose-a:underline
-                        prose-code:text-purple-200 prose-code:bg-purple-500/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md prose-code:font-mono prose-code:before:content-none prose-code:after:content-none
-                        prose-strong:text-white prose-strong:font-medium`,dangerouslySetInnerHTML:{__html:t.content}}),e.jsxs("div",{className:"mt-24 pt-8 border-t border-white/5 flex justify-between items-center text-zinc-500 text-sm",children:[e.jsx("p",{children:"Thanks for reading."}),e.jsx("div",{className:"flex gap-4"})]})]})})]})};export{u as BlogPost};
+            `}};export{e as p};

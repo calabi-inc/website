@@ -7,7 +7,7 @@ export const evalSample = {
   "ab_recording": "TUM RGB-D benchmark, freiburg1 desk (public dataset, CC BY 4.0)",
   "citation": "J. Sturm, N. Engelhard, F. Endres, W. Burgard, D. Cremers, A Benchmark for the Evaluation of RGB-D SLAM Systems, 2012",
   "engine": "rtsm 0.3.1",
-  "product": "rtsm-eval 0.2.0",
+  "product": "rtsm-eval",
   "platform": "one Windows machine with an RTX 5090",
   "processed_frames": 194,
   "span_s": 87.1,

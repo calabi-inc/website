@@ -1,16 +1,58 @@
 name: Deploy to GitHub Pages
 
+# Builds dist and publishes it to gh-pages on every push to main. The rtsm release the site shows is read from PyPI at
+# build time (vite.config.js), so the site also rebuilds on a daily schedule and on a repository_dispatch from the
+# engine's release workflow, in both cases only when PyPI lists a release the live site does not show yet
+# (compared through the /release.json each build publishes).
+# GitHub disables the schedule after 60 days without a commit to this repository; a push or a manual run re-enables it.
+
 on:
   push:
     branches:
       - main
   workflow_dispatch:
+  repository_dispatch:
+    types: [rtsm-release]
+  schedule:
+    - cron: '23 4 * * *'
 
 permissions:
   contents: write
 
 jobs:
+  check:
+    name: anything new on PyPI?
+    runs-on: ubuntu-latest
+    outputs:
+      deploy: ${{ steps.decide.outputs.deploy }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Decide
+        id: decide
+        run: |
+          if [ "${{ github.event_name }}" = "push" ] || [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "deploy=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          pypi=$(node scripts/release-version.js || true)
+          live=$(curl -sf --max-time 20 https://www.calabi.com/release.json | jq -r '.rtsm // empty' || true)
+          echo "PyPI: ${pypi:-unknown}   live site: ${live:-unknown}"
+          if [ -n "$pypi" ] && [ "$pypi" != "$live" ]; then
+            echo "deploy=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "deploy=false" >> "$GITHUB_OUTPUT"
+          fi
+
   build-and-deploy:
+    needs: check
+    if: needs.check.outputs.deploy == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

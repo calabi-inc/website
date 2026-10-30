@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ExternalLink } from 'lucide-react';
 import { evalSample } from '../../data/evalSample';
 import { OwnershipBar } from './OwnershipBar';
+import { LossFunnel } from './LossFunnel';
 import { RangeBars } from './RangeBars';
 import { QueueTable } from './QueueTable';
 import { TrustList, StatePill } from './TrustList';
@@ -58,9 +59,7 @@ export const EvalReportPanel = () => {
                                 <StatePill state={d.single.trust.state}>trust {d.single.trust.state}</StatePill>
                                 <span className="text-xs font-mono text-zinc-500">{d.source.recording} · {fmtInt(d.source.processed_frames)} processed frames · {d.source.span_s} s</span>
                             </div>
-                            <p className="text-sm text-zinc-300 leading-relaxed">
-                                Of {fmtInt(o.visible)} likely-visible sightings of confirmed objects, {fmtPct(o.reobserved_of_visible)} were re-observed; the {fmtInt(o.unexplained)} unexplained split {fmtPct(o.detector_side_share)} detector side and {fmtPct(o.association_side_share)} association side (margin {fmtPct(o.margin, 0)}): {o.verdict}. {fmtInt(o.hidden)} sightings ({fmtPct(o.hidden_share)}) were likely hidden and are banded out.
-                            </p>
+                            <LossFunnel ownership={o} />
                         </div>
                         <div className="grid lg:grid-cols-2 gap-8">
                             <div className="space-y-8 min-w-0">

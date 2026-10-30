@@ -24,7 +24,7 @@ const FACTS = [
 ];
 
 const PROBLEMS = [
-    { title: 'Every frame, then nothing.', body: 'A detector answers "what is in this image". A robot needs "where is the thing I saw a minute ago, and is it still there". Without memory every frame starts from zero, and the fleet never learns the site.' },
+    { title: 'Every frame starts from zero.', body: 'A detector answers "what is in this image". A robot needs "where is the thing I saw a minute ago, and is it still there". Without memory the second question has no answer, and the fleet never learns the site.' },
     { title: 'Failures nobody can see.', body: 'On a real site there are no labels, so a perception stack is judged by replays and complaints. Which part failed, the detector, the association or the sensor, stays a guess.' },
     { title: 'Benchmarks that do not transfer.', body: 'A score on a public dataset says little about your warehouse at three metres in low light. The numbers that matter are measured on your own recordings, with the rule that produced each one printed beside it.' },
 ];
@@ -111,7 +111,7 @@ export const Home = () => {
             {/* The problem */}
             <section id="why" className="py-24 px-6 scroll-mt-32">
                 <div className="max-w-6xl mx-auto">
-                    <SectionHead eyebrow="The problem" title="Robots see every frame and remember none of it." lead="Physical AI is judged on the floor, not on a leaderboard. Three things go wrong before a team can even argue about models." />
+                    <SectionHead eyebrow="The problem" title="A detector is not a perception system." lead="Physical AI is judged on the floor, not on a leaderboard. Three things go wrong before a team can even argue about models." />
                     <div className="grid md:grid-cols-3 gap-6">
                         {PROBLEMS.map((p) => (
                             <div key={p.title} className="rounded-2xl bg-zinc-900/40 border border-white/5 p-6 hover:border-white/10 transition-colors">

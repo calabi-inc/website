@@ -80,7 +80,7 @@ export const Home = () => {
                     <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black to-transparent pointer-events-none" />
                     <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black to-transparent pointer-events-none" />
                 </div>
-                <div className="container mx-auto px-6 z-10 flex flex-col items-center text-center relative pt-32 md:pt-10">
+                <div className="container mx-auto px-6 z-10 flex flex-col items-center text-center relative pt-32 md:pt-24">
                     <div className="text-sm font-mono text-emerald-400 uppercase tracking-[0.2em] mb-8 animate-fade-in opacity-0">Physical AI · perception and memory</div>
                     <h1 className="text-5xl md:text-7xl lg:text-8xl font-medium tracking-tighter text-white mb-6 leading-[1.05] drop-shadow-2xl animate-fade-in opacity-0 [animation-delay:0.1s]">
                         Perception that remembers, <br />

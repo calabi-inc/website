@@ -3,7 +3,9 @@ name: Deploy to GitHub Pages
 # Builds dist and publishes it to gh-pages on every push to main. The rtsm release the site shows is read from PyPI at
 # build time (vite.config.js), so the site also rebuilds on a daily schedule and on a repository_dispatch from the
 # engine's release workflow, in both cases only when PyPI lists a release the live site does not show yet
-# (compared through the /release.json each build publishes).
+# (compared through the /release.json each build publishes). The daily schedule also publishes a blog post on its date:
+# a post is published once its date has arrived (scripts/posts-data.js), and the build lists the published slugs in
+# /blog.json; when the source has a published post the live site does not list, the site is rebuilt.
 # GitHub disables the schedule after 60 days without a commit to this repository; a push or a manual run re-enables it.
 
 on:
@@ -44,7 +46,12 @@ jobs:
           pypi=$(node scripts/release-version.js || true)
           live=$(curl -sf --max-time 20 https://www.calabi.com/release.json | jq -r '.rtsm // empty' || true)
           echo "PyPI: ${pypi:-unknown}   live site: ${live:-unknown}"
+          due=$(node scripts/blog-due.js || true)
+          live_posts=$(curl -sf --max-time 20 https://www.calabi.com/blog.json | jq -c '.published | sort' || true)
+          echo "posts due: ${due:-unknown}   live site: ${live_posts:-unknown}"
           if [ -n "$pypi" ] && [ "$pypi" != "$live" ]; then
+            echo "deploy=true" >> "$GITHUB_OUTPUT"
+          elif [ -n "$due" ] && [ "$due" != "$live_posts" ]; then
             echo "deploy=true" >> "$GITHUB_OUTPUT"
           else
             echo "deploy=false" >> "$GITHUB_OUTPUT"

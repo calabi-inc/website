@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { ROUTES, SITE_URL, DEFAULT_IMAGE } from './routes.js';
+import { loadPosts, publishedPosts } from './posts-data.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,33 +20,16 @@ if (!fs.existsSync(distDir)) {
     process.exit(1);
 }
 
-// Read blog posts data
-let postsContent;
-try {
-    postsContent = fs.readFileSync(postsFile, 'utf-8');
-} catch (e) {
-    console.error(`Error reading blog posts file: ${postsFile}`, e);
-    process.exit(1);
-}
-
-// Extract the object. regex to match "export const posts = { ... };"
-// Note: we are looking for the object literal. 
-// Uses [^] to match any character including newlines
-const match = postsContent.match(/export const posts = (\{[^]*?\});/);
-
-if (!match) {
-    console.error('Error: Could not parse posts from blogPosts.js. Ensure it exports "posts" as a const object.');
-    process.exit(1);
-}
-
-// Evaluate string to get object
+// The posts, published ones only: a post whose date has not arrived gets no page, no sitemap entry and no card until
+// the daily deploy on its date (scripts/posts-data.js holds the rule; src/data/blogIndex.js applies it in the site).
 let posts;
 try {
-    // Wrap in parens to make it an expression
-    const evalCode = '(' + match[1] + ')';
-    posts = eval(evalCode);
+    const all = loadPosts();
+    posts = publishedPosts(all);
+    const held = Object.keys(all).filter((s) => !(s in posts));
+    if (held.length) console.log(`Scheduled, not yet published: ${held.join(', ')}`);
 } catch (e) {
-    console.error('Error evaluating posts object:', e);
+    console.error(`Error reading blog posts from ${postsFile}:`, e);
     process.exit(1);
 }
 
@@ -87,7 +71,7 @@ for (const [slug, post] of Object.entries(posts)) {
     console.log(`Processing: ${slug}`);
 
     const title = post.title + " | Calabi Inc";
-    const description = getExcerpt(post.content);
+    const description = post.excerpt || getExcerpt(post.content);
     // Use https domain for full url
     const image = post.image ? `https://www.calabi.com${post.image}` : "https://www.calabi.com/og/og-home.jpg";
     const url = `https://www.calabi.com/blog/${slug}`;
@@ -126,6 +110,8 @@ for (const [slug, post] of Object.entries(posts)) {
 }
 
 console.log(`Generated meta tags for ${count} posts.`);
+// The published slugs, for the deploy workflow's scheduled-post check (scripts/blog-due.js prints the same list from the source).
+fs.writeFileSync(path.join(distDir, 'blog.json'), JSON.stringify({ published: Object.keys(posts).sort(), generated: new Date().toISOString() }) + '\n');
 
 // Every route gets its own dist/<route>/index.html with its meta, so a direct load on GitHub Pages returns the page
 // (Pages serves files, not routes), and dist/404.html is the fallback that lets the router handle anything else.

@@ -1,14 +1,13 @@
-﻿
 import { useParams } from 'react-router-dom';
-import { Calendar, ArrowLeft, Clock } from 'lucide-react';
+import { Calendar, ArrowLeft, ArrowRight, Clock, Layers } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { SEO } from '../components/SEO';
 
 import { posts } from '../data/blogPosts.js';
+import { isPublished, seriesOf } from '../data/blogIndex';
+
 export const BlogPost = () => {
     const { slug } = useParams();
-
-    // Mapping slugs to content.
 
     const post = posts[slug];
 
@@ -27,6 +26,21 @@ export const BlogPost = () => {
         );
     }
 
+    // A post whose date has not arrived is listed in its series with that date and is not served before it.
+    if (!isPublished(post)) {
+        return (
+            <div className="min-h-screen pt-32 px-6 flex items-center justify-center text-white bg-black">
+                This post goes live on {post.date}. <Link to="/blog" className="text-purple-400 ml-2">Back to Blog</Link>
+            </div>
+        );
+    }
+
+    // The series this post belongs to, if any: its parts in order, the neighbours that are already published.
+    const parts = post.series ? seriesOf(post.series.name) : [];
+    const index = parts.findIndex((p) => p.slug === slug);
+    const prev = index > 0 ? parts.slice(0, index).reverse().find((p) => isPublished(p)) : null;
+    const next = index >= 0 ? parts.slice(index + 1).find((p) => isPublished(p)) : null;
+
     // Default image if none provided in post content
     const ogImage = post.image;
 
@@ -34,7 +48,7 @@ export const BlogPost = () => {
         <div className="min-h-screen bg-[#050505] selection:bg-purple-500/20 selection:text-white font-sans">
             <SEO
                 title={post.title}
-                description={getExcerpt(post.content)}
+                description={post.excerpt || getExcerpt(post.content)}
                 image={ogImage}
                 article={true}
             />
@@ -53,7 +67,12 @@ export const BlogPost = () => {
 
                     {/* Header */}
                     <div className="mb-12 animate-fade-in opacity-0 [animation-delay:0.1s]">
-                        <div className="flex gap-2 mb-8">
+                        <div className="flex flex-wrap gap-2 mb-8">
+                            {post.series && (
+                                <span className="text-xs font-medium px-2 py-1 rounded-md bg-purple-500/15 text-purple-200 border border-purple-400/20">
+                                    {post.series.name}, part {post.series.part} of {post.series.total}
+                                </span>
+                            )}
                             {post.tags.map(tag => (
                                 <span key={tag} className="text-xs font-medium px-2 py-1 rounded-md bg-white/5 text-purple-200 border border-white/5">
                                     {tag}
@@ -86,19 +105,62 @@ export const BlogPost = () => {
                     {/* Hero Image */}
                     {post.image && (
                         <div className="mb-16 rounded-3xl overflow-hidden border border-white/10 shadow-2xl shadow-purple-500/5 animate-fade-in opacity-0 [animation-delay:0.2s]">
-                            <img src={post.image} alt={post.title} className="w-full h-auto object-cover" />
+                            <img src={post.image} alt="" className="w-full h-auto object-cover" />
                         </div>
                     )}
 
                     {/* Content */}
                     <div
-                        className="animate-fade-in opacity-0 [animation-delay:0.3s] prose prose-invert prose-lg max-w-none 
+                        className="animate-fade-in opacity-0 [animation-delay:0.3s] prose prose-invert prose-lg max-w-none
                         prose-headings:font-heading prose-headings:font-medium prose-p:text-zinc-400 prose-p:leading-relaxed prose-p:font-light
                         prose-a:text-purple-400 hover:prose-a:text-purple-300 prose-a:no-underline hover:prose-a:underline
                         prose-code:text-purple-200 prose-code:bg-purple-500/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md prose-code:font-mono prose-code:before:content-none prose-code:after:content-none
                         prose-strong:text-white prose-strong:font-medium"
                         dangerouslySetInnerHTML={{ __html: post.content }}
                     />
+
+                    {/* Series navigation */}
+                    {post.series && parts.length > 0 && (
+                        <nav className="mt-16 rounded-3xl border border-white/5 bg-zinc-900/30 p-8" aria-label={`The ${post.series.name} series`}>
+                            <div className="flex items-center gap-3 mb-4">
+                                <Layers className="w-5 h-5 text-purple-400" aria-hidden="true" />
+                                <h2 className="text-xl font-heading font-medium text-white m-0">Series: {post.series.name}</h2>
+                            </div>
+                            <ol className="space-y-2 mb-6">
+                                {parts.map((p) => {
+                                    const on = isPublished(p);
+                                    const here = p.slug === slug;
+                                    return (
+                                        <li key={p.slug} className="flex items-start gap-4 text-sm">
+                                            <span className="font-mono text-purple-300 w-6 shrink-0 pt-0.5">{String(p.series.part).padStart(2, '0')}</span>
+                                            <div className="min-w-0">
+                                                {here ? (
+                                                    <span className="text-purple-200 font-medium" aria-current="page">{p.title}</span>
+                                                ) : on ? (
+                                                    <Link to={`/blog/${p.slug}`} className="text-white hover:text-purple-300 transition-colors font-medium">{p.title}</Link>
+                                                ) : (
+                                                    <span className="text-zinc-500 font-medium">{p.title}</span>
+                                                )}
+                                                <span className="ml-3 text-xs font-mono text-zinc-500">{on ? p.date : `coming ${p.date}`}</span>
+                                            </div>
+                                        </li>
+                                    );
+                                })}
+                            </ol>
+                            <div className="flex flex-wrap justify-between gap-4 text-sm border-t border-white/5 pt-6">
+                                {prev ? (
+                                    <Link to={`/blog/${prev.slug}`} className="group inline-flex items-center gap-2 text-zinc-400 hover:text-white transition-colors">
+                                        <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" /> {prev.title}
+                                    </Link>
+                                ) : <span />}
+                                {next ? (
+                                    <Link to={`/blog/${next.slug}`} className="group inline-flex items-center gap-2 text-zinc-400 hover:text-white transition-colors text-right">
+                                        {next.title} <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                                    </Link>
+                                ) : <span />}
+                            </div>
+                        </nav>
+                    )}
 
                     {/* Footer Share/Links (Optional, just spacing for now) */}
                     <div className="mt-24 pt-8 border-t border-white/5 flex justify-between items-center text-zinc-500 text-sm">

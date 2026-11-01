@@ -15,11 +15,17 @@ export const isPublished = (post, now = new Date()) => parseDate(post.date) <= n
 
 export const allPosts = () => Object.entries(posts).map(([slug, p]) => ({ slug, ...p }));
 
-export const publishedPosts = (now = new Date()) =>
-    allPosts().filter((p) => isPublished(p, now)).sort((a, b) => parseDate(b.date) - parseDate(a.date));
+// Newest first. Parts of one series that share a date keep their part order, so a series that came out in one go
+// is led by its first part; the sort is stable, so other posts that share a date keep their order in the data.
+const byDate = (a, b) =>
+    parseDate(b.date) - parseDate(a.date) ||
+    (a.series && b.series && a.series.name === b.series.name ? a.series.part - b.series.part : 0);
 
-// The listing: published posts newest first, a series collapsed to its latest published part. The rest of a series
-// is reached through the series block on the blog page and the series navigation on a post page.
+export const publishedPosts = (now = new Date()) => allPosts().filter((p) => isPublished(p, now)).sort(byDate);
+
+// The listing: published posts newest first, a series collapsed to one card: the part with the latest date, the first
+// of them when several share it. The rest of a series is reached through the series block on the blog page and the
+// series navigation on a post page.
 export const listingPosts = (now = new Date()) => {
     const seen = new Set();
     return publishedPosts(now).filter((p) => {

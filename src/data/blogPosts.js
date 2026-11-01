@@ -1580,7 +1580,7 @@ if (hits >= 2 and
     },
     'depth-residual-not-a-drift-meter': {
         title: "A depth residual is not a drift meter",
-        date: "Nov 17, 2026",
+        date: "Oct 31, 2026",
         author: "Calabi Research",
         readTime: "10 min read",
         tags: ['rtsm-eval', 'Evaluation', 'Localization'],
@@ -1753,7 +1753,7 @@ if (hits >= 2 and
     },
     'objects-follow-the-pose': {
         title: "Objects that follow the pose",
-        date: "Dec 1, 2026",
+        date: "Oct 31, 2026",
         author: "Calabi Research",
         readTime: "5 min read",
         tags: ['RTSM Internals', 'Robustness', 'Localization'],
@@ -1846,7 +1846,7 @@ if (hits >= 2 and
     },
     'who-tells-you-the-robot-is-lost': {
         title: "Who tells you the robot is lost?",
-        date: "Dec 15, 2026",
+        date: "Oct 31, 2026",
         author: "Calabi Research",
         readTime: "6 min read",
         tags: ['Localization', 'Fleet operations', 'Evaluation'],
@@ -1943,7 +1943,7 @@ if (hits >= 2 and
     },
     'clock-offset-looks-like-drift': {
         title: "A 100 ms clock offset looks like drift until you check the turns",
-        date: "Jan 12, 2027",
+        date: "Oct 31, 2026",
         author: "Calabi Research",
         readTime: "6 min read",
         tags: ['Sensors', 'Localization', 'rtsm-eval'],
@@ -2029,7 +2029,7 @@ if (hits >= 2 and
     },
     'integrity-not-accuracy': {
         title: "Integrity, not accuracy",
-        date: "Jan 26, 2027",
+        date: "Oct 31, 2026",
         author: "Calabi Research",
         readTime: "5 min read",
         tags: ['Localization', 'Safety', 'Evaluation'],
@@ -2114,7 +2114,7 @@ if (hits >= 2 and
     },
     'break-it-on-purpose': {
         title: "Break it on purpose",
-        date: "Feb 9, 2027",
+        date: "Oct 31, 2026",
         author: "Calabi Research",
         readTime: "6 min read",
         tags: ['Evaluation', 'Methods', 'rtsm-eval'],
@@ -2207,7 +2207,7 @@ if (hits >= 2 and
     },
     'ate-rpe-and-the-missing-reference': {
         title: "What ATE and RPE measure, and why a map cannot report drift",
-        date: "Feb 23, 2027",
+        date: "Oct 31, 2026",
         author: "Calabi Research",
         readTime: "4 min read",
         tags: ['Evaluation', 'Localization', 'Methods'],

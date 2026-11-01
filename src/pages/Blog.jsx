@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { ArrowUpRight, Layers } from 'lucide-react';
+import { ArrowUpRight, ChevronDown, ChevronUp, Layers } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 import { SEO } from '../components/SEO';
@@ -7,16 +7,23 @@ import { isPublished, publishedPosts, seriesOf } from '../data/blogIndex';
 
 const SERIES = 'Pose health';
 
-// The listing is built from src/data/blogPosts.js: every published post, newest first, the newest one featured when it
-// carries an image; a series block lists a series' parts in order, the unpublished ones with the date they go live;
-// the tag bar filters the grid.
+// The listing is built from src/data/blogPosts.js: every published post, newest first. Company and technical posts lead:
+// a series occupies one card in the grid (its latest published part) and the rest of its parts live in a collapsed
+// series block under the grid, with the dates of the ones still to come. The tag bar filters the grid; with a tag active
+// every matching post is shown, series parts included.
 export const Blog = () => {
     const posts = useMemo(() => publishedPosts(), []);
     const series = useMemo(() => seriesOf(SERIES), []);
     const tags = useMemo(() => [...new Set(posts.flatMap((p) => p.tags))].sort((a, b) => a.localeCompare(b)), [posts]);
     const [tag, setTag] = useState(null);
-    const shown = tag ? posts.filter((p) => p.tags.includes(tag)) : posts;
-    const featured = !tag && posts[0] && posts[0].image ? posts[0].slug : null;
+
+    const latestPart = {};
+    for (const p of posts) {
+        if (p.series && !latestPart[p.series.name]) latestPart[p.series.name] = p.slug;
+    }
+    const inGrid = posts.filter((p) => !p.series || latestPart[p.series.name] === p.slug);
+    const shown = tag ? posts.filter((p) => p.tags.includes(tag)) : inGrid;
+    const featured = !tag ? (shown.find((p) => !p.series && p.image) || {}).slug : null;
 
     return (
         <section className="relative min-h-screen py-32 px-6 overflow-hidden bg-black text-zinc-300 font-sans selection:bg-purple-500/20 selection:text-purple-200">
@@ -51,8 +58,6 @@ export const Blog = () => {
                     </div>
                 </header>
 
-                {series.length > 0 && <SeriesBlock name={SERIES} parts={series} />}
-
                 {/* Tag bar */}
                 <div className="flex flex-wrap items-center gap-2 mb-8 animate-fade-in opacity-0 [animation-delay:0.3s]" role="group" aria-label="Filter posts by tag">
                     <TagChip label="All" active={tag === null} onClick={() => setTag(null)} />
@@ -66,6 +71,8 @@ export const Blog = () => {
                         <BlogCard key={p.slug} slug={p.slug} title={p.title} excerpt={p.excerpt} date={p.date} tags={p.tags} image={p.image} series={p.series} featured={p.slug === featured} />
                     ))}
                 </div>
+
+                {series.length > 0 && <SeriesBlock name={SERIES} parts={series} />}
             </div>
         </section>
     );
@@ -82,38 +89,57 @@ const TagChip = ({ label, active, onClick }) => (
     </button>
 );
 
+// Collapsed by default: one line with the series' name, how many parts are out and when the next one comes, and the
+// control to expand it. Expanded: the intro and every part in order, the published ones linked.
 const SeriesBlock = ({ name, parts }) => {
-    const live = parts.filter((p) => isPublished(p)).length;
+    const [open, setOpen] = useState(false);
+    const live = parts.filter((p) => isPublished(p));
+    const next = parts.find((p) => !isPublished(p));
+    const summary = `${live.length} of ${parts.length} parts published` + (next ? `, next on ${next.date}` : '');
     return (
-        <section className="mb-12 rounded-3xl border border-white/5 bg-zinc-900/30 p-8 animate-fade-in opacity-0 [animation-delay:0.25s]" aria-labelledby="series-title">
-            <div className="flex flex-wrap items-baseline justify-between gap-4 mb-6">
-                <div className="flex items-center gap-3">
-                    <Layers className="w-5 h-5 text-purple-400" aria-hidden="true" />
-                    <h2 id="series-title" className="text-2xl font-heading font-medium text-white">Series: {name}</h2>
+        <section className="mt-16 rounded-2xl border border-white/5 bg-zinc-900/20 animate-fade-in opacity-0 [animation-delay:0.35s]" aria-labelledby="series-title">
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 px-6 py-4">
+                <div className="flex items-center gap-3 min-w-0">
+                    <Layers className="w-4 h-4 text-purple-400 shrink-0" aria-hidden="true" />
+                    <h2 id="series-title" className="text-base font-heading font-medium text-white m-0">Series: {name}</h2>
                 </div>
-                <span className="text-xs font-mono text-zinc-500">{live} of {parts.length} parts published</span>
+                <span className="text-xs font-mono text-zinc-500">{summary}</span>
+                <button
+                    type="button"
+                    onClick={() => setOpen((o) => !o)}
+                    aria-expanded={open}
+                    aria-controls="series-parts"
+                    className="ml-auto inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full border border-white/5 bg-white/5 text-zinc-300 hover:text-white hover:border-white/10 transition-colors"
+                >
+                    {open ? 'Collapse' : 'Expand'}
+                    {open ? <ChevronUp className="w-3.5 h-3.5" aria-hidden="true" /> : <ChevronDown className="w-3.5 h-3.5" aria-hidden="true" />}
+                </button>
             </div>
-            <p className="text-zinc-400 leading-relaxed mb-6 max-w-3xl">
-                What a map can honestly say about the poses it was built from, what it cannot, and how to check: seven posts that began with an outside critique of our own sample report, one every second Tuesday.
-            </p>
-            <ol className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
-                {parts.map((p) => {
-                    const on = isPublished(p);
-                    return (
-                        <li key={p.slug} className="flex items-start gap-4 text-sm">
-                            <span className="font-mono text-purple-300 w-6 shrink-0 pt-0.5">{String(p.series.part).padStart(2, '0')}</span>
-                            <div className="min-w-0">
-                                {on ? (
-                                    <Link to={`/blog/${p.slug}`} className="text-white hover:text-purple-300 transition-colors font-medium">{p.title}</Link>
-                                ) : (
-                                    <span className="text-zinc-500 font-medium">{p.title}</span>
-                                )}
-                                <div className="text-xs font-mono text-zinc-500 mt-0.5">{on ? p.date : `coming ${p.date}`}</div>
-                            </div>
-                        </li>
-                    );
-                })}
-            </ol>
+            {open && (
+                <div id="series-parts" className="px-6 pb-6 border-t border-white/5 pt-5">
+                    <p className="text-sm text-zinc-400 leading-relaxed mb-5 max-w-3xl">
+                        What a map can honestly say about the poses it was built from, what it cannot, and how to check: seven posts that began with an outside critique of our own sample report, one every second Tuesday.
+                    </p>
+                    <ol className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
+                        {parts.map((p) => {
+                            const on = isPublished(p);
+                            return (
+                                <li key={p.slug} className="flex items-start gap-4 text-sm">
+                                    <span className="font-mono text-purple-300 w-6 shrink-0 pt-0.5">{String(p.series.part).padStart(2, '0')}</span>
+                                    <div className="min-w-0">
+                                        {on ? (
+                                            <Link to={`/blog/${p.slug}`} className="text-white hover:text-purple-300 transition-colors font-medium">{p.title}</Link>
+                                        ) : (
+                                            <span className="text-zinc-500 font-medium">{p.title}</span>
+                                        )}
+                                        <div className="text-xs font-mono text-zinc-500 mt-0.5">{on ? p.date : `coming ${p.date}`}</div>
+                                    </div>
+                                </li>
+                            );
+                        })}
+                    </ol>
+                </div>
+            )}
         </section>
     );
 };
@@ -123,7 +149,7 @@ const BlogCard = ({ slug, title, excerpt, date, tags, image, series, featured })
         to={`/blog/${slug}`}
         className={`group block relative rounded-3xl overflow-hidden border border-white/5 bg-zinc-900/30 hover:border-white/10 transition-all duration-300 hover:-translate-y-1 ${featured ? 'md:col-span-2' : ''}`}
     >
-        {image ? (
+        {image && featured ? (
             <>
                 <div className="aspect-[2/1] w-full overflow-hidden relative">
                     <img src={image} alt="" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100" />
@@ -134,7 +160,6 @@ const BlogCard = ({ slug, title, excerpt, date, tags, image, series, featured })
                 </div>
                 <div className="p-8 relative -mt-12 z-10">
                     <div className="flex flex-wrap gap-2 mb-4">
-                        {series && <span className="text-xs font-medium px-2 py-1 rounded-md bg-purple-500/15 text-purple-200 border border-purple-400/20">{series.name} {series.part}/{series.total}</span>}
                         {tags.map(tag => (
                             <span key={tag} className="text-xs font-medium px-2 py-1 rounded-md bg-white/5 text-purple-200 border border-white/5">
                                 {tag}
@@ -157,7 +182,7 @@ const BlogCard = ({ slug, title, excerpt, date, tags, image, series, featured })
                 <div>
                     <div className="flex justify-between items-start gap-4 mb-6">
                         <div className="flex flex-wrap gap-2">
-                            {series && <span className="text-xs font-medium px-2 py-1 rounded-md bg-purple-500/15 text-purple-200 border border-purple-400/20">{series.name} {series.part}/{series.total}</span>}
+                            {series && <span className="text-xs font-medium px-2 py-1 rounded-md bg-purple-500/15 text-purple-200 border border-purple-400/20">Series: {series.name}, part {series.part}</span>}
                             {tags.map(tag => (
                                 <span key={tag} className="text-xs font-medium px-2 py-1 rounded-md bg-white/5 text-purple-200 border border-white/5">
                                     {tag}

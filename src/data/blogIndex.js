@@ -18,5 +18,17 @@ export const allPosts = () => Object.entries(posts).map(([slug, p]) => ({ slug, 
 export const publishedPosts = (now = new Date()) =>
     allPosts().filter((p) => isPublished(p, now)).sort((a, b) => parseDate(b.date) - parseDate(a.date));
 
+// The listing: published posts newest first, a series collapsed to its latest published part. The rest of a series
+// is reached through the series block on the blog page and the series navigation on a post page.
+export const listingPosts = (now = new Date()) => {
+    const seen = new Set();
+    return publishedPosts(now).filter((p) => {
+        if (!p.series) return true;
+        if (seen.has(p.series.name)) return false;
+        seen.add(p.series.name);
+        return true;
+    });
+};
+
 export const seriesOf = (name) =>
     allPosts().filter((p) => p.series && p.series.name === name).sort((a, b) => a.series.part - b.series.part);

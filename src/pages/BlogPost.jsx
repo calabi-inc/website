@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { Calendar, ArrowLeft, ArrowRight, Clock, Layers } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Clock, Layers } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { SEO } from '../components/SEO';
 
@@ -26,11 +26,11 @@ export const BlogPost = () => {
         );
     }
 
-    // A post whose date has not arrived is listed in its series with that date and is not served before it.
+    // A post whose date has not arrived is listed in its series as coming and is not served before it.
     if (!isPublished(post)) {
         return (
             <div className="min-h-screen pt-32 px-6 flex items-center justify-center text-white bg-black">
-                This post goes live on {post.date}. <Link to="/blog" className="text-purple-400 ml-2">Back to Blog</Link>
+                This post is not published yet. <Link to="/blog" className="text-purple-400 ml-2">Back to Blog</Link>
             </div>
         );
     }
@@ -91,11 +91,6 @@ export const BlogPost = () => {
                             </div>
                             <div className="w-1 h-1 rounded-full bg-zinc-800"></div>
                             <div className="flex items-center gap-2">
-                                <Calendar className="w-4 h-4" />
-                                {post.date}
-                            </div>
-                            <div className="w-1 h-1 rounded-full bg-zinc-800"></div>
-                            <div className="flex items-center gap-2">
                                 <Clock className="w-4 h-4" />
                                 {post.readTime}
                             </div>
@@ -141,7 +136,7 @@ export const BlogPost = () => {
                                                 ) : (
                                                     <span className="text-zinc-500 font-medium">{p.title}</span>
                                                 )}
-                                                <span className="ml-3 text-xs font-mono text-zinc-500">{on ? p.date : `coming ${p.date}`}</span>
+                                                {!on && <span className="ml-3 text-xs font-mono text-zinc-500">coming</span>}
                                             </div>
                                         </li>
                                     );

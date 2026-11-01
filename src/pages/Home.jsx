@@ -7,7 +7,7 @@ import { Benchmarks } from '../components/Benchmarks';
 import { CalabiLens } from '../components/CalabiLens';
 import { EvalReportPanel } from '../components/eval/EvalReportPanel';
 import { InceptionBadge } from '../components/InceptionBadge';
-import { posts } from '../data/blogPosts';
+import { listingPosts } from '../data/blogIndex';
 import { RTSM_VERSION } from '../data/release';
 
 // The company-oriented front page (2026-10-29). The engine-oriented page it replaced lives on at /technology;
@@ -45,10 +45,9 @@ const INDUSTRIES = [
     { icon: Glasses, color: 'text-yellow-400', title: 'AR and XR', body: 'Semantic tags anchored to world coordinates, served to an overlay.', to: '/ar-xr-overlay' },
 ];
 
-const latestPosts = Object.entries(posts)
-    .map(([slug, p]) => ({ slug, ...p }))
-    .sort((a, b) => Date.parse(b.date) - Date.parse(a.date))
-    .slice(0, 3);
+// The three newest published posts, a series counted once by its latest part; a scheduled post has no card here
+// before its date.
+const latestPosts = listingPosts().slice(0, 3);
 
 const SectionHead = ({ eyebrow, title, lead }) => (
     <div className="max-w-3xl mb-10">
@@ -196,7 +195,7 @@ export const Home = () => {
                             <Link key={p.slug} to={`/blog/${p.slug}`} className="rounded-2xl bg-zinc-900/40 border border-white/5 p-6 hover:border-white/10 hover:bg-zinc-900/60 transition-colors flex flex-col">
                                 <FileText className="w-5 h-5 text-purple-400 mb-3" />
                                 <div className="text-white font-medium leading-snug mb-2 flex-1">{p.title}</div>
-                                <div className="text-[11px] font-mono text-zinc-500">{p.date} · {p.readTime}</div>
+                                <div className="text-[11px] font-mono text-zinc-500">{p.readTime}</div>
                             </Link>
                         ))}
                     </div>

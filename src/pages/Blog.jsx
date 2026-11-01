@@ -3,25 +3,22 @@ import { ArrowUpRight, ChevronDown, ChevronUp, Layers } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 import { SEO } from '../components/SEO';
-import { isPublished, publishedPosts, seriesOf } from '../data/blogIndex';
+import { isPublished, listingPosts, publishedPosts, seriesOf } from '../data/blogIndex';
 
 const SERIES = 'Pose health';
 
 // The listing is built from src/data/blogPosts.js: every published post, newest first. Company and technical posts lead:
 // a series occupies one card in the grid (its latest published part) and the rest of its parts live in a collapsed
-// series block under the grid, with the dates of the ones still to come. The tag bar filters the grid; with a tag active
-// every matching post is shown, series parts included.
+// series block under the grid, the ones still to come named but not linked. No publication date is shown anywhere: a
+// post's date is the ordering and scheduling key in the data, nothing more. The tag bar filters the grid; with a tag
+// active every matching post is shown, series parts included.
 export const Blog = () => {
     const posts = useMemo(() => publishedPosts(), []);
+    const inGrid = useMemo(() => listingPosts(), []);
     const series = useMemo(() => seriesOf(SERIES), []);
     const tags = useMemo(() => [...new Set(posts.flatMap((p) => p.tags))].sort((a, b) => a.localeCompare(b)), [posts]);
     const [tag, setTag] = useState(null);
 
-    const latestPart = {};
-    for (const p of posts) {
-        if (p.series && !latestPart[p.series.name]) latestPart[p.series.name] = p.slug;
-    }
-    const inGrid = posts.filter((p) => !p.series || latestPart[p.series.name] === p.slug);
     const shown = tag ? posts.filter((p) => p.tags.includes(tag)) : inGrid;
     const featured = !tag ? (shown.find((p) => !p.series && p.image) || {}).slug : null;
 
@@ -68,7 +65,7 @@ export const Blog = () => {
                 {/* Blog Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-fade-in opacity-0 [animation-delay:0.3s]">
                     {shown.map((p) => (
-                        <BlogCard key={p.slug} slug={p.slug} title={p.title} excerpt={p.excerpt} date={p.date} tags={p.tags} image={p.image} series={p.series} featured={p.slug === featured} />
+                        <BlogCard key={p.slug} slug={p.slug} title={p.title} excerpt={p.excerpt} tags={p.tags} image={p.image} series={p.series} featured={p.slug === featured} />
                     ))}
                 </div>
 
@@ -89,13 +86,12 @@ const TagChip = ({ label, active, onClick }) => (
     </button>
 );
 
-// Collapsed by default: one line with the series' name, how many parts are out and when the next one comes, and the
-// control to expand it. Expanded: the intro and every part in order, the published ones linked.
+// Collapsed by default: one line with the series' name, how many parts are out, and the control to expand it.
+// Expanded: the intro and every part in order, the published ones linked, the rest marked as coming.
 const SeriesBlock = ({ name, parts }) => {
     const [open, setOpen] = useState(false);
     const live = parts.filter((p) => isPublished(p));
-    const next = parts.find((p) => !isPublished(p));
-    const summary = `${live.length} of ${parts.length} parts published` + (next ? `, next on ${next.date}` : '');
+    const summary = live.length === parts.length ? `${parts.length} parts` : `${live.length} of ${parts.length} parts published`;
     return (
         <section className="mt-16 rounded-2xl border border-white/5 bg-zinc-900/20 animate-fade-in opacity-0 [animation-delay:0.35s]" aria-labelledby="series-title">
             <div className="flex flex-wrap items-center gap-x-4 gap-y-2 px-6 py-4">
@@ -118,7 +114,7 @@ const SeriesBlock = ({ name, parts }) => {
             {open && (
                 <div id="series-parts" className="px-6 pb-6 border-t border-white/5 pt-5">
                     <p className="text-sm text-zinc-400 leading-relaxed mb-5 max-w-3xl">
-                        What a map can honestly say about the poses it was built from, what it cannot, and how to check: seven posts that began with an outside critique of our own sample report, one every second Tuesday.
+                        What a map can honestly say about the poses it was built from, what it cannot, and how to check: seven posts that began with an outside critique of our own sample report.
                     </p>
                     <ol className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
                         {parts.map((p) => {
@@ -132,7 +128,7 @@ const SeriesBlock = ({ name, parts }) => {
                                         ) : (
                                             <span className="text-zinc-500 font-medium">{p.title}</span>
                                         )}
-                                        <div className="text-xs font-mono text-zinc-500 mt-0.5">{on ? p.date : `coming ${p.date}`}</div>
+                                        {!on && <div className="text-xs font-mono text-zinc-500 mt-0.5">coming</div>}
                                     </div>
                                 </li>
                             );
@@ -144,7 +140,7 @@ const SeriesBlock = ({ name, parts }) => {
     );
 };
 
-const BlogCard = ({ slug, title, excerpt, date, tags, image, series, featured }) => (
+const BlogCard = ({ slug, title, excerpt, tags, image, series, featured }) => (
     <Link
         to={`/blog/${slug}`}
         className={`group block relative rounded-3xl overflow-hidden border border-white/5 bg-zinc-900/30 hover:border-white/10 transition-all duration-300 hover:-translate-y-1 ${featured ? 'md:col-span-2' : ''}`}
@@ -154,9 +150,6 @@ const BlogCard = ({ slug, title, excerpt, date, tags, image, series, featured })
                 <div className="aspect-[2/1] w-full overflow-hidden relative">
                     <img src={image} alt="" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100" />
                     <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-zinc-900/20 to-transparent"></div>
-                    <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-md border border-white/10 rounded-full px-3 py-1 flex items-center gap-1">
-                        <span className="text-xs font-medium text-white">{date}</span>
-                    </div>
                 </div>
                 <div className="p-8 relative -mt-12 z-10">
                     <div className="flex flex-wrap gap-2 mb-4">
@@ -180,16 +173,13 @@ const BlogCard = ({ slug, title, excerpt, date, tags, image, series, featured })
         ) : (
             <div className="p-8 h-full flex flex-col justify-between">
                 <div>
-                    <div className="flex justify-between items-start gap-4 mb-6">
-                        <div className="flex flex-wrap gap-2">
-                            {series && <span className="text-xs font-medium px-2 py-1 rounded-md bg-purple-500/15 text-purple-200 border border-purple-400/20">Series: {series.name}, part {series.part}</span>}
-                            {tags.map(tag => (
-                                <span key={tag} className="text-xs font-medium px-2 py-1 rounded-md bg-white/5 text-purple-200 border border-white/5">
-                                    {tag}
-                                </span>
-                            ))}
-                        </div>
-                        <div className="text-xs text-zinc-500 font-mono whitespace-nowrap">{date}</div>
+                    <div className="flex flex-wrap gap-2 mb-6">
+                        {series && <span className="text-xs font-medium px-2 py-1 rounded-md bg-purple-500/15 text-purple-200 border border-purple-400/20">Series: {series.name}, part {series.part}</span>}
+                        {tags.map(tag => (
+                            <span key={tag} className="text-xs font-medium px-2 py-1 rounded-md bg-white/5 text-purple-200 border border-white/5">
+                                {tag}
+                            </span>
+                        ))}
                     </div>
 
                     <h2 className="text-xl font-heading font-medium text-white mb-4 group-hover:text-purple-400 transition-colors">

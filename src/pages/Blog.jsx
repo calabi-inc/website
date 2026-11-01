@@ -8,8 +8,9 @@ import { isPublished, listingPosts, publishedPosts, seriesOf } from '../data/blo
 const SERIES = 'Pose health';
 
 // The listing is built from src/data/blogPosts.js: every published post, newest first. Company and technical posts lead:
-// a series occupies one card in the grid (its latest published part) and the rest of its parts live in a collapsed
-// series block under the grid, the ones still to come named but not linked. No publication date is shown anywhere: a
+// a series occupies one card in the grid (the part with the latest date, the first of them when several share it) and
+// the rest of its parts live in a collapsed series block under the grid, the ones still to come named but not linked.
+// No publication date is shown anywhere: a
 // post's date is the ordering and scheduling key in the data, nothing more. The tag bar filters the grid; with a tag
 // active every matching post is shown, series parts included.
 export const Blog = () => {

@@ -45,8 +45,8 @@ const INDUSTRIES = [
     { icon: Glasses, color: 'text-yellow-400', title: 'AR and XR', body: 'Semantic tags anchored to world coordinates, served to an overlay.', to: '/ar-xr-overlay' },
 ];
 
-// The three newest published posts, a series counted once by its latest part; a scheduled post has no card here
-// before its date.
+// The three newest published posts, a series counted once (by the part with the latest date, the first of them when
+// several share it); a scheduled post has no card here before its date.
 const latestPosts = listingPosts().slice(0, 3);
 
 const SectionHead = ({ eyebrow, title, lead }) => (

@@ -6,38 +6,9 @@
 <title>Sample report</title>
 <!-- Favicons -->
 <link rel="icon" href="/favicon.ico" sizes="any" />
-<link id="favicon-light" rel="icon" href="/assets/dark/favicon.ico?v=4" sizes="any"
-media="(prefers-color-scheme: light)" />
-<link id="favicon-dark" rel="icon" href="/assets/light/favicon.ico?v=4" sizes="any"
-media="(prefers-color-scheme: dark)" />
-
-<script>
-// Fallback/Polyfill to ensure dynamic switching works even if browser ignores media attr on link
-const lightIcon = document.getElementById('favicon-light');
-const darkIcon = document.getElementById('favicon-dark');
-
-function updateFavicon(mediaQuery) {
-if (mediaQuery.matches) {
-// Dark mode
-if (darkIcon) {
-darkIcon.removeAttribute('media'); // Make it active
-document.head.appendChild(darkIcon); // Move to end to ensure precedence
-}
-} else {
-// Light mode
-if (lightIcon) {
-lightIcon.removeAttribute('media');
-document.head.appendChild(lightIcon);
-}
-}
-}
-
-const matcher = window.matchMedia('(prefers-color-scheme: dark)');
-// Run once on load to set correct initial state
-updateFavicon(matcher);
-// Listen for changes
-matcher.addEventListener('change', updateFavicon);
-</script>
+  <!-- One scheme-aware icon: the mark is near-black on a light tab and white on a dark tab through a media query inside the SVG
+       (Chromium, Firefox); Safari ignores SVG icons and keeps favicon.ico. Every route page is generated from this head. -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=5" />
 <style>/* rtsm-eval deliverable stylesheet (render v2). Tokens from the report-page design handoff (2026-10), light and dark, print,
    phone; system font stacks with the brand faces first; no external assets. The compare and review pages share the
    tokens and the table / card rules; the single page adds the KPI strip, tiles, charts and the tooltip. */
@@ -1250,7 +1221,7 @@ a.seek:hover { border-bottom-style: solid; }
   // bars of a rate per bin with n in the label: rows = [{bin, views, matched, match_rate}]
   function rateBars(host, rows, opts) {
     const n = rows.length; if (!n) { host.textContent = ''; return; }
-    const W = 520, H = 200, L = 40, R = 8, T = 14, B = 44;
+    const W = 520, H = 206, L = 40, R = 8, T = 20, B = 44;   // T leaves room for a value label above a whisker that reaches 100 %
     const svg = el('svg', { viewBox: `0 0 ${W} ${H}` }, host); const axis = el('g', { class: 'axis' }, svg), grid = el('g', { class: 'grid' }, svg);
     for (let v = 0; v <= 100; v += 25) { const yy = T + (H - T - B) * (1 - v / 100); el('line', { x1: L, x2: W - R, y1: yy, y2: yy }, grid); txt(axis, { x: L - 6, y: yy + 4, 'text-anchor': 'end' }, v + ' %'); }
     const slot = (W - L - R) / n, bw = Math.min(40, slot * 0.7);
@@ -1258,7 +1229,8 @@ a.seek:hover { border-bottom-style: solid; }
       const rect = el('rect', { x: cx - bw / 2, y: yy, width: bw, height: H - B - yy, fill: (r[opts.key] == null || r.supported === false) ? 'var(--grey)' : 'var(--s1)', rx: 3 }, svg);
       if (r.ci_lo != null && r.ci_hi != null) { const yl = T + (H - T - B) * (1 - r.ci_lo), yh = T + (H - T - B) * (1 - r.ci_hi); el('line', { x1: cx, x2: cx, y1: yh, y2: yl, stroke: 'var(--ink)', 'stroke-width': 1.5 }, svg); el('line', { x1: cx - 5, x2: cx + 5, y1: yh, y2: yh, stroke: 'var(--ink)', 'stroke-width': 1.5 }, svg); el('line', { x1: cx - 5, x2: cx + 5, y1: yl, y2: yl, stroke: 'var(--ink)', 'stroke-width': 1.5 }, svg); }
       txt(axis, { x: cx, y: H - B + 14, 'text-anchor': 'middle' }, String(r.bin).length > 9 ? String(r.bin).slice(0, 9) : r.bin); txt(axis, { x: cx, y: H - B + 28, 'text-anchor': 'middle' }, 'n=' + r[opts.n]);
-      txt(svg, { x: cx, y: yy - 5, 'text-anchor': 'middle', fill: 'var(--ink-2)', 'font-size': 11, 'font-family': MONO }, r[opts.key] == null ? '–' : Math.round(v) + '');
+      const yTop = (r.ci_lo != null && r.ci_hi != null) ? Math.min(yy, T + (H - T - B) * (1 - r.ci_hi)) : yy;   // the value sits above the whisker, never on it
+      txt(svg, { x: cx, y: yTop - 5, 'text-anchor': 'middle', fill: 'var(--ink-2)', 'font-size': 11, 'font-family': MONO }, r[opts.key] == null ? '–' : Math.round(v) + '');
       const hit = el('rect', { x: cx - slot / 2, y: T, width: slot, height: H - T - B, fill: 'transparent' }, svg);
       hit.addEventListener('pointermove', evt => { rect.setAttribute('stroke', 'var(--ink)'); showTip(evt, opts.title + ' ' + r.bin, [{ c: 'var(--s1)', l: opts.label, v: pct(r[opts.key]) }, { l: opts.nlabel, v: r[opts.n] }].concat(opts.extra ? opts.extra(r) : [])); });
       hit.addEventListener('pointerleave', () => { rect.removeAttribute('stroke'); hideTip(); });

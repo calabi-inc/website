@@ -55,6 +55,10 @@ export const ROUTES = {
         title: 'Connect | Calabi',
         description: 'Collaborate on the Standard, or talk to us about a perception evaluation on your own recordings.',
     },
+    '/preflight': {
+        title: 'Pre-flight check | Calabi',
+        description: "Send a 30-second sample from your robot's recorder. Within a business day we say whether it can be processed and what the first report would say. Free, no commitment.",
+    },
     '/privacy': {
         title: 'Privacy Policy | Calabi',
         description: 'This Privacy Policy explains how Calabi collects, uses, and shares information about you when you visit our website.',

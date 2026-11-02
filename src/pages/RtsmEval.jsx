@@ -7,7 +7,7 @@ import { evalSample } from '../data/evalSample';
 import { RTSM_VERSION } from '../data/release';
 
 const CONTACT = '/connect?interest=evaluation';
-const PREFLIGHT = '/connect?interest=preflight';
+const PREFLIGHT = '/preflight';
 
 const PROBLEMS = [
     { title: "Benchmarks score someone else's data.", body: 'mAP and tracking scores need labels. On your site there are none, so "it works" rests on watching a replay and a feeling about the week.' },

@@ -23,6 +23,7 @@ const RetailWarehouse = page(() => import('./pages/RetailWarehouse'), 'RetailWar
 const RealToSim = page(() => import('./pages/RealToSim'), 'RealToSim');
 const ArXrOverlay = page(() => import('./pages/ArXrOverlay'), 'ArXrOverlay');
 const Connect = page(() => import('./pages/Connect'), 'Connect');
+const Preflight = page(() => import('./pages/Preflight'), 'Preflight');
 const RtsmEval = page(() => import('./pages/RtsmEval'), 'RtsmEval');
 const Technology = page(() => import('./pages/Technology'), 'Technology');
 
@@ -50,6 +51,7 @@ function App() {
                         <Route path="/about" element={<About />} />
                         <Route path="/terms" element={<Terms />} />
                         <Route path="/connect" element={<Connect />} />
+                        <Route path="/preflight" element={<Preflight />} />
                         <Route path="/privacy" element={<Privacy />} />
                         <Route path="/blog/:slug" element={<BlogPost />} />
                     </Routes>

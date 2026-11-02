@@ -6,7 +6,8 @@ import { fmtInt, fmtPct } from './classes';
 export const RangeBars = ({ buckets, worst, support }) => {
     const defaultIdx = Math.max(0, buckets.findIndex((b) => worst && b.bin === worst.bin));
     const [sel, setSel] = useState(defaultIdx);
-    const W = 520, H = 180, L = 38, R = 8, T = 14, B = 40;
+    // T leaves room for a value label above a whisker that reaches 100 %: label baseline = y(100) - 5.
+    const W = 520, H = 186, L = 38, R = 8, T = 20, B = 40;
     const n = buckets.length || 1;
     const slot = (W - L - R) / n;
     const bw = Math.min(40, slot * 0.66);
@@ -39,7 +40,8 @@ export const RangeBars = ({ buckets, worst, support }) => {
                                     <line x1={cx - 4} x2={cx + 4} y1={y(bk.ci_lo)} y2={y(bk.ci_lo)} />
                                 </g>
                             )}
-                            <text x={cx} y={y(v) - 5} textAnchor="middle" fontSize="10" fill="#d4d4d8" fontFamily="Geist Mono, monospace">{bk.rate == null ? '–' : Math.round(v)}</text>
+                            {/* the value sits above the whisker's top, never on it: the interval can reach above the bar */}
+                            <text x={cx} y={Math.min(y(v), bk.ci_hi != null ? y(bk.ci_hi) : y(v)) - 5} textAnchor="middle" fontSize="10" fill="#d4d4d8" fontFamily="Geist Mono, monospace">{bk.rate == null ? '–' : Math.round(v)}</text>
                             <text x={cx} y={H - B + 14} textAnchor="middle" fontSize="9.5" fill="#a1a1aa" fontFamily="Geist Mono, monospace">{bk.bin.replace(' m', '')}</text>
                             <text x={cx} y={H - B + 26} textAnchor="middle" fontSize="9" fill="#71717a" fontFamily="Geist Mono, monospace">n={bk.visible}</text>
                             {worst && bk.bin === worst.bin && <text x={cx} y={H - 2} textAnchor="middle" fontSize="9" fill="#fbbf24" fontFamily="Geist Mono, monospace">worst slice</text>}

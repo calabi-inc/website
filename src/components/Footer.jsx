@@ -4,7 +4,7 @@ import logo from '../assets/white_logo_with_company_name.svg';
 import { InceptionBadge } from './InceptionBadge';
 
 const COLUMNS = [
-    { title: 'Products', links: [['RTSM engine', '/technology'], ['rtsm-eval', '/rtsm-eval'], ['Sample report', '/rtsm-eval#sample'], ['Calabi Lens', '/#calabi-lens']] },
+    { title: 'Products', links: [['RTSM engine', '/technology'], ['rtsm-eval', '/rtsm-eval'], ['Pre-flight check', '/preflight'], ['Sample report', '/rtsm-eval#sample'], ['Calabi Lens', '/#calabi-lens']] },
     { title: 'Solutions', links: [['Retail & Warehouse', '/retail-warehouse'], ['Agentic Workflow', '/agentic-workflow'], ['Real-to-Sim', '/real-to-sim'], ['AR/XR Overlay', '/ar-xr-overlay']] },
     { title: 'Resources', links: [['Documentation', '/docs'], ['API Reference', 'https://calabi-inc.github.io/rtsm/api/rest-api/'], ['Research', '/blog'], ['Architecture', '/technology#system-architecture-overview']] },
     { title: 'Company', links: [['About', '/about'], ['Contact sales', '/connect?interest=evaluation'], ['Join the Hub', '/connect']] },

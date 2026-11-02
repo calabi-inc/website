@@ -94,8 +94,13 @@ export const RtsmEval = () => {
                         A report that says what your perception stack did on a recording your robot made: what it found, what it kept seeing, where it lost track, and which part of the stack lost it. No labels. Numbers with the rule that produced them printed next to them.
                     </p>
                     <div className="mt-10 flex flex-col sm:flex-row items-start sm:items-center gap-4 animate-fade-in opacity-0 [animation-delay:0.3s]">
-                        <ContactButton />
-                        <a href="#sample" className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-6 py-3 text-sm text-zinc-200 hover:bg-white/10 hover:border-white/30 transition-colors">
+                        <Link to={PREFLIGHT} className="inline-flex items-center justify-center gap-2 rounded-full bg-white text-black font-medium px-6 py-3 text-sm hover:bg-zinc-200 transition-colors">
+                            Send a 30-second sample <ArrowRight className="w-4 h-4" />
+                        </Link>
+                        <Link to={CONTACT} className="inline-flex items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-6 py-3 text-sm text-zinc-200 hover:bg-white/10 transition-colors">
+                            Contact sales <ArrowRight className="w-4 h-4" />
+                        </Link>
+                        <a href="#sample" className="inline-flex items-center gap-2 px-2 py-3 text-sm text-zinc-400 hover:text-white transition-colors">
                             See the sample report
                         </a>
                     </div>

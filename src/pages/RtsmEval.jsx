@@ -7,6 +7,7 @@ import { evalSample } from '../data/evalSample';
 import { RTSM_VERSION } from '../data/release';
 
 const CONTACT = '/connect?interest=evaluation';
+const PREFLIGHT = '/connect?interest=preflight';
 
 const PROBLEMS = [
     { title: "Benchmarks score someone else's data.", body: 'mAP and tracking scores need labels. On your site there are none, so "it works" rests on watching a replay and a feeling about the week.' },
@@ -44,6 +45,7 @@ const LIMITS = [
 ];
 
 const FAQ = [
+    { q: 'How do we start?', a: 'With a pre-flight. Send a 30-second sample from the recorder you would use; within a business day we say whether it can be processed, which topics and rates it carries, and what the first page would and would not be able to say. It is free and commits you to nothing; the checks are the ones the report runs in its first block.' },
     { q: 'Do we have to use RTSM in production?', a: "No. The evaluation uses RTSM as the measuring instrument. Your detector's output can feed it as a recorded detections topic; the live ROS 2 source takes one too." },
     { q: 'Which formats?', a: 'ROS 1 bags, rosbag2, bare MCAP, and Calabi Lens recordings from an iPhone.' },
     { q: 'Is it a benchmark score like HOTA or mAP?', a: "No. Those score a tracker or detector against human labels on a benchmark. This scores your pipeline's consistency against itself on your own unlabelled recording. Teams that have run benchmarks ask on day one where the ground truth is; the answer is on the page: there is none, and the report says what that means." },
@@ -53,6 +55,12 @@ const FAQ = [
 const ContactButton = ({ className = '' }) => (
     <Link to={CONTACT} className={`inline-flex items-center justify-center gap-2 rounded-full bg-white text-black font-medium px-6 py-3 text-sm hover:bg-zinc-200 transition-colors ${className}`}>
         Contact sales <ArrowRight className="w-4 h-4" />
+    </Link>
+);
+
+const PreflightButton = ({ className = '' }) => (
+    <Link to={PREFLIGHT} className={`inline-flex items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-6 py-3 text-sm text-zinc-200 hover:bg-white/10 transition-colors ${className}`}>
+        Send a 30-second sample <ArrowRight className="w-4 h-4" />
     </Link>
 );
 
@@ -197,10 +205,10 @@ export const RtsmEval = () => {
                     <div className="lg:col-span-8">
                         <h2 className="text-2xl md:text-3xl font-heading font-medium text-white mb-4">How an engagement runs</h2>
                         <p className="text-zinc-400 leading-relaxed">
-                            Engagements are one-to-one. You send a recording and tell us what the robot is supposed to see; we send back the report and walk through it with your perception lead. If the data cannot leave your site, the container recipe runs it on your machine. There is no price list: scope depends on the recordings and the questions.
+                            Engagements start with a pre-flight: you send a 30-second sample from the recorder you would use, and within a business day we say whether the recording can be processed and what the first page would be able to say. It is free and commits you to nothing. Then you send the recording and tell us what the robot is supposed to see, or run the container recipe on your machine when the data cannot leave your site; the report comes back within five business days and we walk through it with your perception lead. There is no price list: scope depends on the recordings and the questions.
                         </p>
                     </div>
-                    <div className="lg:col-span-4 flex lg:justify-end"><ContactButton /></div>
+                    <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3 lg:items-end"><PreflightButton /><ContactButton /></div>
                 </div>
             </section>
 
@@ -225,8 +233,12 @@ export const RtsmEval = () => {
             {/* Final CTA */}
             <section className="py-24 px-6 bg-black">
                 <div className="max-w-3xl mx-auto text-center">
-                    <h2 className="text-4xl md:text-5xl font-heading font-medium tracking-tighter text-white mb-6">Send us a recording.</h2>
-                    <ContactButton className="px-8 py-3.5 text-base" />
+                    <h2 className="text-4xl md:text-5xl font-heading font-medium tracking-tighter text-white mb-4">Send us a recording.</h2>
+                    <p className="text-zinc-400 mb-8">Start with a 30-second sample; the pre-flight is free.</p>
+                    <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                        <PreflightButton className="px-8 py-3.5 text-base" />
+                        <ContactButton className="px-8 py-3.5 text-base" />
+                    </div>
                 </div>
             </section>
         </div>

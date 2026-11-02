@@ -6,11 +6,14 @@ import { Check, Loader2, ArrowRight } from 'lucide-react';
 import { SEO } from '../components/SEO';
 
 const SALES_INTEREST = 'Perception evaluation (rtsm-eval)';
+const PREFLIGHT_INTEREST = 'Pre-flight check (rtsm-eval)';
 
 export const Connect = () => {
     const [params] = useSearchParams();
     // /connect?interest=evaluation is the contact-sales entry for rtsm-eval: same form, same inbox, different copy.
-    const sales = params.get('interest') === 'evaluation';
+    // /connect?interest=preflight is the free first step: a 30-second sample checked within a business day.
+    const preflight = params.get('interest') === 'preflight';
+    const sales = params.get('interest') === 'evaluation' || preflight;
     const [submitted, setSubmitted] = useState(false);
     const [loading, setLoading] = useState(false);
 
@@ -19,16 +22,18 @@ export const Connect = () => {
         name: '',
         email: '',
         organization: '',
-        interest: sales ? SALES_INTEREST : 'Research collaboration',
+        interest: preflight ? PREFLIGHT_INTEREST : sales ? SALES_INTEREST : 'Research collaboration',
         message: ''
     });
 
     // The page stays mounted when only the query changes, so the preselection follows the link, not the first render.
     useEffect(() => {
-        if (sales) {
+        if (preflight) {
+            setFormData((f) => ({ ...f, interest: PREFLIGHT_INTEREST }));
+        } else if (sales) {
             setFormData((f) => ({ ...f, interest: SALES_INTEREST }));
         }
-    }, [sales]);
+    }, [sales, preflight]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -88,7 +93,12 @@ export const Connect = () => {
 
     return (
         <div className="bg-[#050505] min-h-screen text-zinc-300 font-sans antialiased overflow-x-hidden selection:bg-indigo-500/20 selection:text-white">
-            {sales ? (
+            {preflight ? (
+                <SEO
+                    title="Pre-flight check"
+                    description="Send a 30-second sample from your robot's recorder. Within a business day we say whether it can be processed and what the first report would say. Free, no commitment."
+                />
+            ) : sales ? (
                 <SEO
                     title="Contact sales"
                     description="Send a recording your robot made and get a perception evaluation report on it. Engagements are one-to-one; no price list."
@@ -110,10 +120,15 @@ export const Connect = () => {
                         <div className="relative">
                             <div className="absolute -top-24 left-0">
                                 <div className="text-2xl font-mono text-white uppercase tracking-[0.2em] animate-fade-in opacity-0">
-                                    {sales ? 'Contact sales' : 'Connect'}
+                                    {preflight ? 'Pre-flight check' : sales ? 'Contact sales' : 'Connect'}
                                 </div>
                             </div>
-                            {sales ? (
+                            {preflight ? (
+                                <h1 className="text-5xl md:text-6xl font-heading font-medium text-white tracking-tighter mb-6 leading-[1.1]">
+                                    Send a 30-second <br />
+                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-zinc-400 via-white to-zinc-400">sample first.</span>
+                                </h1>
+                            ) : sales ? (
                                 <h1 className="text-5xl md:text-6xl font-heading font-medium text-white tracking-tighter mb-6 leading-[1.1]">
                                     Evaluate your perception stack <br />
                                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-zinc-400 via-white to-zinc-400">on your own recordings.</span>
@@ -127,7 +142,29 @@ export const Connect = () => {
                             <div className="h-1 w-20 bg-gradient-to-r from-emerald-500/50 to-transparent rounded-full mt-4"></div>
                         </div>
 
-                        {sales ? (
+                        {preflight ? (
+                            <div className="space-y-8">
+                                <div className="bg-zinc-900/30 border border-white/5 p-8 rounded-3xl relative overflow-hidden group hover:border-emerald-500/20 transition-all duration-500">
+                                    <h3 className="text-xl text-white font-medium mb-3">What to send</h3>
+                                    <ul className="text-zinc-400 leading-relaxed space-y-2 list-disc pl-5">
+                                        <li>A link to a 30-second sample from the recorder you would use: a ROS 1 bag, rosbag2 or MCAP with RGB, depth and pose, or a Calabi Lens recording. A sample is tens of megabytes; a bucket, a drive or a transfer link is fine.</li>
+                                        <li>The camera and the robot, in one line.</li>
+                                        <li>If you know them, which topics carry RGB, depth and pose. If not, the check finds them.</li>
+                                    </ul>
+                                </div>
+
+                                <div className="bg-zinc-900/30 border border-white/5 p-8 rounded-3xl relative overflow-hidden group hover:border-cyan-500/20 transition-all duration-500">
+                                    <h3 className="text-xl text-white font-medium mb-3">What you get, within a business day</h3>
+                                    <ul className="text-zinc-400 leading-relaxed space-y-2 list-disc pl-5">
+                                        <li>Whether the recording can be processed, and if not, what is missing.</li>
+                                        <li>The topics and rates found, and what the first page would and would not be able to say about it.</li>
+                                        <li>The next step if you want one: the full recording, or the container on your machine.</li>
+                                    </ul>
+                                </div>
+
+                                <p className="text-sm text-zinc-500">The pre-flight is free and commits you to nothing. The sample is deleted after the check.</p>
+                            </div>
+                        ) : sales ? (
                             <div className="space-y-8">
                                 <div className="bg-zinc-900/30 border border-white/5 p-8 rounded-3xl relative overflow-hidden group hover:border-emerald-500/20 transition-all duration-500">
                                     <h3 className="text-xl text-white font-medium mb-3">What to send</h3>
@@ -223,6 +260,7 @@ export const Connect = () => {
                                         onChange={handleChange}
                                         className="w-full bg-zinc-900/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/50 transition-all appearance-none cursor-pointer"
                                     >
+                                        <option value={PREFLIGHT_INTEREST}>{PREFLIGHT_INTEREST}</option>
                                         <option value={SALES_INTEREST}>{SALES_INTEREST}</option>
                                         <option value="Research collaboration">Research collaboration</option>
                                         <option value="Design partnership">Design partnership</option>
@@ -246,7 +284,7 @@ export const Connect = () => {
                                     onChange={handleChange}
                                     rows={5}
                                     className="w-full bg-zinc-900/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/50 transition-all placeholder:text-zinc-600 resize-none"
-                                    placeholder={sales ? 'What does your robot look at, and what has been going wrong?' : "Tell us how you'd like to collaborate..."}
+                                    placeholder={preflight ? 'A link to the 30-second sample, the camera and the robot, and which topics carry RGB, depth and pose if you know them.' : sales ? 'What does your robot look at, and what has been going wrong?' : "Tell us how you'd like to collaborate..."}
                                 />
                             </div>
 

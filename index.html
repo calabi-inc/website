@@ -99,42 +99,14 @@
   </script>
 
   <!-- Favicons -->
-  <link rel="icon" href="/favicon.ico" sizes="any" />
-  <link id="favicon-light" rel="icon" href="/assets/dark/favicon.ico?v=4" sizes="any"
-    media="(prefers-color-scheme: light)" />
-  <link id="favicon-dark" rel="icon" href="/assets/light/favicon.ico?v=4" sizes="any"
-    media="(prefers-color-scheme: dark)" />
-
-  <script>
-    // Fallback/Polyfill to ensure dynamic switching works even if browser ignores media attr on link
-    const lightIcon = document.getElementById('favicon-light');
-    const darkIcon = document.getElementById('favicon-dark');
-
-    function updateFavicon(mediaQuery) {
-      if (mediaQuery.matches) {
-        // Dark mode
-        if (darkIcon) {
-          darkIcon.removeAttribute('media'); // Make it active
-          document.head.appendChild(darkIcon); // Move to end to ensure precedence
-        }
-      } else {
-        // Light mode
-        if (lightIcon) {
-          lightIcon.removeAttribute('media');
-          document.head.appendChild(lightIcon);
-        }
-      }
-    }
-
-    const matcher = window.matchMedia('(prefers-color-scheme: dark)');
-    // Run once on load to set correct initial state
-    updateFavicon(matcher);
-    // Listen for changes
-    matcher.addEventListener('change', updateFavicon);
-  </script>
+  <link rel="icon" href="/favicon.ico" sizes="32x32" />
+  <!-- One scheme-aware icon: the mark is near-black on a light tab and white on a dark tab through a media query inside the SVG
+       (Chromium, Firefox); Safari ignores SVG icons and keeps favicon.ico. The ICO carries a fixed size on purpose: with
+       sizes="any" Chromium treats it as fit for every size and picks it over the SVG. Every route page is generated from this head. -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=5" />
   <!-- Fonts are self-hosted: see src/index.css and public/fonts/ (no third-party request) -->
-  <script type="module" crossorigin src="/assets/index-Bj1kGrc_.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-Bag38fRH.css">
+  <script type="module" crossorigin src="/assets/index-mIwW_Fuw.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-KuZMVM7k.css">
 </head>
 
 <body>

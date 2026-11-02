@@ -61,6 +61,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.calabi.com/preflight</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.calabi.com/privacy</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>

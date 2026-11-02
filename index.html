@@ -99,9 +99,10 @@
   </script>
 
   <!-- Favicons -->
-  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" href="/favicon.ico" sizes="32x32" />
   <!-- One scheme-aware icon: the mark is near-black on a light tab and white on a dark tab through a media query inside the SVG
-       (Chromium, Firefox); Safari ignores SVG icons and keeps favicon.ico. Every route page is generated from this head. -->
+       (Chromium, Firefox); Safari ignores SVG icons and keeps favicon.ico. The ICO carries a fixed size on purpose: with
+       sizes="any" Chromium treats it as fit for every size and picks it over the SVG. Every route page is generated from this head. -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=5" />
   <!-- Fonts are self-hosted: see src/index.css and public/fonts/ (no third-party request) -->
 </head>

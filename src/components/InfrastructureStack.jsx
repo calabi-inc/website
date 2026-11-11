@@ -328,7 +328,7 @@ const PerceptionContent = () => (
                         </div>
                         <div className="p-4 rounded-xl bg-zinc-900/30 border border-white/5">
                             <div className="text-xs text-zinc-500 uppercase tracking-wider mb-1">Latency Target</div>
-                            <div className="text-zinc-300 text-sm">210ms mean (dual) / 510ms mean (grounded_sam2) on RTX 5090.</div>
+                            <div className="text-zinc-300 text-sm">126 ms mean (dual) / 365 ms mean (grounded_sam2) on RTX 5090; 0.4 s on a Jetson Orin Nano Super.</div>
                         </div>
                         <div className="p-4 rounded-xl bg-zinc-900/30 border border-white/5">
                             <div className="text-xs text-zinc-500 uppercase tracking-wider mb-1">Scalability</div>

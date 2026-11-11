@@ -20,7 +20,7 @@ const FACTS = [
     `rtsm ${RTSM_VERSION} on PyPI`,
     'NVIDIA Inception member',
     'Evaluated on public RGB-D datasets',
-    'Tested on Jetson Orin Nano',
+    '0.4 s per frame on Jetson Orin Nano',
 ];
 
 const PROBLEMS = [
